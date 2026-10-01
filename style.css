@@ -19,3 +19,24 @@
 .volunteer-nav{white-space:nowrap;}
 .volunteer-register{display:inline-block;margin-top:12px;}
 @media(max-width:800px){.volunteer-nav{display:none;}}
+
+
+/* Mobile navigation menu */
+.hero,.subhero{position:relative}
+.menu-toggle{display:none;border:1px solid #ffffff55;background:#ffffff18;color:#fff;width:44px;height:44px;border-radius:12px;font-size:24px;line-height:1;cursor:pointer;align-items:center;justify-content:center;font-weight:900}
+.mobile-menu{display:none;position:absolute;z-index:1000;top:72px;left:16px;right:16px;padding:10px;background:#ffffff;border:1px solid #dbe4ef;border-radius:18px;box-shadow:0 18px 45px #1725542b}
+.mobile-menu a{display:block;padding:13px 14px;border-radius:12px;color:#172554;text-decoration:none;font-weight:800;font-size:14px}
+.mobile-menu a:hover,.mobile-menu a:focus{background:#eff6ff}
+.mobile-menu[hidden]{display:none}
+.subnav-actions{display:flex;align-items:center;gap:10px}
+@media(max-width:950px){
+  .menu-toggle{display:flex}
+  nav{position:relative}
+  .nav{display:none}
+  .mobile-menu:not([hidden]){display:block}
+}
+@media(max-width:550px){
+  .mobile-menu{top:68px;left:10px;right:10px}
+  .back-link{font-size:12px;padding:8px 11px}
+  .subnav-actions .menu-toggle{width:42px;height:42px}
+}
