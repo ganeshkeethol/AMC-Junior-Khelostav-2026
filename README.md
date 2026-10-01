@@ -1,49 +1,125 @@
-# AMC Junior Khelostav 2026 — Detailed Website
+# AMC Junior Khelostav 2026 — GitHub Pages Website
 
-Community event website for Ambience Courtyard.
+A child-friendly sports event website for Ambience Courtyard.
 
-## Sections
-- Sports & Fun Games
-- Sports Volunteers
-- Kids Enrollments
-- Event Schedule
-- General Guidelines
-- Sport-specific Rules & Regulations
-- Live Results
-- Google Form registration
+## Event pages
 
-## Current event list
-Badminton, Box Cricket, Basketball, Carroms, Chess, Swimming, Table Tennis, Drawing, Musical Chairs, Quiz, Slow Cycle.
+Every sport card on the home page is clickable and opens `event.html?game=...` with:
+- Game/Sport name
+- SPOC / volunteer details
+- Game rules
+- Enrolled kids for that event
+- Day-wise schedule for that event
+- Live results link
 
-## Add Google Form later
-Edit `config.js`:
-`googleFormUrl:"YOUR_GOOGLE_FORM_LINK"`
+## Live data
 
-## Live Google Sheet structure
-Create tabs named:
-- Schedule
-- Results
-- Volunteers
-- Enrollments
+The recommended setup is Google Form → Google Sheet → Google Apps Script → GitHub Pages.
 
-Suggested columns:
+Google Sheets tabs:
 
-Schedule:
-`day | reporting | time | event | ageGroup | venue | status`
+### Schedule
+`day | date | reporting | time | event | ageGroup | venue | status`
 
-Results:
-`event | ageGroup | position | child | score | medal`
-
-Volunteers:
+### Volunteers
 `sport | role | name | contact | reporting`
 
-Enrollments:
+### Enrollments
 `child | ageGroup | event | enrollmentStatus | eventStatus`
 
-For children's privacy, do not expose phone numbers, apartment numbers, medical details or other private information on a public website. The public API should expose only approved fields.
+### Results
+`event | ageGroup | position | child | score | medal`
+
+Keep private phone numbers, apartment numbers, medical information and other sensitive information out of the public API unless the organisers have approved its publication.
+
+## Excel schedule option
+
+`config.js` includes `scheduleExcelUrl` so an Excel-based schedule can be added later. For a truly live schedule, the easiest and most reliable option is to maintain the schedule in a Google Sheet and expose it through the included Apps Script API. If the organisers provide an `.xlsx` file, it can also be integrated into the site.
 
 ## GitHub Pages
-Upload the files to a GitHub repository, then Settings → Pages → Deploy from branch → main → root.
 
-### Branding & Coming Soon Media
-The website includes the supplied AMC Junior Khelostav event logo, Ambience Courtyard logo, and Coming Soon video in the `assets/` folder. These files are referenced locally so they will work on GitHub Pages after the full folder is uploaded.
+Upload the contents of this folder to the repository root. Enable Settings → Pages → Deploy from a branch → `main` → `/ (root)`.
+
+## Google Form
+
+Add the registration URL in `config.js`:
+
+`googleFormUrl: "YOUR_GOOGLE_FORM_URL"`
+
+## Apps Script
+
+1. Create the four Google Sheet tabs above.
+2. Put your spreadsheet ID into `google-apps-script/Code.gs`.
+3. Deploy as a Web app.
+4. Set `apiUrl` in `config.js` to the deployed Web App URL.
+5. Commit the changed `config.js` to GitHub.
+
+The site refreshes live data every 30 seconds.
+
+
+## Google Drive rules document management
+
+Use Google Drive to manage official game rules without changing GitHub files. Create a Google Drive folder such as `Khelostav Rules`, upload each sport's PDF or DOCX, and set the file's sharing/access appropriately. Copy the file link into the `RulesDocs` Google Sheet tab.
+
+### RulesDocs sheet columns
+`event | title | type | url`
+
+Example:
+`Badminton | Badminton Rules | PDF | https://drive.google.com/...`
+
+The event page automatically filters this sheet by event name and shows an **Open** button for the published document. For best phone compatibility, publish rules as PDF. Google Docs/Word files can also be linked. Do not put private organiser files or personal information in a public link.
+
+### Google Sheet tabs
+- Schedule: `day | date | reporting | time | event | ageGroup | venue | status`
+- Results: `event | ageGroup | position | child | score | medal`
+- Volunteers: `sport | role | name | contact | reporting`
+- Enrollments: `child | ageGroup | event | enrollmentStatus | eventStatus`
+- RulesDocs: `event | title | type | url`
+
+The website reads all five tabs through the Google Apps Script API.
+
+
+### Sport-specific live results
+Each event page now includes a Results & Winners section. It filters the `Results` sheet by the selected Event/Sport and displays Age Group, Position, Participant, Score/Time, and Medal.
+
+Recommended Results sheet columns: `event | ageGroup | position | child | score | medal`
+
+
+## Separate result sheet for each sport
+Create one Google Sheet tab for each sport, using the exact tab names below:
+- Badminton
+- Box Cricket
+- Basketball
+- Carroms
+- Chess
+- Swimming
+- Table Tennis
+- Drawing
+- Musical Chairs
+- Quiz
+- Slow Cycle
+
+Each sport result tab should use these headers:
+`ageGroup | position | child | score | medal`
+
+The Apps Script returns these as `resultsBySport`, and each event page automatically reads only its own sport's result tab. This keeps results separated and easy for organisers to manage.
+
+## Header logos
+The main header now displays both the AMC Junior Khelostav event logo and the Ambience Courtyard apartment logo beside the event title.
+
+
+## Central References sheet
+Create a `References` tab with columns:
+`event | category | title | type | url | active`
+
+Use `event` as a sport name for sport-specific links, or `All Events` for a common link. Suggested categories: Enrollment, Schedule, Result, Rules, Document, Other. The home page shows active reference links, and each sport page filters references for that sport.
+
+Example:
+`Badminton | Rules | Badminton Rules | PDF | https://drive.google.com/... | Yes`
+`Badminton | Result | Badminton Results | Google Sheet | https://docs.google.com/... | Yes`
+`All Events | Enrollment | Kids Enrollment Form | Google Form | https://forms.google.com/... | Yes`
+
+For the complete Google Drive/Sheets/Forms connection instructions, see `../SETUP_GUIDE.md`.
+
+
+Volunteer registration is configured in `config.js` using `volunteerFormUrl` and linked from the home and event pages.
