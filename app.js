@@ -72,7 +72,64 @@ async function load(){
    const e=d.enrollments||[];
 
    const sb=document.getElementById("schedule-body");
-   if(sb) sb.innerHTML=s.length?s.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td><b>${esc(x.Event||x.event)}</b></td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(""):`<tr><td colspan="7">Schedule coming soon.</td></tr>`;
+   if(sb){
+     // Homepage schedule = HIGH LEVEL ONLY.
+     // One row for each Day + Event + Age Group.
+     // Multiple detailed rows are collapsed to the earliest Event Time.
+     // Multi-day source values such as "1, 2" are split into separate day rows.
+     const grouped={};
+     const timeToMinutes=(value)=>{
+       const raw=String(value||'').trim().toUpperCase();
+       if(!raw) return Number.POSITIVE_INFINITY;
+       const m=raw.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?$/);
+       if(!m) return Number.POSITIVE_INFINITY;
+       let h=Number(m[1]); const min=Number(m[2]||0); const ap=m[3];
+       if(ap==='AM' && h===12) h=0;
+       if(ap==='PM' && h!==12) h+=12;
+       return h*60+min;
+     };
+     const splitDays=(value)=>{
+       const raw=String(value||'').trim();
+       if(!raw) return [''];
+       return raw.split(/\s*(?:,|\/|&|\band\b)\s*/i).map(x=>x.trim()).filter(Boolean);
+     };
+     const dayLabel=(value)=>{
+       const raw=String(value||'').trim();
+       const m=raw.match(/^(?:day\s*)?(\d+)$/i);
+       return m ? 'Day '+m[1] : raw;
+     };
+     s.forEach(x=>{
+       const event=String(x.Event||x.event||'').trim();
+       const age=String(x["Age Group"]||x.ageGroup||'').trim();
+       if(!event) return;
+       splitDays(x.Day||x.day||'').forEach(dayValue=>{
+         const day=dayLabel(dayValue);
+         const key=[day.toLowerCase(),event.toLowerCase(),age.toLowerCase()].join('|');
+         if(!grouped[key]) grouped[key]={day,event,age,startTime:'',startMinutes:Number.POSITIVE_INFINITY,venues:[],statuses:[]};
+         const g=grouped[key];
+         const t=String(x["Event Time"]||x.time||'').trim(); const tm=timeToMinutes(t);
+         if(tm<g.startMinutes){g.startMinutes=tm;g.startTime=t;} else if(!g.startTime&&t){g.startTime=t;}
+         const venue=String(x.Venue||x.venue||'').trim(); if(venue&&!g.venues.includes(venue)) g.venues.push(venue);
+         const status=String(x.Status||x.status||'').trim(); if(status&&!g.statuses.includes(status)) g.statuses.push(status);
+       });
+     });
+     const daySort=(value)=>{const m=String(value||'').match(/\d+/);return m?Number(m[0]):999;};
+     const rows=Object.values(grouped).sort((a,b)=>{
+       const d=daySort(a.day)-daySort(b.day); if(d)return d;
+       const t=a.startMinutes-b.startMinutes; if(t)return t;
+       const e=a.event.localeCompare(b.event); if(e)return e;
+       return a.age.localeCompare(b.age);
+     });
+     window.khelScheduleRows=rows;
+     window.renderKhelSchedule=(selectedDay='all')=>{
+       const wanted=String(selectedDay||'all').trim().toLowerCase();
+       const filtered=wanted==='all'?window.khelScheduleRows:window.khelScheduleRows.filter(x=>String(x.day||'').trim().toLowerCase()===wanted);
+       sb.innerHTML=filtered.length
+         ? filtered.map(x=>`<tr><td>${esc(x.day)}</td><td>${esc(x.startTime)}</td><td><b>${esc(x.event)}</b></td><td>${esc(x.age)}</td><td>${esc(x.venues.join(", "))}</td><td>${esc(x.statuses.join(", "))}</td></tr>`).join("")
+         : `<tr><td colspan="6">No events scheduled for ${esc(selectedDay)}.</td></tr>`;
+     };
+     window.renderKhelSchedule('all');
+   }
 
    const rb=document.getElementById("results-body");
    if(rb) rb.innerHTML=r.length?r.map(x=>`<tr><td>${esc(x.Event||x.event||"")}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x.Position||x.position)}</td><td>${esc(x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(""):`<tr><td colspan="8">No results published yet.</td></tr>`;
@@ -92,4 +149,12 @@ async function load(){
    }
  }catch(err){console.log(err)}
 }
+document.querySelectorAll(".filters [data-day]").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filters [data-day]").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  if(window.renderKhelSchedule) window.renderKhelSchedule(btn.getAttribute("data-day")||"all");
+ });
+});
+
 if(document.getElementById("schedule-body")){load();setInterval(load,CONFIG.refreshSeconds*1000);}
