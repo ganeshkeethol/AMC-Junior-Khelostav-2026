@@ -267,3 +267,9 @@ section.register .steps div:nth-child(3){border-left:5px solid #d9283e !importan
 section.register .steps div:nth-child(4){border-left:5px solid #16854b !important}
 section.register .steps b{color:#ffd447 !important}
 section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !important;color:#fff !important;box-shadow:0 10px 24px rgba(228,75,37,.30)}
+
+/* Registration fee */
+.fee-highlight{color:var(--navy);font-weight:900}
+.fee-highlight-light{color:#ffd447;font-weight:900}
+.enrollment-badge b{font-size:28px}
+.enrollment-badge small{display:block;margin-top:4px}
