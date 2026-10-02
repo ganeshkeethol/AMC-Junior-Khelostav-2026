@@ -115,8 +115,16 @@ function renderGameData(response){
        const age=t["Age Group"]||t.ageGroup||'';
        const captain=t.Captain||t.captain||'';
        const status=t["Team Status"]||t.status||t.Status||'';
-       const count=enrollments.filter(x=>String(x["Team ID"]||x.teamId||'').trim()===String(id).trim()).length;
-       return `<article class="team-card"><div class="team-icon">👥</div><div><h3>${esc(name)}</h3><p><b>${esc(id)}</b>${age?` • Age ${esc(age)}`:''}</p>${captain?`<p>Captain: ${esc(captain)}</p>`:''}<p>${count} player${count===1?'':'s'}${status?` • ${esc(status)}`:''}</p></div></article>`;
+       const teamPlayers=enrollments.filter(x=>String(x["Team ID"]||x.teamId||'').trim()===String(id).trim());
+       const playerRows=teamPlayers.map(x=>({
+         name:String(x["Child Name"]||x.Child||x.child||'').trim(),
+         role:String(x["Team Role"]||x.teamRole||x.Role||x.role||'').trim().toLowerCase()
+       })).filter(x=>x.name);
+       const count=playerRows.length;
+       const playersHtml=count
+         ? `<div class="team-players"><span class="team-players-label">Players:</span><ul>${playerRows.map(player=>`<li>${esc(player.name)}${player.role==='captain'?` <span class="team-captain-badge">Captain</span>`:''}</li>`).join('')}</ul></div>`
+         : `<p class="team-no-players">No players assigned yet.</p>`;
+       return `<article class="team-card"><div class="team-icon">👥</div><div class="team-card-content"><h3>${esc(name)}</h3><p><b>${esc(id)}</b>${age?` • Age ${esc(age)}`:''}</p>${captain?`<p>Captain: ${esc(captain)}</p>`:''}<p>${count} player${count===1?'':'s'}${status?` • ${esc(status)}`:''}</p>${playersHtml}</div></article>`;
      }).join('') : '<div class="team-empty">No teams published yet.</div>';
    }
 
@@ -154,7 +162,7 @@ function buildTeamsFromEnrollments(rows){
     const id=String(x["Team ID"]||x.teamId||'').trim();
     if(!id)return;
     if(!map[id]) map[id]={"Team ID":id,"Team Name":x["Team Name"]||x.teamName||id,"Age Group":x["Age Group"]||x.ageGroup||'',Captain:'',"Team Status":x["Team Status"]||x.status||''};
-    if((x.Role||x.role||'').toLowerCase()==='captain') map[id].Captain=x["Child Name"]||x.Child||'';
+    if(String(x["Team Role"]||x.teamRole||x.Role||x.role||'').trim().toLowerCase()==='captain') map[id].Captain=x["Child Name"]||x.Child||x.child||'';
   });
   return Object.keys(map).map(k=>map[k]);
 }

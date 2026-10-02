@@ -25,7 +25,7 @@ Google Sheets tabs:
 `sport | role | name | contact | reporting`
 
 ### Enrollments
-`child | ageGroup | event | enrollmentStatus | eventStatus`
+`Child Name | Age Group | Event | Block | Flat Number | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
 
 ### Results
 `event | ageGroup | position | child | score | medal`
@@ -73,7 +73,7 @@ The event page automatically filters this sheet by event name and shows an **Ope
 - Schedule: `day | date | reporting | time | event | ageGroup | venue | status`
 - Results: `event | ageGroup | position | child | score | medal`
 - Volunteers: `sport | role | name | contact | reporting`
-- Enrollments: `child | ageGroup | event | enrollmentStatus | eventStatus`
+- Enrollments: `Child Name | Age Group | Event | Block | Flat Number | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
 - RulesDocs: `event | title | type | url`
 
 The website reads all five tabs through the Google Apps Script API.
