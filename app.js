@@ -60,10 +60,10 @@ function renderHomeReferences(refs){
  box.innerHTML=refs.filter(r=>r.url||r.link||r.driveUrl).map(r=>{const url=r.url||r.link||r.driveUrl; return `<a class="reference-card" href="${esc(url)}" target="_blank" rel="noopener"><div class="reference-icon">🔗</div><div><b>${esc(r.title||r.name||"Reference")}</b><span>${esc(r.event||"All Events")} • ${esc(r.category||r.referenceType||"Reference")} • ${esc(r.type||r.format||"Link")}</span></div><strong>Open →</strong></a>`}).join("")||'<div class="doc-empty">No valid reference links published yet.</div>';
 }
 function esc(v){return String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-async function load(){
- if(!CONFIG.apiUrl)return;
- try{
-   const d=await (await fetch(CONFIG.apiUrl+"?action=all",{cache:"no-store"})).json();
+const HOME_CACHE_KEY = "khelostav_home_v4";
+const HOME_CACHE_MS = 5 * 60 * 1000;
+
+function renderHomeData(d){
    const schedulesBySport=d.schedulesBySport||{};
    const resultsBySport=d.resultsBySport||{};
    const s=Object.values(schedulesBySport).flat();
@@ -147,7 +147,31 @@ async function load(){
      document.getElementById("confirmed").textContent=e.filter(x=>String(x["Enrollment Status"]||x.enrollmentStatus).toLowerCase()==="confirmed").length;
      document.getElementById("pending").textContent=e.filter(x=>String(x["Enrollment Status"]||x.enrollmentStatus).toLowerCase()==="pending").length;
    }
- }catch(err){console.log(err)}
+}
+
+async function load(){
+ if(!CONFIG.apiUrl)return;
+ // Show the previous successful data immediately, then refresh in the background.
+ try{
+   const cached=localStorage.getItem(HOME_CACHE_KEY);
+   if(cached){
+     const item=JSON.parse(cached);
+     if(item && item.data){
+       renderHomeData(item.data);
+     }
+   }
+ }catch(err){}
+
+ try{
+   const response=await fetch(CONFIG.apiUrl+"?action=all",{cache:"no-store"});
+   const d=await response.json();
+   if(d && d.success!==false){
+     try{localStorage.setItem(HOME_CACHE_KEY,JSON.stringify({savedAt:Date.now(),data:d}));}catch(err){}
+     renderHomeData(d);
+   }
+ }catch(err){
+   console.warn("Live data refresh failed",err);
+ }
 }
 document.querySelectorAll(".filters [data-day]").forEach(btn=>{
  btn.addEventListener("click",()=>{

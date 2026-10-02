@@ -35,27 +35,16 @@ function renderReferences(refs){
  }).join('')||'<div class="doc-empty">No valid reference links have been published.</div>';
 }
 
-async function loadGamePage(){
- if(!game || !CONFIG.apiUrl)return;
- try{
-   const url=CONFIG.apiUrl+'?action=sport&sport='+encodeURIComponent(game[1]);
-   const response=await (await fetch(url,{cache:'no-store'})).json();
+const SPORT_CACHE_PREFIX = "khelostav_sport_v4_";
+const SPORT_CACHE_MS = 5 * 60 * 1000;
+
+function renderGameData(response){
    const data=response.data || response;
 
    let volunteers=data.volunteers||response.volunteers||[];
    const enrollments=data.enrollments||response.enrollments||[];
    const schedule=data.schedule||response.schedule||[];
    const results=data.results||response.results||[];
-
-   // Fallback for older/deployed Apps Script versions: if the sport endpoint
-   // does not return volunteers, read the master/all endpoint and filter here.
-   if(!volunteers.length){
-     try{
-       const allUrl=CONFIG.apiUrl+'?action=all';
-       const allData=await (await fetch(allUrl,{cache:'no-store'})).json();
-       volunteers=allData.volunteers||[];
-     }catch(e){ console.warn('Volunteer fallback failed',e); }
-   }
 
    // Rules are stored in the References spreadsheet as the Rules URL
    // for each sport. The sport API returns it as data.rulesUrl.
@@ -123,11 +112,34 @@ async function loadGamePage(){
    setText('participant-count',enrollments.length); setText('confirmed-count',confirmed); setText('age-groups-count',groups.size);
 
    const scheduleBody=document.getElementById('game-schedule-body');
-   if(scheduleBody) scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||sport)}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">No schedule published yet.</td></tr>`;
+   if(scheduleBody) scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||game[1])}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">No schedule published yet.</td></tr>`;
 
    const resultsBody=document.getElementById('game-results-body');
    if(resultsBody) resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td><b>${esc(x.Position||x.position)}</b></td><td>${esc(x["Child Name"]||x.child||x.participant)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="7">No results published yet.</td></tr>`;
- }catch(err){console.warn('Unable to load event data',err);}
+}
+
+async function loadGamePage(){
+ if(!game || !CONFIG.apiUrl)return;
+ const cacheKey=SPORT_CACHE_PREFIX+game[1].toLowerCase().replace(/[^a-z0-9]+/g,'_');
+ // Render the last successful sport data immediately while the live request runs.
+ try{
+   const cached=localStorage.getItem(cacheKey);
+   if(cached){
+     const item=JSON.parse(cached);
+     if(item && item.data) renderGameData(item.data);
+   }
+ }catch(err){}
+
+ try{
+   const url=CONFIG.apiUrl+'?action=sport&sport='+encodeURIComponent(game[1]);
+   const response=await (await fetch(url,{cache:'no-store'})).json();
+   if(response && response.success!==false){
+     try{localStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),data:response}));}catch(err){}
+     renderGameData(response);
+   }
+ }catch(err){
+   console.warn('Unable to refresh event data',err);
+ }
 }
 loadGamePage();
 if(CONFIG.refreshSeconds>0)setInterval(loadGamePage,CONFIG.refreshSeconds*1000);
