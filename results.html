@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Results • AMC Junior Khelostav 2026</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header class="subhero">
+<nav><a class="brand" href="index.html"><span>AMC Junior Khelostav 2026</span></a><div class="subnav-actions"><a class="back-link" href="index.html#events">← All Events</a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">☰</button></div></nav>
+<div id="mobile-menu" class="mobile-menu" hidden><a href="index.html#events">🎯 Events</a><a href="index.html#enrollments">👧 Kids Enrollment</a><a href="index.html#volunteer-registration">🤝 Register as Volunteer</a><a href="index.html#guidelines">🛡️ Guidelines</a><a href="index.html#rules">📋 Rules</a><a href="index.html#register">🎟️ Register</a></div>
+<div class="event-hero"><div><div class="eyebrow">LIVE RESULTS</div><h1>Results & Winners</h1><p class="lead">Choose an event to view its live results.</p></div><div class="event-badge"><span>🏆</span><b>Live Results</b><small>Ambience Courtyard</small></div></div>
+</header>
+<main>
+<section id="results"><div class="title"><small>RESULTS SESSION</small><h2>Event Results</h2><p>Results are maintained in each event's own Google Sheet and are shown on that event page.</p></div><div id="results-event-grid" class="grid"></div></section>
+</main>
+<footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span>Coming Soon • 13 Sports & Fun Events</span></footer>
+<script src="app.js"></script>
+<script>
+(function(){
+ const box=document.getElementById('results-event-grid');
+ if(!box || typeof events==='undefined') return;
+ box.innerHTML=events.map(e=>`<a class="card event-card" href="event.html?game=${encodeURIComponent(e[3])}#results"><div class="emoji">${e[0]}</div><h3>${e[1]}</h3><p>${e[2]}</p><span class="card-link">View live results →</span></a>`).join('');
+})();
+</script>
+</body></html>

@@ -323,3 +323,89 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
   .volunteer-card .spoc-icon{display:none}
   .volunteer-actions{grid-template-columns:1fr}
 }
+
+
+/* Homepage volunteer registration section + live results navigation */
+.live-results-nav{background:linear-gradient(135deg,#d9283e,#f47a20)!important;color:#fff!important}
+.volunteer-registration-section{padding:54px 5%;background:linear-gradient(135deg,#102a5c 0%,#174ea6 55%,#2166d1 100%);border-top:6px solid #f5b72f}
+.volunteer-registration-card{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.5fr .8fr;gap:28px;align-items:center;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);border-radius:24px;padding:32px;box-shadow:0 12px 30px rgba(7,25,66,.18)}
+.volunteer-registration-section small{color:#ffd447!important;font-weight:900;letter-spacing:2px}
+.volunteer-registration-section h2{color:#fff!important}
+.volunteer-registration-section p{color:#e7f0ff!important}
+.volunteer-register-btn{background:linear-gradient(135deg,#f47a20,#d9283e)!important;color:#fff!important}
+.volunteer-registration-badge{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;padding:24px}
+.volunteer-registration-badge span{font-size:50px;line-height:1}
+.volunteer-registration-badge b{font-size:22px;margin-top:12px}
+.volunteer-registration-badge small{color:#fff!important;letter-spacing:0!important;margin-top:8px}
+@media(max-width:700px){.volunteer-registration-card{grid-template-columns:1fr;padding:22px}.volunteer-registration-section{padding:38px 16px}.volunteer-registration-badge{min-height:130px}}
+
+/* Final visual correction: Homepage Volunteer Registration matches the event theme */
+section.volunteer-registration-section{
+  max-width:none !important;
+  padding:70px max(22px,calc((100% - 1220px)/2)) !important;
+  background:
+    radial-gradient(circle at 88% 18%,rgba(245,183,47,.30),transparent 22%),
+    radial-gradient(circle at 12% 82%,rgba(22,133,75,.20),transparent 24%),
+    linear-gradient(135deg,#102a5c 0%,#174ea6 52%,#2166d1 100%) !important;
+  border-top:6px solid #f5b72f !important;
+  color:#fff !important;
+}
+section.volunteer-registration-section .volunteer-registration-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.06)) !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  box-shadow:0 14px 36px rgba(7,25,66,.22) !important;
+}
+section.volunteer-registration-section .title small{
+  color:#ffd447 !important;
+  font-family:Nunito,Arial,sans-serif !important;
+  font-weight:900 !important;
+  letter-spacing:2px !important;
+}
+section.volunteer-registration-section .title h2{
+  color:#fff !important;
+  font-family:'Baloo 2',Nunito,Arial,sans-serif !important;
+  font-weight:800 !important;
+  font-size:42px !important;
+  line-height:1.05 !important;
+  margin:5px 0 10px !important;
+}
+section.volunteer-registration-section .title h2::after{
+  content:"";
+  display:block;
+  width:70px;
+  height:5px;
+  margin-top:16px;
+  border-radius:8px;
+  background:linear-gradient(90deg,#f5b72f,#f47a20,#d9283e,#16854b);
+}
+section.volunteer-registration-section .title p{
+  color:#e7f0ff !important;
+  font-family:Nunito,Arial,sans-serif !important;
+  font-weight:700 !important;
+  line-height:1.6 !important;
+}
+section.volunteer-registration-section .volunteer-register-btn{
+  background:linear-gradient(135deg,#f47a20,#d9283e) !important;
+  color:#fff !important;
+  font-family:Nunito,Arial,sans-serif !important;
+  font-weight:900 !important;
+  box-shadow:0 10px 24px rgba(228,75,37,.30) !important;
+}
+section.volunteer-registration-section .volunteer-registration-badge{
+  background:rgba(255,255,255,.10) !important;
+  border:1px solid rgba(255,255,255,.25) !important;
+  color:#fff !important;
+}
+section.volunteer-registration-section .volunteer-registration-badge b{
+  color:#fff !important;
+  font-family:'Baloo 2',Nunito,Arial,sans-serif !important;
+  font-weight:800 !important;
+}
+section.volunteer-registration-section .volunteer-registration-badge small{
+  color:#dbeafe !important;
+  font-family:Nunito,Arial,sans-serif !important;
+}
+@media(max-width:700px){
+  section.volunteer-registration-section{padding:48px 16px !important}
+  section.volunteer-registration-section .title h2{font-size:36px !important}
+}

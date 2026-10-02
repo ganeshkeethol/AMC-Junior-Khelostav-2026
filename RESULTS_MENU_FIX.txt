@@ -1,0 +1,1 @@
+Live Results now opens the Results Session. Added the requested Quick Links / Event Information menu list to the homepage and Results page.

@@ -24,17 +24,6 @@ function renderRulesDocs(docs){
  }).join('')||'<div class="doc-empty">No valid rules document link has been published.</div>';
 }
 
-function renderReferences(refs){
- const box=document.getElementById('event-references');
- if(!box)return;
- if(!refs.length){box.innerHTML='<div class="doc-empty">No organiser reference links have been published yet.</div>';return;}
- box.innerHTML=refs.map(r=>{
-   const url=String(r.url||r.link||r.driveUrl||'').trim();
-   if(!url)return '';
-   return `<div class="reference-row"><div class="reference-icon">🔗</div><div class="reference-info"><b>${esc(r.title||r.name||'Reference')}</b><span>${esc(r.category||r.referenceType||'Reference')} • ${esc(r.type||r.format||'Link')}</span></div><a class="doc-btn" href="${esc(url)}" target="_blank" rel="noopener">Open</a></div>`;
- }).join('')||'<div class="doc-empty">No valid reference links have been published.</div>';
-}
-
 const SPORT_CACHE_PREFIX = "khelostav_sport_v4_";
 const SPORT_CACHE_MS = 5 * 60 * 1000;
 
@@ -65,7 +54,6 @@ function renderGameData(response){
      renderRulesDocs([]);
    }
 
-   renderReferences(data.references||[]);
 
    // Show volunteers assigned to this sport. The Volunteers sheet uses "Event / Sport".
    const matchingVolunteers = volunteers.filter(v => {
