@@ -409,3 +409,12 @@ section.volunteer-registration-section .volunteer-registration-badge small{
   section.volunteer-registration-section{padding:48px 16px !important}
   section.volunteer-registration-section .title h2{font-size:36px !important}
 }
+
+/* Group-game team management */
+.teams-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:18px}
+.team-card{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:17px;padding:18px;box-shadow:0 7px 20px #1725540b}
+.team-card:nth-child(4n+1){border-top:5px solid #2166d1}.team-card:nth-child(4n+2){border-top:5px solid #f47a20}.team-card:nth-child(4n+3){border-top:5px solid #16854b}.team-card:nth-child(4n+4){border-top:5px solid #d9283e}
+.team-icon{width:48px;height:48px;display:grid;place-items:center;background:#fff0c9;border-radius:50%;font-size:24px;flex:0 0 48px}
+.team-card h3{font:800 21px 'Baloo 2';margin:0;color:#102a5c}.team-card p{margin:3px 0;color:var(--muted);font-size:13px}.team-empty{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:18px;color:var(--muted)}
+@media(max-width:900px){.teams-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.teams-grid{grid-template-columns:1fr}.team-card{padding:15px}.team-card h3{font-size:20px}}

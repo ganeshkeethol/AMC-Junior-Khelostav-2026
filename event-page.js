@@ -34,6 +34,8 @@ function renderGameData(response){
    const enrollments=data.enrollments||response.enrollments||[];
    const schedule=data.schedule||response.schedule||[];
    const results=data.results||response.results||[];
+   const teams=data.teams||response.teams||[];
+   const teamBased=Boolean(data.teamBased || response.teamBased);
 
    // Rules are stored in the References spreadsheet as the Rules URL
    // for each sport. The sport API returns it as data.rulesUrl.
@@ -93,17 +95,68 @@ function renderGameData(response){
    }
 
    const participantBody=document.getElementById('participants-body');
-   if(participantBody) participantBody.innerHTML=enrollments.length?enrollments.map(x=>`<tr><td><b>${esc(x["Child Name"]||x.Child||x.child)}</b></td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Enrollment Status"]||x.enrollmentStatus)}</td><td>${esc(x["Event Status"]||x.eventStatus)}</td></tr>`).join(''):`<tr><td colspan="6">No enrolled kids published yet.</td></tr>`;
+   if(participantBody) participantBody.innerHTML=enrollments.length?enrollments.map(x=>`<tr><td><b>${esc(x["Child Name"]||x.Child||x.child)}</b></td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Block"]||x.Block||'')}</td><td>${esc(x["Flat Number"]||x.flatNumber||'')}</td><td>${esc(x["Enrollment Status"]||x.enrollmentStatus)}</td><td>${esc(x["Event Status"]||x.eventStatus)}</td></tr>`).join(''):`<tr><td colspan="6">No enrolled kids published yet.</td></tr>`;
 
    const confirmed=enrollments.filter(x=>norm(x["Enrollment Status"]||x.enrollmentStatus)==='confirmed').length;
    const groups=new Set(enrollments.map(x=>x["Age Group"]||x.ageGroup).filter(Boolean));
    setText('participant-count',enrollments.length); setText('confirmed-count',confirmed); setText('age-groups-count',groups.size);
 
+   // Group games: show team cards and use Team A / Team B schedule & results.
+   const teamsSection=document.getElementById('teams-section');
+   const teamsGrid=document.getElementById('teams-grid');
+   if(teamsSection){
+     teamsSection.hidden=!teamBased;
+   }
+   if(teamsGrid && teamBased){
+     const sourceTeams = teams.length ? teams : buildTeamsFromEnrollments(enrollments);
+     teamsGrid.innerHTML = sourceTeams.length ? sourceTeams.map(t=>{
+       const id=t["Team ID"]||t.teamId||t.TeamID||'';
+       const name=t["Team Name"]||t.teamName||t.Name||t.name||'Team';
+       const age=t["Age Group"]||t.ageGroup||'';
+       const captain=t.Captain||t.captain||'';
+       const status=t["Team Status"]||t.status||t.Status||'';
+       const count=enrollments.filter(x=>String(x["Team ID"]||x.teamId||'').trim()===String(id).trim()).length;
+       return `<article class="team-card"><div class="team-icon">👥</div><div><h3>${esc(name)}</h3><p><b>${esc(id)}</b>${age?` • Age ${esc(age)}`:''}</p>${captain?`<p>Captain: ${esc(captain)}</p>`:''}<p>${count} player${count===1?'':'s'}${status?` • ${esc(status)}`:''}</p></div></article>`;
+     }).join('') : '<div class="team-empty">No teams published yet.</div>';
+   }
+
    const scheduleBody=document.getElementById('game-schedule-body');
-   if(scheduleBody) scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||game[1])}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">No schedule published yet.</td></tr>`;
+   const scheduleTable=scheduleBody ? scheduleBody.closest('table') : null;
+   const scheduleHead=scheduleTable ? scheduleTable.querySelector('thead tr') : null;
+   if(scheduleBody){
+     if(teamBased){
+       if(scheduleHead) scheduleHead.innerHTML='<th>Day</th><th>Date</th><th>Reporting</th><th>Event Time</th><th>Age Group</th><th>Match / Round</th><th>Team A</th><th>Team B</th><th>Venue</th><th>Status</th>';
+       scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Match / Round"]||x.Match||x.Round||x.round||x["Round"]||'')}</td><td>${esc(x["Team A"]||x.TeamA||x["Team A Name"]||'')}</td><td>${esc(x["Team B"]||x.TeamB||x["Team B Name"]||'')}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="10">No schedule published yet.</td></tr>`;
+     }else{
+       if(scheduleHead) scheduleHead.innerHTML='<th>Day</th><th>Date</th><th>Reporting</th><th>Event Time</th><th>Event</th><th>Age Group</th><th>Participant</th><th>Block</th><th>Flat Number</th><th>Venue</th><th>Status</th>';
+       scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||game[1])}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">No schedule published yet.</td></tr>`;
+     }
+   }
 
    const resultsBody=document.getElementById('game-results-body');
-   if(resultsBody) resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td><b>${esc(x.Position||x.position)}</b></td><td>${esc(x["Child Name"]||x.child||x.participant)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="7">No results published yet.</td></tr>`;
+   const resultsTable=resultsBody ? resultsBody.closest('table') : null;
+   const resultsHead=resultsTable ? resultsTable.querySelector('thead tr') : null;
+   if(resultsBody){
+     if(teamBased){
+       if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Round</th><th>Match</th><th>Team</th><th>Opponent</th><th>Score</th><th>Result</th><th>Position</th><th>Medal</th>';
+       resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x.Round||x.round)}</td><td>${esc(x.Match||x["Match"]||'')}</td><td>${esc(x["Team Name"]||x.Team||x.team)}</td><td>${esc(x.Opponent||x.opponent)}</td><td>${esc(x.Score||x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Result||x.result)}</td><td>${esc(x.Position||x.position)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="9">No results published yet.</td></tr>`;
+     }else{
+       if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Position</th><th>Participant</th><th>Block</th><th>Flat Number</th><th>Score / Time</th><th>Medal</th>';
+       resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td><b>${esc(x.Position||x.position)}</b></td><td>${esc(x["Child Name"]||x.child||x.participant)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="7">No results published yet.</td></tr>`;
+     }
+   }
+}
+
+
+function buildTeamsFromEnrollments(rows){
+  const map={};
+  rows.forEach(function(x){
+    const id=String(x["Team ID"]||x.teamId||'').trim();
+    if(!id)return;
+    if(!map[id]) map[id]={"Team ID":id,"Team Name":x["Team Name"]||x.teamName||id,"Age Group":x["Age Group"]||x.ageGroup||'',Captain:'',"Team Status":x["Team Status"]||x.status||''};
+    if((x.Role||x.role||'').toLowerCase()==='captain') map[id].Captain=x["Child Name"]||x.Child||'';
+  });
+  return Object.keys(map).map(k=>map[k]);
 }
 
 async function loadGamePage(){
