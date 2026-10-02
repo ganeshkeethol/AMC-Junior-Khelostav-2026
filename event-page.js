@@ -24,7 +24,7 @@ function renderRulesDocs(docs){
  }).join('')||'<div class="doc-empty">No valid rules document link has been published.</div>';
 }
 
-const SPORT_CACHE_PREFIX = "khelostav_sport_v4_";
+const SPORT_CACHE_PREFIX = "khelostav_sport_v5_";
 const SPORT_CACHE_MS = 5 * 60 * 1000;
 
 function renderGameData(response){
@@ -60,19 +60,16 @@ function renderGameData(response){
    // Show volunteers assigned to this sport. The Volunteers sheet uses "Event / Sport".
    const matchingVolunteers = volunteers.filter(v => {
      const sportName = String(v.sport || v["Event / Sport"] || v["Sport / Area"] || v.Event || v.event || "").trim();
-     return sportName && norm(sportName) === norm(game[1]);
+     return sportName.split(/[,;\n]+/).map(x => norm(x)).filter(Boolean).includes(norm(game[1]));
    });
    const spocCard=document.getElementById('spoc-card');
    if(spocCard){
      if(matchingVolunteers.length){
        spocCard.innerHTML = matchingVolunteers.map(v => {
          const name = v.name || v.Name || 'Volunteer';
-         const role = v.role || v.Role || 'Event Team';
          const block = v.block || v.Block || '';
          const flat = v.flatNumber || v["Flat Number"] || '';
          const contact = v.contact || v.Contact || '';
-         const reporting = v.reporting || v.Reporting || v["Reporting Time"] || '';
-         const status = v.status || v.Status || '';
          const meta = [
            block ? `Block ${esc(block)}` : '',
            flat ? `Flat ${esc(flat)}` : ''
@@ -87,7 +84,7 @@ function renderGameData(response){
          const waUrl = phoneDigits ? `https://wa.me/${phoneDigits}` : '';
          const actions = phoneDigits ? `<div class="volunteer-actions"><a class="volunteer-call" href="${esc(callUrl)}">📞 Call</a><a class="volunteer-whatsapp" href="${esc(waUrl)}" target="_blank" rel="noopener">💬 WhatsApp</a></div>` : '';
 
-         return `<article class="volunteer-card"><div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3><p class="volunteer-role">${esc(role)}</p>${meta ? `<p class="volunteer-meta">${meta}</p>` : ''}${contact ? `<p class="volunteer-contact">📱 ${esc(contact)}</p>` : ''}${reporting ? `<p>Reporting: ${esc(reporting)}</p>` : ''}${status ? `<p>Status: <b>${esc(status)}</b></p>` : ''}${actions}</div></article>`;
+         return `<article class="volunteer-card"><div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3>${meta ? `<p class="volunteer-meta">${meta}</p>` : ''}${actions}</div></article>`;
        }).join('');
      } else {
        spocCard.innerHTML='<div class="spoc-icon">👤</div><div><h3>Details will be published soon</h3><p>No volunteer is currently assigned to this sport in the Volunteers sheet.</p></div>';
@@ -170,7 +167,7 @@ function buildTeamsFromEnrollments(rows){
 async function loadGamePage(){
  if(!game || !CONFIG.apiUrl)return;
  const cacheKey=SPORT_CACHE_PREFIX+game[1].toLowerCase().replace(/[^a-z0-9]+/g,'_');
- // Render the last successful sport data immediately while the live request runs.
+ // Render cached sport data immediately while the live request runs.
  try{
    const cached=localStorage.getItem(cacheKey);
    if(cached){
@@ -180,11 +177,23 @@ async function loadGamePage(){
  }catch(err){}
 
  try{
-   const url=CONFIG.apiUrl+'?action=sport&sport='+encodeURIComponent(game[1]);
-   const response=await (await fetch(url,{cache:'no-store'})).json();
-   if(response && response.success!==false){
-     try{localStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),data:response}));}catch(err){}
-     renderGameData(response);
+   const sportName=encodeURIComponent(game[1]);
+   const [sportResponse, volunteerResponse] = await Promise.all([
+     fetch(CONFIG.apiUrl+'?action=sport&sport='+sportName,{cache:'no-store'}).then(r=>r.json()),
+     fetch(CONFIG.apiUrl+'?action=sportVolunteers&sport='+sportName,{cache:'no-store'}).then(r=>r.json()).catch(()=>null)
+   ]);
+
+   if(sportResponse && sportResponse.success!==false){
+     // Prefer the dedicated sport-volunteers endpoint. This guarantees that
+     // comma-separated assignments such as "Carroms, Chess, Badminton"
+     // are resolved server-side as well as client-side.
+     const merged = Object.assign({}, sportResponse);
+     const baseData = sportResponse.data || {};
+     if(volunteerResponse && volunteerResponse.success!==false && Array.isArray(volunteerResponse.volunteers)){
+       merged.data = Object.assign({}, baseData, {volunteers: volunteerResponse.volunteers});
+     }
+     try{localStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),data:merged}));}catch(err){}
+     renderGameData(merged);
    }
  }catch(err){
    console.warn('Unable to refresh event data',err);
