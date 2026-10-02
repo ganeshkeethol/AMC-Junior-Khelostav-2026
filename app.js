@@ -135,7 +135,7 @@ async function load(){
    if(rb) rb.innerHTML=r.length?r.map(x=>`<tr><td>${esc(x.Event||x.event||"")}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x.Position||x.position)}</td><td>${esc(x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(""):`<tr><td colspan="8">No results published yet.</td></tr>`;
 
    const vb=document.getElementById("volunteer-body");
-   if(vb) vb.innerHTML=v.length?v.map(x=>`<tr><td>${esc(x.Sport||x.sport)}</td><td>${esc(x.Role||x.role)}</td><td>${esc(x.Name||x.name)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Contact||x.contact)}</td><td>${esc(x.Reporting||x.reporting)}</td></tr>`).join(""):`<tr><td colspan="7">Volunteer details will be published here.</td></tr>`;
+   if(vb) vb.innerHTML=v.length?v.map(x=>`<tr><td>${esc(x["Event / Sport"]||x["Sport / Area"]||x.Sport||x.sport||x.Event||x.event)}</td><td>${esc(x.Role||x.role)}</td><td>${esc(x.Name||x.name)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Contact||x.contact)}</td><td>${esc(x.Reporting||x.reporting)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(""):`<tr><td colspan="8">Volunteer details will be published here.</td></tr>`;
 
    renderHomeReferences(d.references||[]);
 

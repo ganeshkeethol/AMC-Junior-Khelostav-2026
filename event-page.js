@@ -39,20 +39,71 @@ async function loadGamePage(){
  if(!game || !CONFIG.apiUrl)return;
  try{
    const url=CONFIG.apiUrl+'?action=sport&sport='+encodeURIComponent(game[1]);
-   const data=await (await fetch(url,{cache:'no-store'})).json();
+   const response=await (await fetch(url,{cache:'no-store'})).json();
+   const data=response.data || response;
 
-   const volunteers=data.volunteers||[];
-   const enrollments=data.enrollments||[];
-   const schedule=data.schedule||[];
-   const results=data.results||[];
+   let volunteers=data.volunteers||response.volunteers||[];
+   const enrollments=data.enrollments||response.enrollments||[];
+   const schedule=data.schedule||response.schedule||[];
+   const results=data.results||response.results||[];
 
-   renderRulesDocs((data.references||[]).filter(r=>norm(r.category)==='rules'));
+   // Fallback for older/deployed Apps Script versions: if the sport endpoint
+   // does not return volunteers, read the master/all endpoint and filter here.
+   if(!volunteers.length){
+     try{
+       const allUrl=CONFIG.apiUrl+'?action=all';
+       const allData=await (await fetch(allUrl,{cache:'no-store'})).json();
+       volunteers=allData.volunteers||[];
+     }catch(e){ console.warn('Volunteer fallback failed',e); }
+   }
+
+   // Rules are stored in the References spreadsheet as the Rules URL
+   // for each sport. The sport API returns it as data.rulesUrl.
+   // Build the document card directly from that URL.
+   const rulesUrl = String(
+     data.rulesUrl ||
+     response.rulesUrl ||
+     ''
+   ).trim();
+
+   if(rulesUrl){
+     renderRulesDocs([{
+       title: `${game[1]} Official Rules`,
+       type: 'Google Drive / Google Docs',
+       url: rulesUrl
+     }]);
+   }else{
+     renderRulesDocs([]);
+   }
+
    renderReferences(data.references||[]);
 
-   const spoc=volunteers[0];
+   // Show volunteers assigned to this sport. The Volunteers sheet uses "Event / Sport".
+   const matchingVolunteers = volunteers.filter(v => {
+     const sportName = String(v.sport || v["Event / Sport"] || v["Sport / Area"] || v.Event || v.event || "").trim();
+     return sportName && norm(sportName) === norm(game[1]);
+   });
    const spocCard=document.getElementById('spoc-card');
-   if(spoc && spocCard){
-     spocCard.innerHTML=`<div class="spoc-icon">👤</div><div><h3>${esc(spoc.Name||spoc.name||'SPOC')}</h3><p><b>${esc(spoc.Role||spoc.role||'Event SPOC')}</b>${(spoc.Contact||spoc.contact)?` • ${esc(spoc.Contact||spoc.contact)}`:''}</p><p>Reporting: ${esc(spoc.Reporting||spoc.reporting||'As per schedule')}</p></div>`;
+   if(spocCard){
+     if(matchingVolunteers.length){
+       spocCard.innerHTML = matchingVolunteers.map(v => {
+         const name = v.name || v.Name || 'Volunteer';
+         const role = v.role || v.Role || 'Event Team';
+         const block = v.block || v.Block || '';
+         const flat = v.flatNumber || v["Flat Number"] || '';
+         const contact = v.contact || v.Contact || '';
+         const reporting = v.reporting || v.Reporting || v["Reporting Time"] || '';
+         const status = v.status || v.Status || '';
+         const meta = [
+           block ? `Block ${esc(block)}` : '',
+           flat ? `Flat ${esc(flat)}` : '',
+           contact ? esc(contact) : ''
+         ].filter(Boolean).join(' • ');
+         return `<div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3><p><b>${esc(role)}</b>${meta ? ` • ${meta}` : ''}</p>${reporting ? `<p>Reporting: ${esc(reporting)}</p>` : ''}${status ? `<p>Status: <b>${esc(status)}</b></p>` : ''}</div>`;
+       }).join('<div class="spoc-divider"></div>');
+     } else {
+       spocCard.innerHTML='<div class="spoc-icon">👤</div><div><h3>Details will be published soon</h3><p>No volunteer is currently assigned to this sport in the Volunteers sheet.</p></div>';
+     }
    }
 
    const participantBody=document.getElementById('participants-body');
