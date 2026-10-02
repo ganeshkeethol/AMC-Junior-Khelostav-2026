@@ -8,3 +8,5 @@ const CONFIG = {
   registrationFee: 200,
   refreshSeconds: 30
 };
+
+window.CONFIG = CONFIG;

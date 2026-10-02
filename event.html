@@ -17,4 +17,28 @@
 <section class="grey"><div class="title"><small>ORGANISER REFERENCES</small><h2>Google & Document References</h2><p>Official links for schedules, results, enrollment, rules and other event documents are managed from the References sheet.</p></div><div id="event-references" class="references-list"><div class="doc-empty">Reference links will appear when the organiser connects the References sheet.</div></div></section>
 <section><div class="title"><small>QUICK LINKS</small><h2>Event Information</h2></div><div class="quick-links"><a href="index.html#results">🏆 Live Results</a><a href="index.html#register">📝 Registration</a><a href="index.html#guidelines">🛡️ General Guidelines</a><a href="index.html#events">🎯 Other Events</a><a href="https://tinyurl.com/volunteerskhelotsav2026" target="_blank" rel="noopener">🤝 Register as Volunteer</a></div></section>
 </main><footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span>Coming Soon • 13 Sports & Fun Events</span></footer>
-<script src="config.js"></script><script src="app.js"></script><script src="event-page.js"></script></body></html>
+<script src="config.js"></script><script src="app.js"></script><script src="event-page.js"></script><script>
+
+/* Dynamic registration fee: always reads CONFIG.registrationFee */
+(function () {
+  function updateRegistrationFee() {
+    var fee = (window.CONFIG && window.CONFIG.registrationFee != null)
+      ? window.CONFIG.registrationFee
+      : 200;
+    document.querySelectorAll('.registration-fee-value').forEach(function (el) {
+      el.textContent = '₹' + fee;
+    });
+    document.querySelectorAll('[data-registration-fee]').forEach(function (el) {
+      el.textContent = '₹' + fee;
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateRegistrationFee);
+  } else {
+    updateRegistrationFee();
+  }
+  window.updateRegistrationFee = updateRegistrationFee;
+})();
+
+</script>
+</body></html>
