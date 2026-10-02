@@ -273,3 +273,53 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 .fee-highlight-light{color:#ffd447;font-weight:900}
 .enrollment-badge b{font-size:28px}
 .enrollment-badge small{display:block;margin-top:4px}
+
+
+/* Event Team volunteer cards + mobile-friendly contact actions */
+.spoc-card{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+  gap:14px;
+  padding:14px;
+}
+.volunteer-card{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  min-width:0;
+  background:#fff;
+  border:2px solid #eadfca;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 6px 18px rgba(16,42,92,.06);
+}
+.volunteer-card:nth-child(4n+1){border-top:5px solid #2166d1}
+.volunteer-card:nth-child(4n+2){border-top:5px solid #f47a20}
+.volunteer-card:nth-child(4n+3){border-top:5px solid #16854b}
+.volunteer-card:nth-child(4n+4){border-top:5px solid #d9283e}
+.volunteer-card .spoc-icon{flex:0 0 58px;width:58px;height:58px}
+.volunteer-card .spoc-details{min-width:0;flex:1}
+.volunteer-card h3{font:800 23px 'Baloo 2';margin:0 0 3px;color:#102a5c;overflow-wrap:anywhere}
+.volunteer-role{font-weight:900;color:#174ea6}
+.volunteer-meta,.volunteer-contact{overflow-wrap:anywhere}
+.volunteer-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.volunteer-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 13px;border-radius:10px;font-weight:900;font-size:13px}
+.volunteer-call{background:#174ea6;color:#fff!important}
+.volunteer-whatsapp{background:#16854b;color:#fff!important}
+.spoc-divider{display:none}
+
+@media(max-width:700px){
+  .spoc-card{grid-template-columns:1fr;padding:10px;gap:12px}
+  .volunteer-card{padding:15px;gap:12px;border-radius:16px}
+  .volunteer-card .spoc-icon{flex-basis:50px;width:50px;height:50px;font-size:25px}
+  .volunteer-card h3{font-size:21px;line-height:1.05}
+  .volunteer-actions{display:grid;grid-template-columns:1fr 1fr}
+  .volunteer-actions a{width:100%;min-height:42px}
+}
+
+@media(max-width:420px){
+  .volunteer-card{padding:13px}
+  .volunteer-card .spoc-icon{display:none}
+  .volunteer-actions{grid-template-columns:1fr}
+}

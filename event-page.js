@@ -96,11 +96,20 @@ async function loadGamePage(){
          const status = v.status || v.Status || '';
          const meta = [
            block ? `Block ${esc(block)}` : '',
-           flat ? `Flat ${esc(flat)}` : '',
-           contact ? esc(contact) : ''
+           flat ? `Flat ${esc(flat)}` : ''
          ].filter(Boolean).join(' • ');
-         return `<div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3><p><b>${esc(role)}</b>${meta ? ` • ${meta}` : ''}</p>${reporting ? `<p>Reporting: ${esc(reporting)}</p>` : ''}${status ? `<p>Status: <b>${esc(status)}</b></p>` : ''}</div>`;
-       }).join('<div class="spoc-divider"></div>');
+
+         // Build safe phone links. Supports numbers stored as 10 digits, +91..., 0091..., etc.
+         const rawPhone = String(contact || '').replace(/[^0-9+]/g, '');
+         let phoneDigits = rawPhone.replace(/^\+/, '');
+         if(phoneDigits.startsWith('0091')) phoneDigits = phoneDigits.slice(2);
+         if(phoneDigits.length === 10) phoneDigits = '91' + phoneDigits;
+         const callUrl = phoneDigits ? `tel:+${phoneDigits}` : '';
+         const waUrl = phoneDigits ? `https://wa.me/${phoneDigits}` : '';
+         const actions = phoneDigits ? `<div class="volunteer-actions"><a class="volunteer-call" href="${esc(callUrl)}">📞 Call</a><a class="volunteer-whatsapp" href="${esc(waUrl)}" target="_blank" rel="noopener">💬 WhatsApp</a></div>` : '';
+
+         return `<article class="volunteer-card"><div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3><p class="volunteer-role">${esc(role)}</p>${meta ? `<p class="volunteer-meta">${meta}</p>` : ''}${contact ? `<p class="volunteer-contact">📱 ${esc(contact)}</p>` : ''}${reporting ? `<p>Reporting: ${esc(reporting)}</p>` : ''}${status ? `<p>Status: <b>${esc(status)}</b></p>` : ''}${actions}</div></article>`;
+       }).join('');
      } else {
        spocCard.innerHTML='<div class="spoc-icon">👤</div><div><h3>Details will be published soon</h3><p>No volunteer is currently assigned to this sport in the Volunteers sheet.</p></div>';
      }
