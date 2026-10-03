@@ -310,7 +310,7 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 .spoc-divider{display:none}
 
 @media(max-width:700px){
-  .spoc-card{grid-template-columns:1fr;padding:10px;gap:12px}
+  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px;gap:9px}
   .volunteer-card{padding:15px;gap:12px;border-radius:16px}
   .volunteer-card .spoc-icon{flex-basis:50px;width:50px;height:50px;font-size:25px}
   .volunteer-card h3{font-size:21px;line-height:1.05}
@@ -319,9 +319,13 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 }
 
 @media(max-width:420px){
-  .volunteer-card{padding:13px}
+  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:8px}
+  .volunteer-card{padding:11px;gap:8px}
   .volunteer-card .spoc-icon{display:none}
-  .volunteer-actions{grid-template-columns:1fr}
+  .volunteer-card h3{font-size:17px;line-height:1.05}
+  .volunteer-meta{font-size:11px;line-height:1.25}
+  .volunteer-actions{grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  .volunteer-actions a{min-height:36px;padding:7px 6px;font-size:11px}
 }
 
 
@@ -447,3 +451,100 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 .schedule-venue{font-size:13px;color:#475569}.schedule-status{justify-self:end;font-size:11px;font-weight:900;color:#166534;background:#dcfce7;border-radius:16px;padding:7px 10px}
 .schedule-loading,.schedule-empty{padding:30px 20px;color:#64748b;display:flex;flex-direction:column;gap:5px}.schedule-empty b{font:800 22px 'Baloo 2';color:#102a5c}
 @media(max-width:700px){.schedule-row{grid-template-columns:1fr 1fr;gap:8px;padding:14px}.schedule-time{font-size:18px}.schedule-event{grid-column:2}.schedule-venue{grid-column:1}.schedule-status{grid-column:2;justify-self:start}.schedule-day-head{padding:15px}.schedule-day-head h3{font-size:24px}}
+
+/* Compact mobile layout: reduce scrolling while keeping text readable */
+@media (max-width: 700px){
+  section{padding:44px 14px;}
+  .title h2{font-size:34px;}
+  .title p{font-size:13px;line-height:1.45;}
+  .card{padding:15px;}
+  .card .emoji{font-size:32px;}
+  .card h3{font-size:18px;margin:5px 0 3px;line-height:1.08;}
+  .card p{font-size:11.5px;line-height:1.3;}
+  .card-link{margin-top:8px;font-size:10.5px;}
+
+  /* Homepage event cards: two across on mobile */
+  #events .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  #events .event-card{min-height:0;height:100%;}
+
+  /* Other homepage card groups: two across to reduce page length */
+  #guidelines .guide-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  #guidelines .guide{padding:13px;border-radius:14px;}
+  #guidelines .guide h3{font-size:16px;line-height:1.12;margin-bottom:5px;}
+  #guidelines .guide ul{padding-left:15px;font-size:11.5px;line-height:1.4;}
+
+  #rules .rules-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  #rules .rule{padding:14px;border-radius:14px;}
+  #rules .rule h3{font-size:17px;line-height:1.1;}
+  #rules .rule ul{font-size:11.5px;line-height:1.4;padding-left:15px;}
+  #rules .card-link{font-size:10.5px;}
+
+  /* Homepage schedule controls stay compact */
+  .schedule-days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;}
+  .schedule-day-btn{width:100%;padding:9px 7px;font-size:12px;}
+  .schedule-content{border-radius:15px;}
+  .schedule-row{padding:11px 12px;gap:6px;}
+  .schedule-time{font-size:16px;}
+  .schedule-event b{font-size:16px;}
+  .schedule-event span,.schedule-venue{font-size:11.5px;}
+  .schedule-status{font-size:9.5px;padding:5px 7px;}
+
+  /* Enrollment/registration area */
+  .enrollment-banner{padding:17px;border-radius:20px;gap:16px;}
+  .enrollment-badge{padding:16px;border-radius:18px;}
+  .enrollment-badge span{font-size:38px;}
+  .enrollment-badge b{font-size:23px;}
+  section.register{padding-top:44px;padding-bottom:44px;}
+  section.register .steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  section.register .steps div{padding:11px 10px;font-size:12px;line-height:1.35;}
+  section.register .steps b{margin-right:7px;}
+
+  /* Event page: compact card groups */
+  .event-hero{padding:42px 14px 48px;gap:18px;}
+  .event-hero h1{font-size:50px;}
+  .event-badge{min-width:0;padding:17px;width:100%;}
+  .event-badge span{font-size:45px;}
+  .event-badge b{font-size:20px;}
+  .rules-single{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  .rules-single .rule{padding:12px;gap:9px;}
+  .rules-single .rule>b{width:24px;height:24px;flex-basis:24px;font-size:11px;}
+  .rules-single .rule span{font-size:11.5px;line-height:1.4;}
+  .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  .quick-links a{padding:13px;font-size:12px;border-radius:13px;}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  .stats div{padding:12px;}
+  .stats b{font-size:24px;}
+  .teams-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+  .team-card{padding:12px;gap:9px;border-radius:14px;}
+  .team-card .team-icon{font-size:22px;}
+  .team-card h3{font-size:17px;line-height:1.1;}
+  .team-card p,.team-players li{font-size:11px;line-height:1.3;}
+  .team-players{margin-top:7px;padding-top:7px;}
+  .team-players-label{font-size:11px;}
+  .team-players ul{padding-left:15px;margin-top:3px;}
+  .rules-docs-wrap{padding:14px;margin-top:18px;}
+  .rules-docs-wrap h3{font-size:18px;}
+  .doc-note{font-size:11.5px;line-height:1.4;}
+
+  /* Compact Event Team on mobile: two volunteer cards per row */
+  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:9px;}
+  .volunteer-card{padding:12px;gap:8px;}
+}
+
+@media (max-width: 420px){
+  section{padding:38px 12px;}
+  .title h2{font-size:31px;}
+  #events .grid{gap:8px;}
+  #events .event-card{padding:12px;}
+  #events .event-card .emoji{font-size:29px;}
+  #events .event-card h3{font-size:16px;}
+  #events .event-card p{font-size:10.5px;}
+  #events .event-card .card-link{font-size:9.5px;}
+  #guidelines .guide h3,#rules .rule h3{font-size:15px;}
+  #guidelines .guide ul,#rules .rule ul,.rules-single .rule span{font-size:10.5px;}
+  .schedule-days{grid-template-columns:repeat(3,1fr);}
+  .schedule-day-btn{font-size:11px;padding:8px 4px;}
+  .teams-grid{grid-template-columns:1fr 1fr;}
+  .quick-links{grid-template-columns:1fr 1fr;}
+}
+
