@@ -3,8 +3,8 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Nunito,Arial,sans-serif}a{text-decoration:none;color:inherit}
 .hero{background:linear-gradient(135deg,#172554,#2563eb 58%,#38bdf8);color:#fff;overflow:hidden}nav{max-width:1220px;margin:auto;padding:20px 22px;display:flex;justify-content:space-between;align-items:center}.brand{font:800 28px 'Baloo 2';display:flex;align-items:center;gap:10px}.brand img{width:46px;height:46px;object-fit:cover;border-radius:10px;background:#fff}.brand .apartment-brand-logo{width:46px;height:46px;object-fit:contain;border-radius:10px;padding:3px}.brand span{color:var(--yellow)}.nav{display:flex;gap:15px;align-items:center;font-weight:800;font-size:12px;flex-wrap:wrap}.navbtn{background:#fff;color:var(--navy);padding:9px 15px;border-radius:30px}
 .hero-inner{max-width:1220px;margin:auto;padding:70px 22px 90px;display:grid;grid-template-columns:1.4fr .6fr;gap:60px;align-items:center}.eyebrow,section small{font-size:11px;letter-spacing:2px;font-weight:900;color:var(--blue)}.hero .eyebrow{color:#bfdbfe}.hero h1{font:800 clamp(58px,8vw,94px)/.82 'Baloo 2';margin:18px 0 24px}.hero h1 b{color:var(--yellow)}.lead{font-size:19px;color:#e0ecff;line-height:1.6;max-width:600px}.btn{display:inline-block;background:var(--orange);color:#fff;border:0;border-radius:12px;padding:13px 21px;font-weight:900;cursor:pointer;margin:5px}.outline{background:transparent;border:1px solid #ffffff66}.hero-card{background:#ffffff18;border:1px solid #ffffff44;border-radius:26px;padding:28px}.cup{font-size:58px}.hero-logo{width:100%;max-width:310px;display:block;margin:0 auto 18px;border-radius:18px;background:#fff}.hero-card h2{font:800 32px 'Baloo 2';margin:5px 0}.hero-card small{color:#bfdbfe}
-.coming-soon-media{max-width:1220px;background:#fff}.video-frame{margin-top:24px;background:#0f172a;border-radius:24px;padding:10px;box-shadow:0 18px 50px #17255422;overflow:hidden}.video-frame video{display:block;width:100%;max-height:620px;object-fit:cover;border-radius:17px}section{max-width:1220px;margin:auto;padding:70px 22px}.grey{max-width:none;background:#f1f5f9;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.blue{max-width:none;background:#eff6ff;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.title h2{font:800 42px 'Baloo 2';margin:5px 0}.title p{color:var(--muted);max-width:800px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--border);border-radius:19px;padding:20px;box-shadow:0 7px 20px #1725540b}.card .emoji{font-size:39px}.card h3{font:800 22px 'Baloo 2';margin:7px 0}.card p{font-size:13px;color:var(--muted);margin:0}.table{overflow:auto;background:#fff;border:1px solid var(--border);border-radius:17px}.table table{width:100%;border-collapse:collapse;min-width:800px}.table th,.table td{padding:13px 15px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}.table th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:#f8fafc}.filters{display:flex;gap:8px;margin-bottom:16px}.filters button{border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:20px;font-weight:800;cursor:pointer}.filters button.active{background:var(--navy);color:#fff}.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.guide{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px}.guide h3{font:800 20px 'Baloo 2';margin:0 0 8px}.guide ul,.rule ul{padding-left:19px;margin:0;color:#475569;font-size:14px;line-height:1.7}.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.rule{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px}.rule h3{font:800 23px 'Baloo 2';margin:0 0 8px}.results-head{display:flex;justify-content:space-between;align-items:center}.live{background:#fee2e2;color:#b91c1c;padding:9px 13px;border-radius:30px;font-size:11px;font-weight:900}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}.stats div{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px}.stats b{display:block;font:800 28px 'Baloo 2';color:var(--blue)}.stats span{font-size:12px;color:var(--muted)}.register{max-width:none;background:var(--navy);color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:60px;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.register small{color:#93c5fd}.register h2{font:800 48px 'Baloo 2';margin:5px 0}.register p{color:#dbeafe}.steps{display:flex;flex-direction:column;gap:11px;justify-content:center}.steps div{padding:15px;background:#ffffff10;border:1px solid #ffffff20;border-radius:13px}.steps b{color:var(--yellow);margin-right:12px}footer{background:#0f172a;color:#cbd5e1;padding:20px max(22px,calc((100% - 1220px)/2));display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:13px}.footer-brand{display:flex;align-items:center;gap:12px}.footer-brand img{width:120px;height:52px;object-fit:contain;border-radius:8px;background:#fff}.footer-brand div{display:flex;flex-direction:column;gap:2px}.footer-brand b{color:#fff;font-family:'Baloo 2';font-size:18px}.footer-brand span{font-size:12px;color:#94a3b8}
-@media(max-width:950px){.nav{display:none}.hero-inner{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.guide-grid{grid-template-columns:1fr 1fr}.rules-grid{grid-template-columns:1fr}.register{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.brand img{width:38px;height:38px}.brand .apartment-brand-logo{width:38px;height:38px}.brand span{font-size:21px}.hero-logo{max-width:240px}.footer-brand img{width:100px;height:44px}footer{flex-direction:column;align-items:flex-start}.coming-soon-media{padding-top:55px;padding-bottom:55px}.grid,.guide-grid{grid-template-columns:1fr}.hero h1{font-size:63px}.stats{grid-template-columns:1fr}.register h2{font-size:38px}}
+.coming-soon-media{max-width:1220px;background:#fff}.video-frame{margin-top:24px;background:#0f172a;border-radius:24px;padding:10px;box-shadow:0 18px 50px #17255422;overflow:hidden}.video-frame video{display:block;width:100%;max-height:620px;object-fit:cover;border-radius:17px}section{max-width:1220px;margin:auto;padding:70px 22px}.grey{max-width:none;background:#f1f5f9;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.blue{max-width:none;background:#eff6ff;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.title h2{font:800 42px 'Baloo 2';margin:5px 0}.title p{color:var(--muted);max-width:800px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#fff;border:1px solid var(--border);border-radius:19px;padding:20px;box-shadow:0 7px 20px #1725540b}.card .emoji{font-size:39px}.card h3{font:800 22px 'Baloo 2';margin:7px 0}.card p{font-size:13px;color:var(--muted);margin:0}.table{overflow:auto;background:#fff;border:1px solid var(--border);border-radius:17px}.table table{width:100%;border-collapse:collapse;min-width:800px}.table th,.table td{padding:13px 15px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}.table th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:#f8fafc}.filters{display:flex;gap:8px;margin-bottom:16px}.filters button{border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:20px;font-weight:800;cursor:pointer}.filters button.active{background:var(--navy);color:#fff}.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.guide{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px}.guide h3{font:800 20px 'Baloo 2';margin:0 0 8px}.guide ul,.rule ul{padding-left:19px;margin:0;color:#475569;font-size:14px;line-height:1.7}.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.rule{background:#fff;border:1px solid var(--border);border-radius:17px;padding:0;overflow:hidden}.rule summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;font:800 22px/1.1 'Baloo 2';color:var(--navy);}.rule summary::-webkit-details-marker{display:none}.rule summary::marker{display:none}.rule-summary-title{display:flex;align-items:center;gap:10px;min-width:0}.rule-summary-title>span:last-child{overflow-wrap:anywhere}.rule-summary-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff3c4;font-size:17px;flex:0 0 32px}.rule-toggle{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff3c4;color:#b86b00;font:900 18px/1 Arial;flex:0 0 28px}.rule[open] .rule-toggle{transform:rotate(45deg)}.rule-body{padding:0 18px 17px}.rule-body ul{margin:0;padding-left:19px;color:#475569;font-size:13px;line-height:1.6}.rule-body .card-link{margin-top:10px}.results-head{display:flex;justify-content:space-between;align-items:center}.live{background:#fee2e2;color:#b91c1c;padding:9px 13px;border-radius:30px;font-size:11px;font-weight:900}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}.stats div{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px}.stats b{display:block;font:800 28px 'Baloo 2';color:var(--blue)}.stats span{font-size:12px;color:var(--muted)}.register{max-width:none;background:var(--navy);color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:60px;padding-left:max(22px,calc((100% - 1220px)/2));padding-right:max(22px,calc((100% - 1220px)/2))}.register small{color:#93c5fd}.register h2{font:800 48px 'Baloo 2';margin:5px 0}.register p{color:#dbeafe}.steps{display:flex;flex-direction:column;gap:11px;justify-content:center}.steps div{padding:15px;background:#ffffff10;border:1px solid #ffffff20;border-radius:13px}.steps b{color:var(--yellow);margin-right:12px}footer{background:#0f172a;color:#cbd5e1;padding:20px max(22px,calc((100% - 1220px)/2));display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:13px}.footer-brand{display:flex;align-items:center;gap:12px}.footer-brand img{width:120px;height:52px;object-fit:contain;border-radius:8px;background:#fff}.footer-brand div{display:flex;flex-direction:column;gap:2px}.footer-brand b{color:#fff;font-family:'Baloo 2';font-size:18px}.footer-brand span{font-size:12px;color:#94a3b8}
+@media(max-width:950px){.nav{display:none}.hero-inner{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.guide-grid{grid-template-columns:1fr 1fr}.rules-grid{grid-template-columns:1fr}.register{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.brand img{width:38px;height:38px}.brand .apartment-brand-logo{width:38px;height:38px}.brand span{font-size:18px}.hero-logo{max-width:220px}.footer-brand img{width:100px;height:44px}footer{flex-direction:column;align-items:flex-start}.coming-soon-media{padding-top:48px;padding-bottom:48px}.grid,.guide-grid{grid-template-columns:1fr}.hero h1{font-size:52px;line-height:.86;margin:12px 0 18px}.hero .lead{font-size:16px;line-height:1.45;max-width:500px}.hero .eyebrow{font-size:10px;letter-spacing:1.7px}.hero .btn{font-size:14px;padding:11px 18px}.stats{grid-template-columns:1fr}.register h2{font-size:34px}}
 .event-card,.event-rule{display:block;color:inherit;position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}.event-card:hover,.event-rule:hover{transform:translateY(-3px);box-shadow:0 12px 28px #17255418;border-color:#93c5fd}.card-link{display:inline-block;margin-top:13px;color:var(--blue);font-size:12px;font-weight:900}.subhero{background:linear-gradient(135deg,#172554,#2563eb 58%,#38bdf8);color:#fff}.subhero nav{max-width:1220px}.back-link{background:#ffffff18;border:1px solid #ffffff44;padding:9px 14px;border-radius:22px;font-weight:900;font-size:13px}.event-hero{max-width:1220px;margin:auto;padding:60px 22px 70px;display:flex;justify-content:space-between;gap:30px;align-items:center}.event-hero h1{font:800 clamp(48px,7vw,78px)/.95 'Baloo 2';margin:10px 0}.event-hero .lead{margin:0}.event-badge{min-width:210px;padding:25px;border-radius:24px;background:#ffffff18;border:1px solid #ffffff44;text-align:center;display:flex;flex-direction:column;gap:5px}.event-badge span{font-size:56px}.event-badge b{font:800 22px 'Baloo 2';color:var(--yellow)}.event-badge small{color:#dbeafe}.spoc-card{display:flex;align-items:center;gap:20px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 8px 24px #1725540b}.spoc-icon{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#eff6ff;font-size:30px}.spoc-card h3{font:800 25px 'Baloo 2';margin:0}.spoc-card p{margin:5px 0;color:var(--muted)}.rules-single{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.rules-single .rule{display:flex;gap:14px;align-items:flex-start}.rules-single .rule>b{width:30px;height:30px;flex:0 0 30px;display:grid;place-items:center;background:#dbeafe;color:var(--blue);border-radius:50%;font-weight:900}.quick-links{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.quick-links a{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px;font-weight:900;color:var(--navy)}@media(max-width:700px){.event-hero{flex-direction:column;align-items:flex-start}.event-badge{width:100%}.rules-single,.quick-links{grid-template-columns:1fr}}
 
 
@@ -790,9 +790,12 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 
   /* Homepage guidance/rules: 2 columns only for simple informational cards. */
   #guidelines .guide-grid,#rules .rules-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important}
-  #guidelines .guide,#rules .rule{padding:12px !important;border-radius:14px !important}
-  #guidelines .guide h3,#rules .rule h3{font-size:15px !important;line-height:1.08 !important}
-  #guidelines .guide ul,#rules .rule ul{font-size:10.5px !important;line-height:1.35 !important;padding-left:14px !important}
+  #guidelines .guide,#rules .rule{padding:0 !important;border-radius:14px !important}
+  #guidelines .guide h3{font-size:15px !important;line-height:1.08 !important}
+  #rules .rule summary{font-size:15px !important;line-height:1.1 !important;padding:11px 12px !important;}
+  #rules .rule-body{padding:0 12px 12px !important;}
+  #rules .rule-body ul{font-size:10.5px !important;line-height:1.35 !important;}
+  #guidelines .guide ul{font-size:10.5px !important;line-height:1.35 !important;padding-left:14px !important}
 
   /* Bottom registration: main CTA first, then compact 2x2 steps. */
   section#register.register{
@@ -1038,4 +1041,125 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 }
 @media (max-width: 550px){
   .hero-inner{padding-top:24px;}
+}
+
+/* =========================================================
+   MOBILE EVENTS: 3 CARDS PER ROW
+   Keep event tiles compact so the homepage requires less scrolling.
+   ========================================================= */
+@media (max-width: 700px){
+  #events .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:8px !important;
+  }
+  #events .event-card{
+    min-height:124px !important;
+    padding:10px 8px 9px !important;
+    border-radius:14px !important;
+  }
+  #events .event-card .emoji{
+    width:36px !important;
+    height:36px !important;
+    font-size:20px !important;
+    border-radius:11px !important;
+    margin-bottom:6px !important;
+  }
+  #events .event-card h3{
+    font-size:14px !important;
+    line-height:1.04 !important;
+    margin:0 0 3px !important;
+  }
+  #events .event-card p{
+    font-size:9px !important;
+    line-height:1.18 !important;
+  }
+  #events .event-card .card-link{
+    margin-top:auto !important;
+    padding-top:5px !important;
+    font-size:8.5px !important;
+    line-height:1.05 !important;
+  }
+}
+
+@media (max-width: 380px){
+  #events .grid{gap:6px !important;}
+  #events .event-card{
+    min-height:116px !important;
+    padding:9px 6px 8px !important;
+    border-radius:12px !important;
+  }
+  #events .event-card .emoji{
+    width:32px !important;
+    height:32px !important;
+    font-size:18px !important;
+    border-radius:9px !important;
+    margin-bottom:5px !important;
+  }
+  #events .event-card h3{font-size:12.5px !important;}
+  #events .event-card p{font-size:8px !important;}
+  #events .event-card .card-link{font-size:8px !important;}
+}
+
+/* Final mobile rules accordion fix: one full-width expandable card per row. */
+@media (max-width:700px){
+  #rules .rules-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+  #rules .rule{
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    align-self:start !important;
+  }
+  #rules .rule summary{
+    width:100%;
+    box-sizing:border-box;
+    min-height:48px;
+  }
+  #rules .rule-body{
+    width:100%;
+    box-sizing:border-box;
+  }
+}
+
+/* Final rules accordion layout: one expandable card per row on desktop and mobile. */
+#rules .rules-grid{
+  grid-template-columns:minmax(0,980px) !important;
+  justify-content:center !important;
+  align-items:start !important;
+  gap:12px !important;
+}
+#rules .rule{
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  align-self:start !important;
+}
+#rules .rule summary{
+  min-height:48px;
+  box-sizing:border-box;
+}
+#rules .rule-body{
+  box-sizing:border-box;
+}
+@media(max-width:700px){
+  #rules .rules-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+}
+
+/* =========================================================
+   MOBILE HERO: MORE COMPACT
+   Reduce title size and vertical whitespace for small screens.
+   ========================================================= */
+@media (max-width: 550px){
+  nav{padding:10px 14px;}
+  .brand span{font-size:16px;}
+  .hero-inner{padding-top:10px;padding-bottom:36px;gap:14px;}
+  .hero .eyebrow{font-size:9px;letter-spacing:1.45px;margin:0 0 6px;}
+  .hero h1{font-size:42px;line-height:.86;margin:6px 0 12px;}
+  .hero .lead{font-size:14px;line-height:1.35;margin:0 0 10px;}
+  .hero .btn{font-size:13px;padding:9px 15px;margin-top:2px;}
 }
