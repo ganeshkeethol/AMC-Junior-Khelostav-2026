@@ -12,8 +12,8 @@
 <main>
 <section id="results"><div class="title"><small>RESULTS SESSION</small><h2>Event Results</h2><p>Results are maintained in each event's own Google Sheet and are shown on that event page.</p></div><div id="results-event-grid" class="grid"></div></section>
 </main>
-<footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span>Coming Soon • 13 Sports & Fun Events</span></footer>
-<script src="app.js"></script>
+<footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span id="visitor-count" class="visitor-count" aria-label="Site visitor count">👀 Visitors: …</span><span>Starts October 31st, 2026 • 13 Sports & Fun Events</span></footer>
+<script src="config.js"></script><script src="app.js"></script>
 <script>
 (function(){
  const box=document.getElementById('results-event-grid');
@@ -21,4 +21,5 @@
  box.innerHTML=events.map(e=>`<a class="card event-card" href="event.html?game=${encodeURIComponent(e[3])}#results"><div class="emoji">${e[0]}</div><h3>${e[1]}</h3><p>${e[2]}</p><span class="card-link">View live results →</span></a>`).join('');
 })();
 </script>
+<script src="visitor-counter.js"></script>
 </body></html>

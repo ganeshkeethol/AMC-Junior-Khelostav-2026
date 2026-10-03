@@ -9,9 +9,9 @@
 <a href="#events">Events</a><a href="#enrollments">Kids Enrollment</a><a href="#schedule">Schedule</a><a href="results.html" class="navbtn live-results-nav">🏆 Live Results</a><a href="#volunteer-registration">Register Volunteer</a><a href="#sponsorship">Sponsor Box Cricket</a><a href="#guidelines">Guidelines</a><a href="#rules">Rules</a><a href="#register" class="navbtn">Register</a></div><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">☰</button></nav>
 <div id="mobile-menu" class="mobile-menu" hidden><a href="#events">🎯 Events</a><a href="#enrollments">👧 Kids Enrollment</a><a href="#schedule">📅 Schedule</a><a href="results.html">🏆 Live Results</a><a href="#volunteer-registration">🤝 Register as Volunteer</a><a href="#sponsorship">🏏 Sponsor Box Cricket</a><a href="#guidelines">🛡️ Guidelines</a><a href="#rules">📋 Rules</a><a href="#register">🎟️ Register</a></div>
 <div class="hero-inner"><div><p class="eyebrow">AMBIENCE COURTYARD • KIDS SPORTS FESTIVAL</p><h1>Play.<br><b>Compete.</b><br>Celebrate!</h1><p class="lead">A fun-filled community sports celebration for our young champions.</p><div><a class="btn" href="#register">Register Your Child</a></div></div>
-<div class="hero-card"><img class="hero-logo" src="assets/event-logo.jpg" alt="AMC Junior Khelostav event logo"><small>EVENT DATE</small><h2>Coming Soon</h2><p>Ambience Courtyard</p><hr><small>13 SPORTS & FUN EVENTS</small></div></div>
+<div class="hero-card"><img class="hero-logo" src="assets/event-logo.jpg" alt="AMC Junior Khelostav event logo"><h2>From October 31st onwards</h2><p>Ambience Courtyard</p><hr><small>13 SPORTS & FUN EVENTS</small></div></div>
 </header>
-<section class="coming-soon-media"><div class="title"><small>GET READY</small><h2>AMC Junior Khelostav 2026</h2><p>Our event is coming soon! Watch the official announcement video and get ready for the fun.</p></div><div class="video-frame"><video autoplay muted loop playsinline controls poster="assets/event-logo.jpg"><source src="assets/coming-soon.mp4" type="video/mp4">Your browser does not support the video tag.</video></div></section>
+<section class="coming-soon-media"><div class="title"><small>GET READY</small><h2>AMC Junior Khelostav 2026</h2><p>Our event starts October 31st, 2026! Watch the official announcement video and get ready for the fun.</p></div><div class="video-frame"><video autoplay muted loop playsinline controls poster="assets/event-logo.jpg"><source src="assets/coming-soon.mp4" type="video/mp4">Your browser does not support the video tag.</video></div></section>
 <main>
 <section id="events"><div class="title"><small>WHAT'S ON</small><h2>Sports & Fun Games</h2></div><div id="event-grid" class="grid"></div></section>
 <section id="schedule" class="schedule-section">
@@ -58,9 +58,9 @@
 
 <section id="rules" class="grey"><div class="title"><small>SPORT-SPECIFIC INFORMATION</small><h2>Rules & Regulations</h2></div><div id="rules-grid" class="rules-grid"></div></section>
 
-<section id="register" class="register"><div><small>JOIN THE FUN</small><h2>Kids Enrollment</h2><p>Registration will be through the community Google Form. <strong class="fee-highlight-light">Registration fee: <span class="registration-fee-value"></span> per Child.</strong> The form link can be added whenever it is ready.</p><button id="form-btn" class="btn">Google Form — Coming Soon</button></div><div class="steps"><div><b>01</b> Parent submits enrollment</div><div><b>02</b> Organisers verify and confirm</div><div><b>03</b> Child receives event schedule</div><div><b>04</b> Results are published live</div></div></section>
+<section id="register" class="register"><div><small>JOIN THE FUN</small><h2>Kids Enrollment</h2><p>Registration will be through the community Google Form. <strong class="fee-highlight-light">Registration fee: <span class="registration-fee-value"></span> per Child.</strong> The form link can be added whenever it is ready.</p><button id="form-btn" class="btn">Registration Form</button></div><div class="steps"><div><b>01</b> Parent submits enrollment</div><div><b>02</b> Organisers verify and confirm</div><div><b>03</b> Child receives event schedule</div><div><b>04</b> Results are published live</div></div></section>
 </main>
-<footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span>Coming Soon • 13 Sports & Fun Events</span></footer>
+<footer><div class="footer-brand"><img src="assets/apartment-logo.jpg" alt="Ambience Courtyard logo"><div><b>AMC Junior Khelostav 2026</b><span>Ambience Courtyard</span></div></div><span id="visitor-count" class="visitor-count" aria-label="Site visitor count">👀 Visitors: …</span><span>Starts October 31st, 2026 • 13 Sports & Fun Events</span></footer>
 <script src="config.js"></script><script src="app.js"></script><script>
 
 /* Dynamic registration fee: always reads CONFIG.registrationFee */
@@ -85,4 +85,5 @@
 })();
 
 </script>
+<script src="visitor-counter.js"></script>
 </body></html>
