@@ -90,9 +90,26 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       rows.forEach(r=>{const d=dayKey(r); if(!grouped[d]){grouped[d]=[];order.push(d);} grouped[d].push(r);});
       order.forEach(d=>grouped[d].sort((a,b)=>String(get(a,'Start Time','Event Time','Time')).localeCompare(String(get(b,'Start Time','Event Time','Time')))));
       daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${d}</button>`).join('');
+      const formatScheduleDate=v=>{
+        const raw=clean(v);
+        if(!raw) return '';
+        let dt=null;
+        let m=raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+        if(m){ dt=new Date(Number(m[3]), Number(m[2])-1, Number(m[1])); }
+        else {
+          m=raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+          if(m) dt=new Date(Number(m[1]), Number(m[2])-1, Number(m[3]));
+        }
+        if(!dt || Number.isNaN(dt.getTime())) return raw;
+        const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const dd=String(dt.getDate()).padStart(2,'0');
+        const mm=String(dt.getMonth()+1).padStart(2,'0');
+        const yyyy=dt.getFullYear();
+        return `${weekdays[dt.getDay()]} • ${dd}-${mm}-${yyyy}`;
+      };
       const renderDay=d=>{
         const list=grouped[d]||[]; const firstDate=dateVal(list[0]);
-        const dateLabel=firstDate?`<span class="schedule-date">${firstDate}</span>`:'';
+        const dateLabel=firstDate?`<span class="schedule-date">${formatScheduleDate(firstDate)}</span>`:'';
         contentEl.innerHTML=`<div class="schedule-day-head"><h3>${d}</h3>${dateLabel}</div><div class="schedule-list">${list.map(r=>{
           const time=get(r,'Start Time','Event Time','Time')||'TBA';
           const event=get(r,'Event','Sport','Name')||'Event';
