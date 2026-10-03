@@ -869,6 +869,51 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 }
 
 
+
+/* Event-page section navigation */
+.event-section-nav{
+  max-width:1220px;
+  margin:0 auto;
+  padding:10px 22px 14px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:900;
+}
+.event-section-nav a{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#ffffff18;
+  color:#fff;
+  border:1px solid #ffffff30;
+  font-size:12px;
+  font-weight:900;
+  white-space:nowrap;
+  text-decoration:none;
+  backdrop-filter:blur(8px);
+}
+.event-section-nav a:hover,.event-section-nav a:focus{background:#ffffff2b}
+.mobile-menu-section-label{
+  grid-column:1/-1;
+  padding:5px 4px 2px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:#64748b;
+  text-transform:uppercase;
+}
+.mobile-menu a[hidden]{display:none !important}
+#event-team,#event-rules,#participants,#teams-section,#event-schedule,#results,#event-links{scroll-margin-top:80px}
+@media(max-width:700px){
+  .event-section-nav{display:none}
+}
+
 /* =========================================================
    FLOATING MOBILE MENU
    Keeps navigation available while scrolling without taking
@@ -978,4 +1023,19 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 @keyframes floatingMenuIn{
   from{opacity:.2;transform:translateY(10px) scale(.97)}
   to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* =========================================================
+   HERO SPACING REFINEMENT
+   Reduce the vertical gap between the top navigation/title and
+   the hero eyebrow on desktop and mobile.
+   ========================================================= */
+@media (min-width: 951px){
+  .hero-inner{padding-top:32px;}
+}
+@media (max-width: 950px){
+  .hero-inner{padding-top:32px;}
+}
+@media (max-width: 550px){
+  .hero-inner{padding-top:24px;}
 }

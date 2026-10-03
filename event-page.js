@@ -104,6 +104,10 @@ function renderGameData(response){
    if(teamsSection){
      teamsSection.hidden=!teamBased;
    }
+   const teamMenu=document.getElementById('menu-event-teams');
+   const desktopTeamMenu=document.getElementById('desktop-event-teams');
+   if(teamMenu) teamMenu.hidden=!teamBased;
+   if(desktopTeamMenu) desktopTeamMenu.hidden=!teamBased;
    if(teamsGrid && teamBased){
      const sourceTeams = teams.length ? teams : buildTeamsFromEnrollments(enrollments);
      teamsGrid.innerHTML = sourceTeams.length ? sourceTeams.map(t=>{
