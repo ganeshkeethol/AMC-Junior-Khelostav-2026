@@ -1,29 +1,42 @@
 
-// Mobile navigation menu
+// Responsive mobile navigation: desktop top nav, floating mobile menu.
 (function(){
   const toggle=document.querySelector('.menu-toggle');
   const menu=document.getElementById('mobile-menu');
   if(!toggle || !menu) return;
-  toggle.addEventListener('click',()=>{
-    const isOpen=!menu.hasAttribute('hidden');
-    if(isOpen){
-      menu.setAttribute('hidden','');
-      toggle.setAttribute('aria-expanded','false');
-      toggle.setAttribute('aria-label','Open menu');
-      toggle.textContent='☰';
-    }else{
-      menu.removeAttribute('hidden');
-      toggle.setAttribute('aria-expanded','true');
-      toggle.setAttribute('aria-label','Close menu');
-      toggle.textContent='✕';
-    }
-  });
-  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+
+  const backdrop=document.createElement('div');
+  backdrop.className='mobile-menu-backdrop';
+  backdrop.setAttribute('aria-hidden','true');
+  document.body.appendChild(backdrop);
+
+  function closeMenu(){
     menu.setAttribute('hidden','');
     toggle.setAttribute('aria-expanded','false');
     toggle.setAttribute('aria-label','Open menu');
     toggle.textContent='☰';
-  }));
+    document.body.classList.remove('mobile-menu-open');
+  }
+
+  function openMenu(){
+    menu.removeAttribute('hidden');
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+    toggle.textContent='✕';
+    document.body.classList.add('mobile-menu-open');
+  }
+
+  toggle.addEventListener('click',()=>{
+    const isOpen=!menu.hasAttribute('hidden');
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  backdrop.addEventListener('click',closeMenu);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape' && !menu.hasAttribute('hidden')) closeMenu();
+  });
+
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 })();
 const events=[
 ["🏸","Badminton","Racquet sport","badminton"],["🏏","Box Cricket","Team sport","box-cricket"],["🏀","Basketball","Team sport","basketball"],["🎯","Carroms","Indoor game","carroms"],["♟️","Chess","Mind game","chess"],["🏊","Swimming","Aquatic sport","swimming"],["🏓","Table Tennis","Racquet sport","table-tennis"],["🎨","Drawing","Creative activity","drawing"],["🎵","Musical Chairs","Fun game","musical-chairs"],["🧠","Quiz","Fun & knowledge","quiz"],["🚲","Slow Cycle","Fun challenge","slow-cycle"],["🐸","Frog Jump","Fun challenge","frog-jump"],["🎲","Fun Games (4-6)","Fun game • Age 4-6","fun-games-4-6"]];

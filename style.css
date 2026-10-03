@@ -310,7 +310,7 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 .spoc-divider{display:none}
 
 @media(max-width:700px){
-  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px;gap:9px}
+  .spoc-card{grid-template-columns:1fr;padding:10px;gap:12px}
   .volunteer-card{padding:15px;gap:12px;border-radius:16px}
   .volunteer-card .spoc-icon{flex-basis:50px;width:50px;height:50px;font-size:25px}
   .volunteer-card h3{font-size:21px;line-height:1.05}
@@ -319,13 +319,9 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 }
 
 @media(max-width:420px){
-  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:8px}
-  .volunteer-card{padding:11px;gap:8px}
+  .volunteer-card{padding:13px}
   .volunteer-card .spoc-icon{display:none}
-  .volunteer-card h3{font-size:17px;line-height:1.05}
-  .volunteer-meta{font-size:11px;line-height:1.25}
-  .volunteer-actions{grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-  .volunteer-actions a{min-height:36px;padding:7px 6px;font-size:11px}
+  .volunteer-actions{grid-template-columns:1fr}
 }
 
 
@@ -526,9 +522,8 @@ section.volunteer-registration-section .volunteer-registration-badge small{
   .rules-docs-wrap h3{font-size:18px;}
   .doc-note{font-size:11.5px;line-height:1.4;}
 
-  /* Compact Event Team on mobile: two volunteer cards per row */
-  .spoc-card{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:9px;}
-  .volunteer-card{padding:12px;gap:8px;}
+  /* Keep volunteer contact cards readable; use the existing one-column layout */
+  .volunteer-card{padding:13px;}
 }
 
 @media (max-width: 420px){
@@ -548,3 +543,439 @@ section.volunteer-registration-section .volunteer-registration-badge small{
   .quick-links{grid-template-columns:1fr 1fr;}
 }
 
+
+/* MOBILE TWO-COLUMN COMPACT SECTIONS — homepage + event pages */
+@media (max-width:700px){
+  /* Kids Enrollment: keep the main message and fee badge side-by-side */
+  .enrollment-banner{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) !important;
+    gap:10px !important;
+    align-items:stretch !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
+  .enrollment-banner .title h2{font-size:28px !important;line-height:1.05 !important}
+  .enrollment-banner .title p{font-size:11.5px !important;line-height:1.35 !important}
+  .enrollment-cta{font-size:10.5px !important;padding:8px 9px !important}
+  .enrollment-badge{min-width:0 !important;padding:12px !important;border-radius:16px !important}
+  .enrollment-badge span{font-size:34px !important}
+  .enrollment-badge b{font-size:19px !important;line-height:1.1 !important}
+  .enrollment-badge small{font-size:9.5px !important;line-height:1.25 !important}
+
+  /* Homepage volunteer registration: text + badge in two columns */
+  section.volunteer-registration-section{padding:42px 14px !important}
+  section.volunteer-registration-section .volunteer-registration-card{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) !important;
+    gap:10px !important;
+    align-items:stretch !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
+  section.volunteer-registration-section .title h2{font-size:28px !important;line-height:1.05 !important}
+  section.volunteer-registration-section .title p{font-size:11.5px !important;line-height:1.35 !important}
+  .volunteer-register-btn{font-size:10.5px !important;padding:8px 9px !important}
+  .volunteer-registration-badge{
+    min-height:0 !important;
+    padding:12px !important;
+    border-radius:16px !important;
+  }
+  .volunteer-registration-badge span{font-size:34px !important}
+  .volunteer-registration-badge b{font-size:17px !important;line-height:1.1 !important}
+  .volunteer-registration-badge small{font-size:9.5px !important;line-height:1.25 !important}
+
+  /* Sponsorship: main offer + Kids Box Cricket badge side-by-side */
+  .sponsorship-section{padding:42px 14px !important}
+  .sponsorship-banner{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr) !important;
+    gap:10px !important;
+    align-items:stretch !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
+  .sponsorship-kicker{font-size:8.5px !important;padding:5px 7px !important;letter-spacing:1px !important}
+  .sponsorship-main h2{font-size:25px !important;line-height:1.05 !important;margin:9px 0 7px !important}
+  .sponsorship-main p{font-size:10.5px !important;line-height:1.35 !important}
+  .sponsorship-contact{gap:7px !important;margin-top:8px !important}
+  .sponsorship-contact strong{font-size:13px !important}
+  .sponsorship-contact small{font-size:9.5px !important;line-height:1.25 !important}
+  .sponsorship-actions{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:6px !important}
+  .sponsorship-actions .btn{width:100% !important;font-size:9.5px !important;padding:8px 5px !important}
+  .sponsorship-badge{min-height:0 !important;padding:12px !important;border-radius:16px !important}
+  .sponsorship-badge span{font-size:34px !important}
+  .sponsorship-badge b{font-size:16px !important;line-height:1.1 !important}
+  .sponsorship-badge small{font-size:9.5px !important;line-height:1.25 !important}
+
+  /* Bottom registration CTA: two-column layout + two-column steps */
+  section#register.register{
+    grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr) !important;
+    gap:12px !important;
+    padding:28px 14px !important;
+  }
+  section#register.register h2{font-size:30px !important;line-height:1.05 !important}
+  section#register.register p{font-size:11.5px !important;line-height:1.35 !important}
+  section#register.register .steps{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:7px !important}
+  section#register.register .steps div{padding:9px !important;font-size:10px !important;line-height:1.25 !important}
+
+  /* Event page Event Team: two volunteer cards per row */
+  #spoc-card.spoc-card{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+    align-items:stretch !important;
+  }
+  #spoc-card .volunteer-card{
+    display:flex !important;
+    padding:11px !important;
+    gap:8px !important;
+    border-radius:14px !important;
+  }
+  #spoc-card .volunteer-card .spoc-icon{
+    flex:0 0 38px !important;
+    width:38px !important;
+    height:38px !important;
+    font-size:19px !important;
+  }
+  #spoc-card .volunteer-card h3{font-size:17px !important;line-height:1.05 !important}
+  #spoc-card .volunteer-meta{font-size:10px !important;line-height:1.25 !important}
+  #spoc-card .volunteer-actions{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:4px !important}
+  #spoc-card .volunteer-actions a{min-height:30px !important;padding:5px 4px !important;font-size:9px !important}
+
+  /* Event-page utility cards stay compact */
+  .rules-single,.quick-links{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important}
+  .quick-links a{padding:12px !important;font-size:11px !important}
+}
+
+@media (max-width:380px){
+  .enrollment-banner,.volunteer-registration-card,.sponsorship-banner{gap:8px !important;padding:11px !important}
+  .enrollment-banner .title h2,
+  section.volunteer-registration-section .title h2{font-size:25px !important}
+  .sponsorship-main h2{font-size:22px !important}
+  .enrollment-badge b{font-size:17px !important}
+  .volunteer-registration-badge b,.sponsorship-badge b{font-size:14px !important}
+  #spoc-card .volunteer-card{padding:9px !important;gap:6px !important}
+  #spoc-card .volunteer-card .spoc-icon{display:none !important}
+}
+
+/* =========================================================
+   BETTER MOBILE UI — keep compact without squeezing content
+   ========================================================= */
+@media (max-width:700px){
+  /* General rhythm: tighter, but still breathable */
+  section{padding:40px 14px !important;}
+  .title{margin-bottom:14px}
+  .title h2{font-size:32px !important;line-height:1.05 !important}
+  .title p{font-size:12px !important;line-height:1.45 !important}
+
+  /* Event cards: keep the requested 2-column layout, but make it feel like a
+     proper mobile tile rather than two desktop cards squeezed together. */
+  #events .grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important}
+  #events .event-card{
+    min-height:148px !important;
+    padding:13px 12px 12px !important;
+    border-radius:16px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+  }
+  #events .event-card .emoji{
+    width:46px !important;height:46px !important;font-size:25px !important;
+    border-radius:14px !important;margin-bottom:7px !important;
+  }
+  #events .event-card h3{font-size:16px !important;line-height:1.05 !important;margin:0 0 4px !important}
+  #events .event-card p{font-size:10.5px !important;line-height:1.3 !important;margin:0 !important}
+  #events .event-card .card-link{margin-top:auto;padding-top:8px;font-size:10px !important}
+
+  /* Kids Enrollment: one clean compact banner. The fee becomes a horizontal
+     info chip instead of a second tall card. */
+  .enrollment-banner{
+    display:block !important;
+    padding:18px !important;
+    border-radius:20px !important;
+  }
+  .enrollment-banner .title h2{font-size:31px !important;line-height:1.05 !important}
+  .enrollment-banner .title p{font-size:12px !important;line-height:1.45 !important}
+  .enrollment-badge{
+    min-width:0 !important;
+    margin-top:12px !important;
+    min-height:0 !important;
+    padding:10px 13px !important;
+    border-radius:14px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:9px !important;
+    text-align:left !important;
+  }
+  .enrollment-badge span{font-size:26px !important;margin:0 !important;display:inline !important}
+  .enrollment-badge b{font-size:19px !important;line-height:1 !important}
+  .enrollment-badge small{font-size:9.5px !important;line-height:1.2 !important;margin:0 0 0 auto !important;text-align:right !important}
+  .enrollment-cta{margin-top:10px !important;width:100% !important;text-align:center !important}
+
+  /* Volunteer registration: full-width panel with a compact footer strip. */
+  section.volunteer-registration-section{padding:40px 14px !important}
+  section.volunteer-registration-section .volunteer-registration-card{
+    display:block !important;
+    padding:18px !important;
+    border-radius:20px !important;
+  }
+  section.volunteer-registration-section .title h2{font-size:31px !important;line-height:1.05 !important}
+  section.volunteer-registration-section .title p{font-size:12px !important;line-height:1.45 !important}
+  section.volunteer-registration-section .volunteer-register-btn{
+    width:100% !important;text-align:center !important;margin-top:10px !important
+  }
+  section.volunteer-registration-section .volunteer-registration-badge{
+    min-height:0 !important;
+    margin-top:10px !important;
+    padding:9px 11px !important;
+    border-radius:13px !important;
+    flex-direction:row !important;
+    gap:8px !important;
+    justify-content:flex-start !important;
+  }
+  section.volunteer-registration-section .volunteer-registration-badge span{font-size:27px !important}
+  section.volunteer-registration-section .volunteer-registration-badge b{font-size:14px !important;line-height:1.05 !important}
+  section.volunteer-registration-section .volunteer-registration-badge small{font-size:9.5px !important;line-height:1.2 !important;margin-left:auto !important;text-align:right !important}
+
+  /* Sponsorship: retain the strong banner look, but avoid a cramped 2-column
+     split. Contact + actions stay readable and compact. */
+  .sponsorship-section{padding:40px 14px !important}
+  .sponsorship-banner{
+    display:block !important;
+    padding:18px !important;
+    border-radius:20px !important;
+    border-width:3px !important;
+  }
+  .sponsorship-main h2{font-size:29px !important;line-height:1.03 !important;margin:10px 0 8px !important}
+  .sponsorship-main>p{font-size:11.5px !important;line-height:1.42 !important;margin-bottom:12px !important}
+  .sponsorship-contact{margin:10px 0 8px !important}
+  .sponsorship-contact strong{font-size:18px !important}
+  .sponsorship-contact small{font-size:9.5px !important;line-height:1.2 !important}
+  .sponsorship-actions{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:7px !important}
+  .sponsorship-actions .btn{width:100% !important;min-height:39px !important;font-size:10.5px !important;padding:8px 6px !important}
+  .sponsorship-badge{
+    min-height:0 !important;
+    margin-top:11px !important;
+    padding:10px 12px !important;
+    border-radius:14px !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+    text-align:left !important;
+  }
+  .sponsorship-badge span{font-size:29px !important}
+  .sponsorship-badge b{font-size:17px !important;line-height:1.05 !important;margin:0 !important}
+  .sponsorship-badge small{font-size:9.5px !important;line-height:1.15 !important;margin:0 0 0 auto !important;text-align:right !important}
+
+  /* Home-page schedule: compact but clear, with time as the visual anchor. */
+  #schedule{padding-top:38px !important;padding-bottom:38px !important}
+  .schedule-day-head{padding:13px 14px !important}
+  .schedule-day-head h3{font-size:22px !important}
+  .schedule-date{font-size:11px !important}
+  .schedule-row{
+    grid-template-columns:72px minmax(0,1fr) !important;
+    gap:4px 9px !important;
+    padding:11px 12px !important;
+  }
+  .schedule-time{grid-column:1 !important;grid-row:1 / span 2 !important;font-size:15px !important;align-self:start !important}
+  .schedule-event{grid-column:2 !important;grid-row:1 !important}
+  .schedule-venue{grid-column:2 !important;grid-row:2 !important;font-size:10.5px !important}
+  .schedule-status{grid-column:1 !important;grid-row:2 !important;justify-self:start !important;align-self:end !important;font-size:8.5px !important;padding:4px 6px !important}
+  .schedule-event b{font-size:15px !important}
+  .schedule-event span{font-size:10.5px !important}
+
+  /* Homepage guidance/rules: 2 columns only for simple informational cards. */
+  #guidelines .guide-grid,#rules .rules-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important}
+  #guidelines .guide,#rules .rule{padding:12px !important;border-radius:14px !important}
+  #guidelines .guide h3,#rules .rule h3{font-size:15px !important;line-height:1.08 !important}
+  #guidelines .guide ul,#rules .rule ul{font-size:10.5px !important;line-height:1.35 !important;padding-left:14px !important}
+
+  /* Bottom registration: main CTA first, then compact 2x2 steps. */
+  section#register.register{
+    display:block !important;
+    padding:34px 14px !important;
+  }
+  section#register.register h2{font-size:33px !important;line-height:1.05 !important}
+  section#register.register p{font-size:11.5px !important;line-height:1.4 !important}
+  section#register.register .steps{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;margin-top:16px !important}
+  section#register.register .steps div{padding:10px !important;font-size:10.5px !important;line-height:1.3 !important}
+
+  /* Event pages: two volunteer cards, but each card is designed for narrow width. */
+  #spoc-card.spoc-card{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important;padding:0 !important;background:transparent !important;border:0 !important;box-shadow:none !important}
+  #spoc-card .volunteer-card{
+    display:block !important;
+    padding:11px !important;
+    border-radius:15px !important;
+    background:#fff !important;
+  }
+  #spoc-card .volunteer-card .spoc-icon{display:grid !important;flex:none !important;width:34px !important;height:34px !important;font-size:17px !important;margin-bottom:6px !important}
+  #spoc-card .volunteer-card h3{font-size:15px !important;line-height:1.08 !important;margin-bottom:4px !important}
+  #spoc-card .volunteer-meta{font-size:9.5px !important;line-height:1.25 !important}
+  #spoc-card .volunteer-actions{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:4px !important;margin-top:8px !important}
+  #spoc-card .volunteer-actions a{min-height:30px !important;padding:5px 3px !important;font-size:8.5px !important;border-radius:8px !important}
+
+  /* Team cards: keep 2 columns, but make player lists compact and scannable. */
+  .teams-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important}
+  .team-card{display:block !important;padding:11px !important;border-radius:14px !important}
+  .team-card .team-icon{width:36px !important;height:36px !important;font-size:18px !important;margin-bottom:7px !important}
+  .team-card h3{font-size:15px !important;line-height:1.08 !important}
+  .team-card p,.team-players li{font-size:9.5px !important;line-height:1.28 !important}
+  .team-players{margin-top:7px !important;padding-top:7px !important}
+  .team-players-label{font-size:9.5px !important}
+  .team-players ul{padding-left:14px !important;margin-top:3px !important}
+
+  /* Event-page quick links and stats: compact, but not tiny. */
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important}
+  .stats div{padding:11px !important;border-radius:13px !important}
+  .stats b{font-size:23px !important}
+  .stats span{font-size:10px !important}
+  .quick-links{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important}
+  .quick-links a{padding:11px !important;font-size:10.5px !important;border-radius:13px !important}
+  .rules-single{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important}
+  .rules-single .rule{padding:10px !important;gap:7px !important}
+  .rules-single .rule>b{width:22px !important;height:22px !important;flex-basis:22px !important;font-size:10px !important}
+  .rules-single .rule span{font-size:10.5px !important;line-height:1.3 !important}
+
+  /* Keep rule-document cards readable. */
+  .rules-docs-wrap{padding:12px !important;border-radius:15px !important}
+  .rules-doc{padding:11px !important;gap:9px !important}
+  .doc-icon{font-size:22px !important}
+  .doc-info b{font-size:11.5px !important}
+  .doc-info span{font-size:9.5px !important}
+  .doc-btn{padding:7px 10px !important;font-size:10px !important}
+
+  /* Avoid accidental horizontal overflow on small screens. */
+  html,body{overflow-x:hidden !important}
+}
+
+@media (max-width:380px){
+  section{padding-left:11px !important;padding-right:11px !important}
+  #events .grid{gap:8px !important}
+  #events .event-card{padding:11px 10px !important;min-height:142px !important}
+  #events .event-card .emoji{width:42px !important;height:42px !important;font-size:23px !important}
+  #events .event-card h3{font-size:15px !important}
+  #events .event-card p{font-size:10px !important}
+  .enrollment-banner,.volunteer-registration-card,.sponsorship-banner{padding:15px !important}
+  .enrollment-banner .title h2,section.volunteer-registration-section .title h2{font-size:28px !important}
+  .sponsorship-main h2{font-size:26px !important}
+  .schedule-row{grid-template-columns:68px minmax(0,1fr) !important}
+  #spoc-card.spoc-card,.teams-grid,.quick-links,.rules-single{gap:7px !important}
+  #spoc-card .volunteer-card,.team-card{padding:10px !important}
+  #spoc-card .volunteer-card h3,.team-card h3{font-size:14px !important}
+}
+
+
+/* =========================================================
+   FLOATING MOBILE MENU
+   Keeps navigation available while scrolling without taking
+   permanent space at the top of the page.
+   ========================================================= */
+.mobile-menu-backdrop{
+  display:none;
+}
+
+@media (max-width:700px){
+  .mobile-menu-backdrop{
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.22);
+    backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);
+    opacity:0;
+    pointer-events:none;
+    z-index:10000;
+    transition:opacity .18s ease;
+  }
+  body.mobile-menu-open .mobile-menu-backdrop{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .menu-toggle{
+    display:flex !important;
+    position:fixed !important;
+    right:14px !important;
+    bottom:calc(14px + env(safe-area-inset-bottom)) !important;
+    width:54px !important;
+    height:54px !important;
+    border-radius:50% !important;
+    z-index:10003 !important;
+    box-shadow:0 12px 28px rgba(16,42,92,.28),0 4px 10px rgba(0,0,0,.12) !important;
+    border:2px solid rgba(255,255,255,.9) !important;
+    font-size:25px !important;
+  }
+
+  .mobile-menu[hidden]{display:none !important;}
+
+  .mobile-menu{
+    position:fixed !important;
+    top:auto !important;
+    left:auto !important;
+    right:14px !important;
+    bottom:calc(80px + env(safe-area-inset-bottom)) !important;
+    width:min(340px,calc(100vw - 28px)) !important;
+    max-height:min(70vh,520px) !important;
+    overflow:auto !important;
+    padding:10px !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    z-index:10002 !important;
+    border-radius:20px !important;
+    border:1px solid rgba(16,42,92,.12) !important;
+    box-shadow:0 24px 60px rgba(15,23,42,.28) !important;
+    transform:translateY(8px) scale(.98);
+    transform-origin:bottom right;
+  }
+  .mobile-menu:not([hidden]){
+    animation:floatingMenuIn .18s ease-out forwards;
+  }
+  .mobile-menu a{
+    display:flex !important;
+    align-items:center !important;
+    min-height:46px;
+    padding:10px 11px !important;
+    border-radius:13px !important;
+    font-size:12.5px !important;
+    line-height:1.15 !important;
+    background:#f8fbff;
+    border:1px solid #e4ebf5;
+  }
+  .mobile-menu a:hover,.mobile-menu a:focus{
+    background:#fff3c4;
+  }
+  body.mobile-menu-open{
+    overflow:hidden;
+  }
+}
+
+@media (max-width:380px){
+  .menu-toggle{
+    width:50px !important;
+    height:50px !important;
+    right:11px !important;
+    bottom:calc(11px + env(safe-area-inset-bottom)) !important;
+  }
+  .mobile-menu{
+    right:11px !important;
+    width:calc(100vw - 22px) !important;
+    bottom:calc(70px + env(safe-area-inset-bottom)) !important;
+    gap:6px !important;
+    padding:8px !important;
+  }
+  .mobile-menu a{
+    min-height:43px !important;
+    padding:9px 8px !important;
+    font-size:11.5px !important;
+  }
+}
+
+@keyframes floatingMenuIn{
+  from{opacity:.2;transform:translateY(10px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
