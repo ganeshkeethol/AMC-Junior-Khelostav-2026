@@ -54,3 +54,45 @@ const general=[
 const gg=document.getElementById("guideline-grid"); if(gg) gg.innerHTML=general.map(g=>`<div class="guide"><h3>${g[0]} ${g[1]}</h3><ul>${g[2].map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
 const rg=document.getElementById("rules-grid"); if(rg) rg.innerHTML=Object.entries(rules).map(([k,v])=>`<a class="rule event-rule" href="event.html?game=${encodeURIComponent(events.find(e=>e[1]===k)?.[3]||'')}"><h3>${events.find(e=>e[1]===k)?.[0]||"🏅"} ${k}</h3><ul>${v.map(x=>`<li>${x}</li>`).join("")}</ul><span class="card-link">Open full event page →</span></a>`).join("");
 const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=()=>CONFIG.googleFormUrl?window.open(CONFIG.googleFormUrl,"_blank"):alert("Google Form link will be added soon.");
+
+
+// Lightweight homepage high-level schedule. It fetches only one small Google Sheet.
+(function loadHighLevelSchedule(){
+  const daysEl=document.getElementById('schedule-days');
+  const contentEl=document.getElementById('schedule-content');
+  if(!daysEl || !contentEl || !window.CONFIG || !CONFIG.apiUrl) return;
+  fetch(CONFIG.apiUrl+'?action=highLevelSchedule&_='+Date.now(), {cache:'no-store'})
+    .then(r=>r.json())
+    .then(payload=>{
+      const rows=Array.isArray(payload.schedule)?payload.schedule:[];
+      if(!rows.length){
+        contentEl.innerHTML='<div class="schedule-empty"><b>Schedule Coming Soon</b><span>The day-wise schedule will be updated here once dates and timings are confirmed.</span></div>';
+        return;
+      }
+      const clean=v=>String(v==null?'':v).trim();
+      const get=(r,...keys)=>{for(const k of keys){if(clean(r[k])) return clean(r[k]);}return '';};
+      const dayKey=r=>get(r,'Day','day') || 'Schedule';
+      const dateVal=r=>get(r,'Date','date');
+      const grouped={}; const order=[];
+      rows.forEach(r=>{const d=dayKey(r); if(!grouped[d]){grouped[d]=[];order.push(d);} grouped[d].push(r);});
+      order.forEach(d=>grouped[d].sort((a,b)=>String(get(a,'Start Time','Event Time','Time')).localeCompare(String(get(b,'Start Time','Event Time','Time')))));
+      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${d}</button>`).join('');
+      const renderDay=d=>{
+        const list=grouped[d]||[]; const firstDate=dateVal(list[0]);
+        const dateLabel=firstDate?`<span class="schedule-date">${firstDate}</span>`:'';
+        contentEl.innerHTML=`<div class="schedule-day-head"><h3>${d}</h3>${dateLabel}</div><div class="schedule-list">${list.map(r=>{
+          const time=get(r,'Start Time','Event Time','Time')||'TBA';
+          const event=get(r,'Event','Sport','Name')||'Event';
+          const age=get(r,'Age Group','Age','Category')||'All Ages';
+          const venue=get(r,'Venue','Location')||'Venue TBA';
+          const status=get(r,'Status')||'';
+          return `<div class="schedule-row"><div class="schedule-time">${time}</div><div class="schedule-event"><b>${event}</b><span>${age}</span></div><div class="schedule-venue">📍 ${venue}</div><div class="schedule-status">${status}</div></div>`;
+        }).join('')}</div>`;
+      };
+      daysEl.querySelectorAll('.schedule-day-btn').forEach(btn=>btn.addEventListener('click',()=>{
+        daysEl.querySelectorAll('.schedule-day-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderDay(decodeURIComponent(btn.dataset.day));
+      }));
+      renderDay(order[0]);
+    })
+    .catch(()=>{contentEl.innerHTML='<div class="schedule-empty"><b>Schedule Coming Soon</b><span>The day-wise schedule will appear here once it is published.</span></div>';});
+})();
