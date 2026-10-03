@@ -1,3 +1,98 @@
+// Sport-specific rules shown on each event page. The homepage keeps only a general Rules & Guidelines link.
+const rules = {
+  "Badminton": [
+    "Players must report at the venue before their scheduled match time.",
+    "Players should bring suitable sports shoes and badminton equipment if instructed by the organisers.",
+    "Matches will follow the draw and format announced by the organisers.",
+    "Players must follow the referee/official's decisions and maintain sportsmanship.",
+    "The organiser may modify match format or timing if required for smooth conduct."
+  ],
+  "Box Cricket": [
+    "Teams must report before the scheduled match.",
+    "Players must follow the announced team size, overs and playing format.",
+    "Only registered participants may play.",
+    "Umpire decisions during the match will be final.",
+    "Players must maintain fair play and respectful conduct."
+  ],
+  "Basketball": [
+    "Players must report before the scheduled game.",
+    "Teams must follow the announced game format and playing time.",
+    "Only registered players may participate.",
+    "Referee decisions are final during play.",
+    "Safe and respectful play is expected from all participants."
+  ],
+  "Carroms": [
+    "Players must report before the scheduled match or session.",
+    "Only registered participants may play.",
+    "Players must follow the announced match format and turn order.",
+    "The umpire/official's decision during play is final.",
+    "Players must maintain fair play and respectful conduct."
+  ],
+  "Chess": [
+    "Players must report before the scheduled round.",
+    "Only registered participants may play in the announced age group.",
+    "Players must follow the published draw, round format and time control.",
+    "Players must follow the coordinator's decisions during play.",
+    "Respectful behaviour and fair play are expected throughout."
+  ],
+  "Swimming": [
+    "Participants must report before the scheduled event and follow pool instructions.",
+    "Only registered participants may enter the competition area.",
+    "Participants must follow lane, heat and event instructions given by officials.",
+    "Pool safety rules and lifeguard instructions must be followed at all times.",
+    "The organiser may adjust heats or timings for safety and smooth conduct."
+  ],
+  "Table Tennis": [
+    "Players must report before their scheduled match time.",
+    "Matches will follow the draw and format announced by the organisers.",
+    "Only registered participants may play.",
+    "Players must follow the official's decisions and maintain sportsmanship.",
+    "The organiser may modify match format or timing when required."
+  ],
+  "Drawing": [
+    "Participants must report before the scheduled drawing session.",
+    "Only registered participants may take part in the competition.",
+    "Participants must use the materials and theme specified by the organisers.",
+    "Work should be completed within the announced time limit.",
+    "Entries will be judged according to the criteria communicated for the event."
+  ],
+  "Musical Chairs": [
+    "Participants must report before the scheduled game session.",
+    "Children must follow the instructions of the game coordinator.",
+    "Participants must move safely and avoid pushing or unsafe behaviour.",
+    "The game will continue according to the announced elimination format.",
+    "The coordinator's decision during the game will be final."
+  ],
+  "Quiz": [
+    "Participants must report before the scheduled quiz session.",
+    "Only registered participants may take part.",
+    "Participants must follow the announced rounds, question format and time limits.",
+    "Answers must be given according to the instructions of the quiz coordinator.",
+    "The quiz coordinator's decision on scoring and tie-breaks will be final."
+  ],
+  "Slow Cycle": [
+    "Participants must report before the scheduled race.",
+    "Helmets and any safety equipment required by the organisers must be used.",
+    "The objective is to maintain balance and move as slowly as possible without putting a foot down.",
+    "Pushing, blocking or unsafe riding is not allowed.",
+    "Officials' decisions during the race will be final."
+  ],
+  "Frog Jump": [
+    "Participants must report before the scheduled game.",
+    "Children must follow the instructions of the game coordinator.",
+    "The announced course, turn order and age-group format must be followed.",
+    "Participants must maintain safe spacing and avoid contact with others.",
+    "The coordinator's decision during the game will be final."
+  ],
+  "Fun Games (4-6)": [
+    "This event is for children in the announced 4–6 age group.",
+    "Participants must report before the game session.",
+    "Children must follow the instructions of the game coordinator.",
+    "Games will be conducted with age-appropriate safety measures.",
+    "The organiser may adjust individual game formats according to venue and participation."
+  ]
+};
+
 const gameSlug = new URLSearchParams(location.search).get('game') || '';
 const game = (typeof events !== 'undefined' ? events : []).find(e => e[3] === gameSlug) || (typeof events !== 'undefined' ? events[0] : null);
 const gameRules = (typeof rules !== 'undefined' && game) ? (rules[game[1]] || []) : [];
