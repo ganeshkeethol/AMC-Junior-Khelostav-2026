@@ -1,5 +1,5 @@
 const CONFIG = {
-  eventName: "AMC Junior Khelostav 2026",
+  eventName: "AMC Junior Khelotsav 2026",
   community: "Ambience Courtyard",
   eventDate: "November 1st, 2026",
   googleFormUrl: "",

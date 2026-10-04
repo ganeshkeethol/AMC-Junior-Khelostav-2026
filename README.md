@@ -1,4 +1,4 @@
-# AMC Junior Khelostav 2026 — GitHub Pages Website
+# AMC Junior Khelotsav 2026 — GitHub Pages Website
 
 A child-friendly sports event website for Ambience Courtyard.
 
@@ -59,7 +59,7 @@ The site refreshes live data every 30 seconds.
 
 ## Google Drive rules document management
 
-Use Google Drive to manage official game rules without changing GitHub files. Create a Google Drive folder such as `Khelostav Rules`, upload each sport's PDF or DOCX, and set the file's sharing/access appropriately. Copy the file link into the `RulesDocs` Google Sheet tab.
+Use Google Drive to manage official game rules without changing GitHub files. Create a Google Drive folder such as `Khelotsav Rules`, upload each sport's PDF or DOCX, and set the file's sharing/access appropriately. Copy the file link into the `RulesDocs` Google Sheet tab.
 
 ### RulesDocs sheet columns
 `event | title | type | url`
@@ -105,7 +105,7 @@ Each sport result tab should use these headers:
 The Apps Script returns these as `resultsBySport`, and each event page automatically reads only its own sport's result tab. This keeps results separated and easy for organisers to manage.
 
 ## Header logos
-The main header now displays both the AMC Junior Khelostav event logo and the Ambience Courtyard apartment logo beside the event title.
+The main header now displays both the AMC Junior Khelotsav event logo and the Ambience Courtyard apartment logo beside the event title.
 
 
 ## Central References sheet

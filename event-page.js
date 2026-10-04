@@ -102,7 +102,7 @@ function setText(id,v){const el=document.getElementById(id); if(el) el.textConte
 function norm(v){return String(v||'').trim().toLowerCase();}
 
 if(game){
- document.title=`${game[1]} • AMC Junior Khelostav 2026`;
+ document.title=`${game[1]} • AMC Junior Khelotsav 2026`;
  setText('event-title',game[1]); setText('event-type',game[2]); setText('event-emoji',game[0]); setText('rules-heading',`${game[1]} Rules`);
  const list=document.getElementById('rules-list');
  if(list) list.innerHTML=gameRules.map((r,i)=>`<div class="rule"><b>${i+1}</b><span>${esc(r)}</span></div>`).join('');
