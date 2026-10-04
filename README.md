@@ -123,3 +123,9 @@ For the complete Google Drive/Sheets/Forms connection instructions, see `../SETU
 
 
 Volunteer registration is configured in `config.js` using `volunteerFormUrl` and linked from the home and event pages.
+
+## 2025 Highlights
+
+Open `highlights-2025.html` for a dedicated look-back page covering the 2025 sports event, including a photo carousel and the supplied participation statistics.
+
+Add authentic 2025 event photos under `assets/2025-highlights/` when available. The current carousel uses clearly labelled placeholders rather than presenting 2026 images as 2025 memories.
