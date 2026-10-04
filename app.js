@@ -63,7 +63,7 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
     .then(payload=>{
       const rows=Array.isArray(payload.schedule)?payload.schedule:[];
       if(!rows.length){
-        contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts October 31st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';
+        contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts November 1st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';
         return;
       }
       const clean=v=>String(v==null?'':v).trim();
@@ -108,5 +108,5 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       }));
       renderDay(order[0]);
     })
-    .catch(()=>{contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts October 31st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';});
+    .catch(()=>{contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts November 1st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';});
 })();
