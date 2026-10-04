@@ -1462,3 +1462,7 @@ section.volunteer-registration-section .volunteer-registration-badge small{
   #enrollments .enrollment-badge b{font-size:16px !important}
   #enrollments .enrollment-badge small{font-size:8px !important}
 }
+
+
+/* Registration steps: only the essential two steps are shown. */
+section#register.register .steps{gap:11px;}
