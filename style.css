@@ -1466,3 +1466,324 @@ section.volunteer-registration-section .volunteer-registration-badge small{
 
 /* Registration steps: only the essential two steps are shown. */
 section#register.register .steps{gap:11px;}
+
+/* Compact homepage hero: reduce first-screen height and mobile scrolling while preserving content. */
+@media (min-width: 551px){
+  .hero-inner{
+    padding:38px 22px 48px;
+    gap:34px;
+  }
+  .hero h1{
+    font-size:clamp(52px,6.2vw,74px);
+    line-height:.9;
+    margin:10px 0 16px;
+  }
+  .hero .lead{
+    font-size:17px;
+    line-height:1.45;
+  }
+  .hero-card{
+    padding:16px;
+    border-radius:20px;
+  }
+  .hero-logo{
+    max-width:220px;
+    margin-bottom:9px;
+    border-width:4px;
+  }
+  .hero-card h2{
+    font-size:25px;
+    line-height:1.05;
+    margin:2px 0;
+    white-space:nowrap;
+  }
+}
+
+@media (max-width: 550px){
+  .hero-inner{
+    padding:6px 14px 24px;
+    gap:10px;
+  }
+  .hero h1{
+    font-size:38px;
+    line-height:.88;
+    margin:5px 0 10px;
+  }
+  .hero .lead{
+    font-size:13px;
+    line-height:1.32;
+    margin:0 0 8px;
+  }
+  .hero .btn{
+    font-size:12px;
+    padding:8px 14px;
+  }
+  .hero-card{
+    padding:11px 12px 12px;
+    border-radius:18px;
+  }
+  .hero-logo{
+    max-width:160px;
+    margin-bottom:6px;
+    border-width:3px;
+    border-radius:12px;
+  }
+  .hero-card h2{
+    font-size:22px;
+    line-height:1;
+    margin:2px 0;
+    white-space:nowrap;
+  }
+  .hero-card p{margin:2px 0}
+  .hero-card hr{margin:6px 0}
+  .hero-card small{font-size:9px; letter-spacing:1px}
+}
+
+/* Hero date-only card */
+@media (min-width:551px){.hero-card hr,.hero-card small{display:none}.hero-card h2{margin-top:4px}}
+@media (max-width:550px){.hero-card p,.hero-card hr,.hero-card small{display:none}.hero-card h2{margin-top:3px}}
+
+
+/* Final mobile hero compactness: center the start date and reduce first-screen height. */
+@media (max-width: 550px){
+  .hero-inner{
+    padding: 2px 12px 14px !important;
+    gap: 7px !important;
+  }
+  .hero .eyebrow{
+    font-size: 8px !important;
+    letter-spacing: 1.25px !important;
+    margin-bottom: 3px !important;
+  }
+  .hero h1{
+    font-size: 34px !important;
+    line-height: .84 !important;
+    margin: 3px 0 7px !important;
+  }
+  .hero .lead{
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+    margin: 0 0 6px !important;
+  }
+  .hero .btn{
+    font-size: 11px !important;
+    padding: 7px 12px !important;
+    margin: 1px 0 0 !important;
+  }
+  .hero-card{
+    padding: 8px 9px 9px !important;
+    border-radius: 16px !important;
+  }
+  .hero-logo{
+    max-width: 145px !important;
+    margin: 0 auto 4px !important;
+    border-width: 2px !important;
+    border-radius: 10px !important;
+  }
+  .hero-card h2{
+    font-size: 19px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+}
+@media (max-width: 380px){
+  .hero h1{font-size: 32px !important;}
+  .hero-card h2{font-size: 17px !important;}
+  .hero-logo{max-width: 132px !important;}
+}
+
+/* Hero card registration fee: visible on desktop and mobile, compact and centered. */
+.hero-card .hero-fee{
+  display:block !important;
+  margin:6px 0 0 !important;
+  text-align:center;
+  font-size:14px;
+  line-height:1.15;
+  color:#fff;
+}
+.hero-card .hero-fee strong{font-weight:800;}
+@media (max-width:550px){
+  .hero-card .hero-fee{
+    margin:5px 0 0 !important;
+    font-size:12px !important;
+    line-height:1.05 !important;
+  }
+}
+@media (max-width:380px){
+  .hero-card .hero-fee{font-size:11px !important;}
+}
+
+
+/* Mobile hero: keep the logo and event details as two compact cards in one row. */
+.hero-logo-panel,.hero-info-panel{min-width:0}
+.hero-info-panel{text-align:center}
+.hero-deadline{display:block;margin:5px 0 0;color:#fff;font-size:13px;line-height:1.15}
+.hero-deadline strong{font-weight:900;color:#fff}
+@media(min-width:551px){
+  .hero-card{display:block}
+  .hero-logo-panel,.hero-info-panel{display:block}
+}
+@media(max-width:550px){
+  .hero-card{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:8px !important;
+    align-items:stretch;
+    padding:7px !important;
+  }
+  .hero-logo-panel,.hero-info-panel{
+    display:flex !important;
+    flex-direction:column;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,.30);
+    background:rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:7px !important;
+    min-height:100%;
+  }
+  .hero-logo{max-width:100% !important;margin:0 auto !important;border-width:2px !important;border-radius:10px !important}
+  .hero-card h2{
+    font-size:17px !important;
+    line-height:1.05 !important;
+    margin:0 0 7px !important;
+    text-align:center !important;
+    white-space:normal !important;
+  }
+  .hero-card .hero-fee{
+    margin:0 !important;
+    font-size:11px !important;
+    line-height:1.15 !important;
+  }
+  .hero-deadline{
+    margin:6px 0 0 !important;
+    font-size:10.5px !important;
+    line-height:1.18 !important;
+  }
+}
+@media(max-width:380px){
+  .hero-card{gap:6px !important;padding:6px !important}
+  .hero-logo-panel,.hero-info-panel{padding:6px !important;border-radius:12px}
+  .hero-card h2{font-size:15px !important;margin-bottom:5px !important}
+  .hero-card .hero-fee{font-size:10px !important}
+  .hero-deadline{font-size:9.5px !important;margin-top:5px !important}
+}
+
+/* Final mobile hero card order + deadline visibility. */
+@media (max-width:550px){
+  .hero-card{
+    grid-template-columns: minmax(0,1.08fr) minmax(0,.92fr) !important;
+    gap:8px !important;
+  }
+  .hero-logo-panel{order:2 !important;}
+  .hero-info-panel{order:1 !important;}
+  .hero-info-panel{padding:7px 6px !important;}
+  .hero-card .hero-fee,
+  .hero-deadline{display:block !important;}
+  .hero-card h2{font-size:16px !important;line-height:1.05 !important;}
+  .hero-card .hero-fee{font-size:10.5px !important;line-height:1.12 !important;}
+  .hero-deadline{font-size:10px !important;line-height:1.12 !important;margin-top:5px !important;}
+  .hero-deadline strong{display:inline !important;}
+  .hero-logo{max-width:100% !important;}
+}
+@media (max-width:380px){
+  .hero-card{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr) !important;gap:6px !important;padding:6px !important;}
+  .hero-info-panel{padding:6px 5px !important;}
+  .hero-card h2{font-size:14px !important;}
+  .hero-card .hero-fee{font-size:9px !important;}
+  .hero-deadline{font-size:8.8px !important;}
+}
+
+/* Final mobile hero polish: equal-width cards and smaller start-date text. */
+@media (max-width:550px){
+  .hero-card{
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+    align-items:stretch !important;
+  }
+  .hero-logo-panel,
+  .hero-info-panel{
+    width:100% !important;
+    height:122px !important;
+    min-height:122px !important;
+    max-height:122px !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+  .hero-card h2{
+    font-size:13px !important;
+    line-height:1.12 !important;
+    margin:0 0 5px !important;
+    white-space:nowrap !important;
+  }
+  .hero-card .hero-fee{
+    font-size:10px !important;
+    line-height:1.12 !important;
+  }
+  .hero-deadline{
+    font-size:9.5px !important;
+    line-height:1.12 !important;
+    margin-top:4px !important;
+  }
+  .hero-logo-panel{
+    padding:4px !important;
+    overflow:hidden !important;
+  }
+  .hero-logo{
+    max-width:100% !important;
+    width:100% !important;
+    max-height:114px !important;
+    height:114px !important;
+    object-fit:contain !important;
+    margin:0 !important;
+    display:block !important;
+    border-width:2px !important;
+    border-radius:10px !important;
+  }
+}
+@media (max-width:380px){
+  .hero-card{grid-template-columns:1fr 1fr !important;gap:6px !important;}
+  .hero-logo-panel,
+  .hero-info-panel{
+    height:114px !important;
+    min-height:114px !important;
+    max-height:114px !important;
+  }
+  .hero-card h2{font-size:12px !important;}
+  .hero-card .hero-fee{font-size:9px !important;}
+  .hero-deadline{font-size:8.6px !important;}
+  .hero-logo-panel{padding:3px !important;}
+  .hero-logo{max-width:100% !important;width:100% !important;height:106px !important;max-height:106px !important;margin:0 !important;}
+}
+
+/* Final mobile hero: force both information cards to be truly identical in size. */
+@media (max-width:550px){
+  .hero-card{
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    align-items:stretch !important;
+    box-sizing:border-box !important;
+    width:100% !important;
+  }
+  .hero-logo-panel,
+  .hero-info-panel{
+    width:100% !important;
+    min-width:0 !important;
+    height:122px !important;
+    min-height:122px !important;
+    max-height:122px !important;
+    box-sizing:border-box !important;
+    margin:0 !important;
+  }
+}
+@media (max-width:380px){
+  .hero-logo-panel,
+  .hero-info-panel{
+    height:114px !important;
+    min-height:114px !important;
+    max-height:114px !important;
+  }
+}
