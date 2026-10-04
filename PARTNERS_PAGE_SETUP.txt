@@ -1,0 +1,5 @@
+Sponsors & Event Partners page added.
+Data is loaded from a separate Google Sheet through Apps Script action=partners.
+Set EVENT_PARTNERS_SHEET_ID in google-apps-script/Code.gs.
+
+How-to section added to partners.html with 3 steps and Call/WhatsApp contact for Adithya Kota (8050076797).
