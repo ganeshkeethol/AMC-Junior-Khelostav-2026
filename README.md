@@ -1,4 +1,4 @@
-# AMC Junior Khelotsav 2026 — GitHub Pages Website
+# AMC Juniors Khelotsav 2026 — GitHub Pages Website
 
 A child-friendly sports event website for Ambience Courtyard.
 
@@ -105,7 +105,7 @@ Each sport result tab should use these headers:
 The Apps Script returns these as `resultsBySport`, and each event page automatically reads only its own sport's result tab. This keeps results separated and easy for organisers to manage.
 
 ## Header logos
-The main header now displays both the AMC Junior Khelotsav event logo and the Ambience Courtyard apartment logo beside the event title.
+The main header now displays both the AMC Juniors Khelotsav event logo and the Ambience Courtyard apartment logo beside the event title.
 
 
 ## Central References sheet

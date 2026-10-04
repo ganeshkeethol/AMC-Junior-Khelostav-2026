@@ -1,4 +1,4 @@
-/* AMC Junior Khelotsav 2026 - lightweight visitor counter.
+/* AMC Juniors Khelotsav 2026 - lightweight visitor counter.
  * Counts one visit per browser per local day; no IP or personal visitor data is collected. */
 (function(){
   const el = document.getElementById('visitor-count');
