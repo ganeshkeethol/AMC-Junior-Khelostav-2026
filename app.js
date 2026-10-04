@@ -38,6 +38,17 @@
 
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 })();
+
+// Centralised event start label: edit only CONFIG.eventDate in config.js.
+const startLabel = (window.CONFIG && CONFIG.eventDate) ? String(CONFIG.eventDate) : "November 1st onwards";
+(function(){
+  const hero = document.getElementById("event-date-display");
+  if(hero) hero.textContent = startLabel;
+  const inline = document.getElementById("event-date-inline");
+  if(inline) inline.textContent = startLabel;
+  const footer = document.getElementById("footer-event-date");
+  if(footer) footer.textContent = startLabel;
+})();
 const events=[
 ["🏸","Badminton","Racquet sport","badminton"],["🏏","Box Cricket","Team sport","box-cricket"],["🏀","Basketball","Team sport","basketball"],["🎯","Carroms","Indoor game","carroms"],["♟️","Chess","Mind game","chess"],["🏊","Swimming","Aquatic sport","swimming"],["🏓","Table Tennis","Racquet sport","table-tennis"],["🎨","Drawing","Creative activity","drawing"],["🎵","Musical Chairs","Fun game","musical-chairs"],["🧠","Quiz","Fun & knowledge","quiz"],["🚲","Slow Cycle","Fun challenge","slow-cycle"],["🐸","Frog Jump","Fun challenge","frog-jump"],["🎲","Fun Games (4-6)","Fun game • Age 4-6","fun-games-4-6"]];
 const eventGrid=document.getElementById("event-grid");
@@ -52,6 +63,12 @@ const general=[
 const gg=document.getElementById("guideline-grid"); if(gg) gg.innerHTML=general.map(g=>`<div class="guide"><h3>${g[0]} ${g[1]}</h3><ul>${g[2].map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
 const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=()=>CONFIG.googleFormUrl?window.open(CONFIG.googleFormUrl,"_blank"):alert("Google Form link will be added soon.");
 
+/* Dynamic kids enrollment deadline: edit only CONFIG.enrollmentDeadline in config.js. */
+(function(){
+  const deadline=(window.CONFIG && CONFIG.enrollmentDeadline) ? String(CONFIG.enrollmentDeadline) : "October 24, 2026";
+  document.querySelectorAll(".enrollment-deadline-value, .enrollment-deadline-light-value").forEach(el=>{ el.textContent=deadline; });
+})();
+
 
 // Lightweight homepage high-level schedule. It fetches only one small Google Sheet.
 (function loadHighLevelSchedule(){
@@ -63,7 +80,7 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
     .then(payload=>{
       const rows=Array.isArray(payload.schedule)?payload.schedule:[];
       if(!rows.length){
-        contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts November 1st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';
+        contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts '+startLabel+'</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';
         return;
       }
       const clean=v=>String(v==null?'':v).trim();
@@ -108,5 +125,5 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       }));
       renderDay(order[0]);
     })
-    .catch(()=>{contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts November 1st, 2026</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';});
+    .catch(()=>{contentEl.innerHTML='<div class="schedule-empty"><b>Schedule starts '+startLabel+'</b><span>The day-wise schedule will appear here as organisers publish dates and timings.</span></div>';});
 })();

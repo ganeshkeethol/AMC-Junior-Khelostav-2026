@@ -24,6 +24,9 @@ Google Sheets tabs:
 ### Volunteers
 `sport | role | name | contact | reporting`
 
+### Kids enrollment deadline
+Change `CONFIG.enrollmentDeadline` in `website/config.js` to update the last date shown on the Kids Enrollment and Registration sections. Example: `enrollmentDeadline: "October 24, 2026"`.
+
 ### Enrollments
 `Child Name | Age Group | Event | Block | Flat Number | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
 
