@@ -90,6 +90,13 @@ const rules = {
     "Children must follow the instructions of the game coordinator.",
     "Games will be conducted with age-appropriate safety measures.",
     "The organiser may adjust individual game formats according to venue and participation."
+  ],
+  "Fancy Dress": [
+    "Participants must report before the scheduled session.",
+    "Children should wear a safe, comfortable costume suitable for movement.",
+    "Costumes and accessories must not include sharp, dangerous or obstructive items.",
+    "Participants will be presented and judged according to the criteria announced by the organisers.",
+    "The organiser or judges’ decision will be final."
   ]
 };
 
@@ -130,7 +137,11 @@ function renderGameData(response){
    const schedule=data.schedule||response.schedule||[];
    const results=data.results||response.results||[];
    const teams=data.teams||response.teams||[];
-   const teamBased=Boolean(data.teamBased || response.teamBased);
+   // Team tab/section is reserved strictly for the two team-based events.
+   // Do not trust a per-sheet Team Based flag because stray values in a sport
+   // sheet should not make the Teams tab appear for individual events.
+   const currentSport=norm(game && game[1]);
+   const teamBased=(currentSport === 'box cricket' || currentSport === 'basketball');
 
    // Rules are stored in the References spreadsheet as the Rules URL
    // for each sport. The sport API returns it as data.rulesUrl.
@@ -201,8 +212,8 @@ function renderGameData(response){
    }
    const teamMenu=document.getElementById('menu-event-teams');
    const desktopTeamMenu=document.getElementById('desktop-event-teams');
-   if(teamMenu) teamMenu.hidden=!teamBased;
-   if(desktopTeamMenu) desktopTeamMenu.hidden=!teamBased;
+   if(teamMenu){ teamMenu.hidden=!teamBased; teamMenu.style.display=teamBased?'':'none'; }
+   if(desktopTeamMenu){ desktopTeamMenu.hidden=!teamBased; desktopTeamMenu.style.display=teamBased?'':'none'; }
    if(teamsGrid && teamBased){
      const sourceTeams = teams.length ? teams : buildTeamsFromEnrollments(enrollments);
      teamsGrid.innerHTML = sourceTeams.length ? sourceTeams.map(t=>{

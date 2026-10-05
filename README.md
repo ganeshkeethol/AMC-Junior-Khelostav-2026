@@ -101,6 +101,7 @@ Create one Google Sheet tab for each sport, using the exact tab names below:
 - Musical Chairs
 - Quiz
 - Slow Cycle
+- Fancy Dress
 
 Each sport result tab should use these headers:
 `ageGroup | position | child | score | medal`
