@@ -1792,7 +1792,7 @@ section#register.register .steps{gap:11px;}
 #falling-sports-emojis{
   position:fixed;
   inset:0;
-  z-index:4;
+  z-index:899;
   pointer-events:none;
   overflow:hidden;
 }
@@ -1817,9 +1817,16 @@ section#register.register .steps{gap:11px;}
   100%{transform:translate3d(0,110vh,0) rotate(360deg);}
 }
 @media(max-width:550px){
-  #falling-sports-emojis{z-index:3;}
+  #falling-sports-emojis{z-index:899;display:block!important;}
   .falling-sports-emoji{opacity:.82;font-size:calc(var(--size) + 1px);filter:saturate(1.5) drop-shadow(0 3px 4px rgba(10,35,90,.22));text-shadow:0 0 8px rgba(255,255,255,.38);}
 }
 @media(prefers-reduced-motion:reduce){
-  #falling-sports-emojis{display:none!important;}
+  #falling-sports-emojis{display:block!important;}
+  .falling-sports-emoji-static{top:var(--static-y)!important;animation:none!important;transform:none!important;opacity:.78!important;}
+}
+
+/* Mobile visibility: keep the decorative sports emojis above page content and below menus. */
+@media(max-width:550px){
+  #falling-sports-emojis{z-index:899!important;display:block!important;}
+  .falling-sports-emoji{opacity:.98!important;font-size:calc(var(--size) + 2px)!important;}
 }
