@@ -67,7 +67,6 @@
       </div>
       <button class="carousel-arrow next" type="button" aria-label="Next photo collage">›</button>
       <div class="carousel-dots" role="tablist" aria-label="Choose a photo collage"></div>
-      <div class="carousel-count" aria-live="polite">Collage 1 of 5 • 4 photos</div>
     </div>
   </div>
 </section>
@@ -82,7 +81,7 @@
 
   <div class="highlight-stat-grid">
     <div class="highlight-stat"><span class="stat-icon">📝</span><b>360</b><strong>Total Registrations</strong><small>347 unique kids</small></div>
-    <div class="highlight-stat"><span class="stat-icon">🏅</span><b>14</b><strong>Total Games Conducted</strong><small>14 events</small></div>
+    <div class="highlight-stat"><span class="stat-icon">🏅</span><b>13</b><strong>Total Games Conducted</strong><small>13 events</small></div>
     <div class="highlight-stat"><span class="stat-icon">🎯</span><b>1,577</b><strong>Total Event Participations</strong><small>participation spots</small></div>
     <div class="highlight-stat"><span class="stat-icon">📈</span><b>~4.5</b><strong>Average Participation</strong><small>games per child</small></div>
     <div class="highlight-stat boys"><span class="stat-icon">👦</span><b>200</b><strong>Boys</strong><small>participant count</small></div>
@@ -187,8 +186,6 @@
   function render(){
     track.style.transform=`translate3d(-${index*100}%,0,0)`;
     dotEls.forEach((d,i)=>d.setAttribute('aria-selected',String(i===index)));
-    const countEl=carousel.querySelector('.carousel-count');
-    if(countEl) countEl.textContent=`Collage ${index+1} of ${slides.length} • 4 photos`;
   }
   function start(){
     if(timer) clearInterval(timer);
