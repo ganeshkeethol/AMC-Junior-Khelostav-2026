@@ -1787,3 +1787,39 @@ section#register.register .steps{gap:11px;}
     max-height:114px !important;
   }
 }
+
+/* Falling sports emojis: festive, subtle, and non-interactive across the site. */
+#falling-sports-emojis{
+  position:fixed;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  overflow:hidden;
+}
+.falling-sports-emoji{
+  position:absolute;
+  left:var(--x);
+  top:-40px;
+  font-size:var(--size);
+  line-height:1;
+  opacity:.92;
+  filter:saturate(1.45) drop-shadow(0 3px 4px rgba(10,35,90,.24));
+  text-shadow:0 0 10px rgba(255,255,255,.45);
+  animation:fallingSportsEmoji var(--duration) linear var(--delay) infinite;
+  will-change:transform;
+  user-select:none;
+}
+@keyframes fallingSportsEmoji{
+  0%{transform:translate3d(0,-60px,0) rotate(0deg);}
+  25%{transform:translate3d(var(--drift),25vh,0) rotate(90deg);}
+  50%{transform:translate3d(calc(var(--drift) * -1),50vh,0) rotate(180deg);}
+  75%{transform:translate3d(var(--drift),75vh,0) rotate(270deg);}
+  100%{transform:translate3d(0,110vh,0) rotate(360deg);}
+}
+@media(max-width:550px){
+  #falling-sports-emojis{z-index:3;}
+  .falling-sports-emoji{opacity:.82;font-size:calc(var(--size) + 1px);filter:saturate(1.5) drop-shadow(0 3px 4px rgba(10,35,90,.22));text-shadow:0 0 8px rgba(255,255,255,.38);}
+}
+@media(prefers-reduced-motion:reduce){
+  #falling-sports-emojis{display:none!important;}
+}
