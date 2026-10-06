@@ -275,10 +275,10 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
 .enrollment-badge small{display:block;margin-top:4px}
 
 
-/* Event Team volunteer cards + mobile-friendly contact actions */
+/* Event Team: one public SPOC contact + name-only volunteer list */
 .spoc-card{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:minmax(280px,1.1fr) minmax(220px,.9fr);
   align-items:stretch;
   gap:14px;
   padding:14px;
@@ -294,36 +294,45 @@ section.register .btn{background:linear-gradient(135deg,#f47a20,#d9283e) !import
   padding:18px;
   box-shadow:0 6px 18px rgba(16,42,92,.06);
 }
-.volunteer-card:nth-child(4n+1){border-top:5px solid #2166d1}
-.volunteer-card:nth-child(4n+2){border-top:5px solid #f47a20}
-.volunteer-card:nth-child(4n+3){border-top:5px solid #16854b}
-.volunteer-card:nth-child(4n+4){border-top:5px solid #d9283e}
-.volunteer-card .spoc-icon{flex:0 0 58px;width:58px;height:58px}
+.spoc-primary{border-top:5px solid #2166d1}
+.spoc-primary .spoc-icon{flex:0 0 58px;width:58px;height:58px}
 .volunteer-card .spoc-details{min-width:0;flex:1}
 .volunteer-card h3{font:800 23px 'Baloo 2';margin:0 0 3px;color:#102a5c;overflow-wrap:anywhere}
-.volunteer-role{font-weight:900;color:#174ea6}
-.volunteer-meta,.volunteer-contact{overflow-wrap:anywhere}
+.volunteer-meta{overflow-wrap:anywhere}
 .volunteer-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .volunteer-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 13px;border-radius:10px;font-weight:900;font-size:13px}
 .volunteer-call{background:#174ea6;color:#fff!important}
 .volunteer-whatsapp{background:#16854b;color:#fff!important}
-.spoc-divider{display:none}
+.spoc-badge{display:inline-block;margin-bottom:5px;padding:4px 8px;border-radius:999px;background:#eaf2ff;color:#174ea6;font-size:10px;font-weight:900;letter-spacing:1.2px}
+.volunteer-list{background:#fff;border:2px solid #eadfca;border-radius:18px;padding:18px 20px;box-shadow:0 6px 18px rgba(16,42,92,.06);border-top:5px solid #f47a20}
+.volunteer-list-title{font:800 20px 'Baloo 2';color:#102a5c;margin-bottom:8px}
+.volunteer-list ul{margin:0;padding-left:20px;display:grid;gap:7px}
+.volunteer-list li{color:#174ea6;font-weight:800;font-size:15px}
+.volunteer-list-empty{margin:0;color:var(--muted);font-size:13px}
+.spoc-empty{grid-column:1 / -1;display:flex;align-items:center;gap:20px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 8px 24px #1725540b}
+.spoc-empty h3{font:800 25px 'Baloo 2';margin:0}.spoc-empty p{margin:5px 0;color:var(--muted)}
 
 @media(max-width:700px){
-  .spoc-card{grid-template-columns:1fr;padding:10px;gap:12px}
-  .volunteer-card{padding:15px;gap:12px;border-radius:16px}
-  .volunteer-card .spoc-icon{flex-basis:50px;width:50px;height:50px;font-size:25px}
-  .volunteer-card h3{font-size:21px;line-height:1.05}
+  .spoc-card{grid-template-columns:1fr;padding:10px;gap:10px}
+  .volunteer-card{padding:14px;gap:10px;border-radius:16px}
+  .spoc-primary .spoc-icon{flex-basis:46px;width:46px;height:46px;font-size:23px}
+  .volunteer-card h3{font-size:20px;line-height:1.05}
+  .spoc-badge{font-size:8px;padding:3px 7px}
   .volunteer-actions{display:grid;grid-template-columns:1fr 1fr}
-  .volunteer-actions a{width:100%;min-height:42px}
+  .volunteer-actions a{width:100%;min-height:38px}
+  .volunteer-list{padding:14px 16px;border-radius:16px}
+  .volunteer-list-title{font-size:18px;margin-bottom:6px}
+  .volunteer-list li{font-size:13px}
 }
 
 @media(max-width:420px){
-  .volunteer-card{padding:13px}
-  .volunteer-card .spoc-icon{display:none}
-  .volunteer-actions{grid-template-columns:1fr}
+  .volunteer-card{padding:12px}
+  .spoc-primary .spoc-icon{display:none}
+  .volunteer-actions{grid-template-columns:1fr 1fr}
+  .volunteer-actions a{font-size:11px;min-height:34px;padding:7px 6px}
+  .volunteer-list{padding:12px 14px}
+  .volunteer-list li{font-size:12px}
 }
-
 
 /* Homepage volunteer registration section + live results navigation */
 .live-results-nav{background:linear-gradient(135deg,#d9283e,#f47a20)!important;color:#fff!important}
@@ -1830,3 +1839,88 @@ section#register.register .steps{gap:11px;}
   #falling-sports-emojis{z-index:899!important;display:block!important;}
   .falling-sports-emoji{opacity:.98!important;font-size:calc(var(--size) + 2px)!important;}
 }
+
+/* Final Event Team layout: one SPOC with contact details + names-only list for everyone else. */
+#spoc-card.spoc-card{
+  display:grid !important;
+  grid-template-columns:minmax(280px,1.05fr) minmax(220px,.95fr) !important;
+  gap:14px !important;
+  align-items:stretch !important;
+  padding:14px !important;
+}
+#spoc-card .volunteer-card.spoc-primary{
+  display:flex !important;
+  min-width:0 !important;
+  background:#fff !important;
+  border:2px solid #eadfca !important;
+  border-top:5px solid #2166d1 !important;
+  border-radius:18px !important;
+  padding:18px !important;
+  gap:16px !important;
+  box-shadow:0 6px 18px rgba(16,42,92,.06) !important;
+}
+#spoc-card .volunteer-list{
+  display:block !important;
+  min-width:0 !important;
+  background:#fff !important;
+  border:2px solid #eadfca !important;
+  border-top:5px solid #f47a20 !important;
+  border-radius:18px !important;
+  padding:18px 20px !important;
+  box-shadow:0 6px 18px rgba(16,42,92,.06) !important;
+}
+#spoc-card .volunteer-list-title{
+  font:800 20px 'Baloo 2' !important;
+  color:#102a5c !important;
+  margin-bottom:8px !important;
+}
+#spoc-card .volunteer-list ul{
+  margin:0 !important;
+  padding-left:20px !important;
+  display:grid !important;
+  gap:7px !important;
+}
+#spoc-card .volunteer-list li{
+  color:#174ea6 !important;
+  font-weight:800 !important;
+  font-size:15px !important;
+}
+#spoc-card .spoc-badge{
+  display:inline-block !important;
+  margin-bottom:5px !important;
+  padding:4px 8px !important;
+  border-radius:999px !important;
+  background:#eaf2ff !important;
+  color:#174ea6 !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  letter-spacing:1.2px !important;
+}
+@media(max-width:700px){
+  #spoc-card.spoc-card{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    padding:10px !important;
+  }
+  #spoc-card .volunteer-card.spoc-primary{
+    padding:14px !important;
+    gap:10px !important;
+    border-radius:16px !important;
+  }
+  #spoc-card .volunteer-list{
+    padding:14px 16px !important;
+    border-radius:16px !important;
+  }
+  #spoc-card .volunteer-list-title{font-size:18px !important; margin-bottom:6px !important}
+  #spoc-card .volunteer-list li{font-size:13px !important}
+}
+@media(max-width:420px){
+  #spoc-card .volunteer-card.spoc-primary{padding:12px !important}
+  #spoc-card .volunteer-list{padding:12px 14px !important}
+  #spoc-card .volunteer-list li{font-size:12px !important}
+}
+
+/* Event Team: public list details for non-SPOC volunteers */
+.volunteer-list-meta { color: #5d6d86; font-weight: 600; font-size: .92em; }
+.volunteer-list-name { font-weight: 700; }
+.spoc-note { margin-top: 12px; color: #5d6d86; font-size: .9em; }

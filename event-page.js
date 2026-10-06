@@ -70,7 +70,7 @@ const rules = {
     "Answers must be given according to the instructions of the quiz coordinator.",
     "The quiz coordinator's decision on scoring and tie-breaks will be final."
   ],
-  "Slow Cycle": [
+  "Slow Cycling": [
     "Participants must report before the scheduled race.",
     "Helmets and any safety equipment required by the organisers must be used.",
     "The objective is to maintain balance and move as slowly as possible without putting a foot down.",
@@ -164,6 +164,8 @@ function renderGameData(response){
 
 
    // Show volunteers assigned to this sport. The Volunteers sheet uses "Event / Sport".
+   // "SPOC For" is evaluated per event, so a multi-sport volunteer can be SPOC for
+   // selected events only. Other volunteers show Name + Block + Flat only.
    const matchingVolunteers = volunteers.filter(v => {
      const sportName = String(v.sport || v["Event / Sport"] || v["Sport / Area"] || v.Event || v.event || "").trim();
      return sportName.split(/[,;\n]+/).map(x => norm(x)).filter(Boolean).includes(norm(game[1]));
@@ -171,17 +173,19 @@ function renderGameData(response){
    const spocCard=document.getElementById('spoc-card');
    if(spocCard){
      if(matchingVolunteers.length){
-       spocCard.innerHTML = matchingVolunteers.map(v => {
-         const name = v.name || v.Name || 'Volunteer';
+       const eventNorm = norm(game[1]);
+       const spocEvents = v => String(v.spocFor ?? v["SPOC For"] ?? v.spoc ?? v.SPOC ?? '').split(/[,;\n]+/).map(x => norm(x)).filter(Boolean);
+       const primary = matchingVolunteers.find(v => spocEvents(v).includes(eventNorm)) || null;
+       const others = primary ? matchingVolunteers.filter(v => v !== primary) : matchingVolunteers;
+
+       const renderContactParts = (v) => {
          const block = v.block || v.Block || '';
-         const flat = v.flatNumber || v["Flat Number"] || '';
-         const contact = v.contact || v.Contact || '';
+         const flat = v.flatNumber || v["Flat No"] || v["Flat Number"] || '';
+         const contact = v.mobileNumber || v["Mobile Number"] || v.contact || v.Contact || '';
          const meta = [
            block ? `Block ${esc(block)}` : '',
            flat ? `Flat ${esc(flat)}` : ''
          ].filter(Boolean).join(' • ');
-
-         // Build safe phone links. Supports numbers stored as 10 digits, +91..., 0091..., etc.
          const rawPhone = String(contact || '').replace(/[^0-9+]/g, '');
          let phoneDigits = rawPhone.replace(/^\+/, '');
          if(phoneDigits.startsWith('0091')) phoneDigits = phoneDigits.slice(2);
@@ -189,11 +193,28 @@ function renderGameData(response){
          const callUrl = phoneDigits ? `tel:+${phoneDigits}` : '';
          const waUrl = phoneDigits ? `https://wa.me/${phoneDigits}` : '';
          const actions = phoneDigits ? `<div class="volunteer-actions"><a class="volunteer-call" href="${esc(callUrl)}">📞 Call</a><a class="volunteer-whatsapp" href="${esc(waUrl)}" target="_blank" rel="noopener">💬 WhatsApp</a></div>` : '';
+         return {meta,actions};
+       };
 
-         return `<article class="volunteer-card"><div class="spoc-icon">👤</div><div class="spoc-details"><h3>${esc(name)}</h3>${meta ? `<p class="volunteer-meta">${meta}</p>` : ''}${actions}</div></article>`;
-       }).join('');
+       const otherNames = others.length
+         ? `<div class="volunteer-list"><div class="volunteer-list-title">Other Volunteers</div><ul>${others.map(v=>{
+             const n=esc(v.name || v.Name || 'Volunteer');
+             const b=String(v.block || v.Block || '').trim();
+             const f=String(v.flatNumber || v['Flat No'] || v['Flat Number'] || '').trim();
+             const meta=[b ? `Block ${esc(b)}` : '', f ? `Flat ${esc(f)}` : ''].filter(Boolean).join(' • ');
+             return `<li><span class="volunteer-list-name">${n}</span>${meta ? ` <span class="volunteer-list-meta">${meta}</span>` : ''}</li>`;
+           }).join('')}</ul></div>`
+         : '';
+
+       if(primary){
+         const primaryName = primary.name || primary.Name || 'Volunteer';
+         const {meta,actions} = renderContactParts(primary);
+         spocCard.innerHTML = `<article class="volunteer-card spoc-primary"><div class="spoc-icon">👤</div><div class="spoc-details"><div class="spoc-badge">EVENT SPOC</div><h3>${esc(primaryName)}</h3>${meta ? `<p class="volunteer-meta">${meta}</p>` : ''}${actions}</div></article>${otherNames}`;
+       }else{
+         spocCard.innerHTML = `${otherNames || '<div class="volunteer-list"><div class="volunteer-list-title">Other Volunteers</div><p class="volunteer-list-empty">No volunteers assigned.</p></div>'}`;
+       }
      } else {
-       spocCard.innerHTML='<div class="spoc-icon">👤</div><div><h3>Details will be published soon</h3><p>No volunteer is currently assigned to this sport in the Volunteers sheet.</p></div>';
+       spocCard.innerHTML='<div class="spoc-empty"><div class="spoc-icon">👤</div><div><h3>Details will be published soon</h3><p>No volunteer is currently assigned to this sport in the Volunteers sheet.</p></div></div>';
      }
    }
 
@@ -288,18 +309,38 @@ async function loadGamePage(){
 
  try{
    const sportName=encodeURIComponent(game[1]);
-   const [sportResponse, volunteerResponse] = await Promise.all([
+   const [sportResponse, volunteerResponse, allVolunteerResponse] = await Promise.all([
      fetch(CONFIG.apiUrl+'?action=sport&sport='+sportName,{cache:'no-store'}).then(r=>r.json()),
-     fetch(CONFIG.apiUrl+'?action=sportVolunteers&sport='+sportName,{cache:'no-store'}).then(r=>r.json()).catch(()=>null)
+     fetch(CONFIG.apiUrl+'?action=sportVolunteers&sport='+sportName,{cache:'no-store'}).then(r=>r.json()).catch(()=>null),
+     fetch(CONFIG.apiUrl+'?action=volunteers',{cache:'no-store'}).then(r=>r.json()).catch(()=>null)
    ]);
 
    if(sportResponse && sportResponse.success!==false){
-     // Prefer the dedicated sport-volunteers endpoint. This guarantees that
-     // comma-separated assignments such as "Carroms, Chess, Badminton"
-     // are resolved server-side as well as client-side.
+     // Prefer the dedicated sport-volunteers endpoint, but also merge the full
+     // Volunteers response so per-event "SPOC For" data is still available
+     // even when the sport endpoint is serving an older cached/deployed shape.
      const merged = Object.assign({}, sportResponse);
      const baseData = sportResponse.data || {};
-     if(volunteerResponse && volunteerResponse.success!==false && Array.isArray(volunteerResponse.volunteers)){
+     let combinedVolunteers = [];
+     [sportResponse?.data?.volunteers, volunteerResponse?.volunteers, allVolunteerResponse?.volunteers].forEach(list => {
+       if(Array.isArray(list)) combinedVolunteers.push(...list);
+     });
+     // De-duplicate by name + block + flat + event/sport.
+     const seen = new Set();
+     combinedVolunteers = combinedVolunteers.filter(v => {
+       const key = [v.name||v.Name||'',v.block||v.Block||'',v.flatNumber||v['Flat No']||v['Flat Number']||'',v.sport||v['Event / Sport']||''].join('|').toLowerCase();
+       if(seen.has(key)) return false;
+       seen.add(key);
+       return true;
+     });
+     const targetNorm = norm(game[1]);
+     const filteredVolunteers = combinedVolunteers.filter(v => {
+       const assigned = String(v.sport || v["Event / Sport"] || v["Sport / Area"] || v.Event || v.event || "");
+       return assigned.split(/[,;\n]+/).map(x=>norm(x)).filter(Boolean).includes(targetNorm);
+     });
+     if(filteredVolunteers.length){
+       merged.data = Object.assign({}, baseData, {volunteers: filteredVolunteers});
+     } else if(volunteerResponse && volunteerResponse.success!==false && Array.isArray(volunteerResponse.volunteers)){
        merged.data = Object.assign({}, baseData, {volunteers: volunteerResponse.volunteers});
      }
      try{localStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),data:merged}));}catch(err){}

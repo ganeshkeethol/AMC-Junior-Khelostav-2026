@@ -22,13 +22,13 @@ Google Sheets tabs:
 `day | date | reporting | time | event | ageGroup | venue | status`
 
 ### Volunteers
-`sport | role | name | contact | reporting`
+`Name | Block | Flat No | Mobile Number | Event / Sport | SPOC For`
 
 ### Kids enrollment deadline
 Change `CONFIG.enrollmentDeadline` in `website/config.js` to update the last date shown on the Kids Enrollment and Registration sections. Example: `enrollmentDeadline: "October 24, 2026"`.
 
 ### Enrollments
-`Child Name | Age Group | Event | Block | Flat Number | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
+`Child Name | Age Group | Event | Block | Flat No | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
 
 ### Results
 `event | ageGroup | position | child | score | medal`
@@ -75,8 +75,8 @@ The event page automatically filters this sheet by event name and shows an **Ope
 ### Google Sheet tabs
 - Schedule: `day | date | reporting | time | event | ageGroup | venue | status`
 - Results: `event | ageGroup | position | child | score | medal`
-- Volunteers: `sport | role | name | contact | reporting`
-- Enrollments: `Child Name | Age Group | Event | Block | Flat Number | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
+- Volunteers: `Name | Block | Flat No | Mobile Number | Event / Sport | SPOC For`
+- Enrollments: `Child Name | Age Group | Event | Block | Flat No | Mobile Number | Enrollment Status | Event Status | Team ID | Team Name | Team Role`
 - RulesDocs: `event | title | type | url`
 
 The website reads all five tabs through the Google Apps Script API.
@@ -100,7 +100,7 @@ Create one Google Sheet tab for each sport, using the exact tab names below:
 - Drawing
 - Musical Chairs
 - Quiz
-- Slow Cycle
+- Slow Cycling
 - Fancy Dress
 
 Each sport result tab should use these headers:
