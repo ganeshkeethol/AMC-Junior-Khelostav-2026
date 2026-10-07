@@ -1968,3 +1968,75 @@ section#register.register .steps{gap:11px;}
     max-width:42vw !important;
   }
 }
+
+/* Final mobile sub-page header compactness: match the compact homepage header. */
+@media (max-width: 550px){
+  .subhero > nav{
+    padding:10px 14px !important;
+  }
+  .subhero .brand span{
+    font-size:16px !important;
+    line-height:1.05 !important;
+  }
+  .subhero .subnav-actions{
+    gap:6px !important;
+  }
+  .subhero .back-link{
+    padding:7px 10px !important;
+    font-size:11px !important;
+  }
+  .subhero .menu-toggle{
+    width:38px !important;
+    height:38px !important;
+    min-width:38px !important;
+    padding:0 !important;
+  }
+  .subhero .event-hero{
+    padding:24px 14px 30px !important;
+    gap:14px !important;
+    align-items:flex-start !important;
+  }
+  .subhero .event-hero h1{
+    font-size:40px !important;
+    line-height:.92 !important;
+    margin:6px 0 10px !important;
+  }
+  .subhero .event-hero .eyebrow{
+    font-size:9px !important;
+    letter-spacing:1.4px !important;
+  }
+  .subhero .event-hero .lead{
+    font-size:14px !important;
+    line-height:1.35 !important;
+  }
+  .subhero .event-badge{
+    width:100% !important;
+    min-width:0 !important;
+    padding:12px 14px !important;
+    border-radius:16px !important;
+  }
+  .subhero .event-badge span{
+    font-size:38px !important;
+  }
+  .subhero .event-badge b{
+    font-size:18px !important;
+  }
+  .subhero .event-badge small{
+    font-size:10px !important;
+  }
+}
+@media (max-width:380px){
+  .subhero .event-hero{
+    padding:20px 12px 26px !important;
+  }
+  .subhero .event-hero h1{
+    font-size:34px !important;
+  }
+  .subhero .event-hero .lead{
+    font-size:13px !important;
+  }
+  .subhero .back-link{
+    font-size:10px !important;
+    padding:6px 8px !important;
+  }
+}
