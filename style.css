@@ -23,17 +23,6 @@
 
 /* Mobile navigation menu */
 .hero,.subhero{position:relative}
-/* Transparent Ambience Courtyard logo watermark on the hero background */
-.hero-community-logo{
-  position:absolute;
-  top:74px;
-  right:330px;
-  width:220px;
-  height:auto;
-  opacity:.18;
-  pointer-events:none;
-  z-index:0;
-}
 .hero nav,.hero .hero-inner{position:relative;z-index:2}
 
 .menu-toggle{display:none;border:1px solid #ffffff55;background:#ffffff18;color:#fff;width:44px;height:44px;border-radius:12px;font-size:24px;line-height:1;cursor:pointer;align-items:center;justify-content:center;font-weight:900}
@@ -91,6 +80,7 @@ body{
     linear-gradient(135deg,#102a5c 0%,#174ea6 48%,#2166d1 72%,#43b9ee 100%);
   position:relative;
 }
+.subhero > *{position:relative;z-index:1;}
 .hero::after,.subhero::after{
   content:"";
   position:absolute;
@@ -1810,6 +1800,28 @@ section#register.register .steps{gap:11px;}
   }
 }
 
+/* Ambience Courtyard watermark: one fixed logo, never part of document flow. */
+.site-floating-logo{
+  position:fixed !important;
+  top:44px !important;
+  right:54px !important;
+  width:220px !important;
+  height:auto !important;
+  max-width:24vw !important;
+  max-height:none !important;
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  object-fit:contain !important;
+  opacity:.20 !important;
+  z-index:1001 !important;
+  pointer-events:none !important;
+}
+
 /* Falling sports emojis: festive, subtle, and non-interactive across the site. */
 #falling-sports-emojis{
   position:fixed;
@@ -1939,9 +1951,20 @@ section#register.register .steps{gap:11px;}
 .spoc-note { margin-top: 12px; color: #5d6d86; font-size: .9em; }
 
 
-@media(max-width:950px){
-  .hero-community-logo{top:82px;right:18px;width:170px;opacity:.12}
+@media(max-width:700px){
+  .site-floating-logo{
+    top:30px !important;
+    right:30px !important;
+    width:165px !important;
+    max-width:38vw !important;
+    opacity:.20 !important;
+  }
 }
-@media(max-width:550px){
-  .hero-community-logo{top:66px;right:10px;width:145px;opacity:.10}
+@media(max-width:420px){
+  .site-floating-logo{
+    top:24px !important;
+    right:24px !important;
+    width:145px !important;
+    max-width:42vw !important;
+  }
 }
