@@ -120,8 +120,18 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       const grouped={}; const order=[];
       rows.forEach(r=>{const d=dayKey(r); if(!grouped[d]){grouped[d]=[];order.push(d);} grouped[d].push(r);});
       order.forEach(d=>grouped[d].sort((a,b)=>String(get(a,'Start Time','Event Time','Time')).localeCompare(String(get(b,'Start Time','Event Time','Time')))));
-      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${d}</button>`).join('');
-      const formatScheduleDate=v=>{
+      const buttonDateLabel=d=>{
+        const first=(grouped[d]||[])[0]||{};
+        const raw=get(first,'Date','date');
+        if(!raw) return d;
+        const m=String(raw).trim().match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+        if(m) return `${String(m[1]).padStart(2,'0')}-${String(m[2]).padStart(2,'0')}-${m[3]}`;
+        const iso=String(raw).trim().match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+        if(iso) return `${String(iso[3]).padStart(2,'0')}-${String(iso[2]).padStart(2,'0')}-${iso[1]}`;
+        return raw;
+      };
+      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${buttonDateLabel(d)}</button>`).join('');
+      function formatScheduleDate(v){
         const raw=clean(v);
         if(!raw) return '';
         let dt=null;
@@ -137,7 +147,7 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
         const mm=String(dt.getMonth()+1).padStart(2,'0');
         const yyyy=dt.getFullYear();
         return `${weekdays[dt.getDay()]} • ${dd}-${mm}-${yyyy}`;
-      };
+      }
       const renderDay=d=>{
         const list=grouped[d]||[]; const firstDate=dateVal(list[0]);
         const dateLabel=firstDate?`<span class="schedule-date">${formatScheduleDate(firstDate)}</span>`:'';
