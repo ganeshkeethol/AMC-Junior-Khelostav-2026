@@ -7,7 +7,9 @@ const CONFIG = {
   volunteerFormUrl: "https://tinyurl.com/volunteerskhelotsav2026",
   registrationFee: 200,
   enrollmentDeadline: "October 24, 2026",
-  refreshSeconds: 60
+  refreshSeconds: 60,
+  notificationsSheetId: "1lgxqiyJtbYeVRdVcSxIXkRcR5Sk7ng4aw2RpR95AYKM",
+  notificationsSheetName: "Notifications"
 };
 
 window.CONFIG = CONFIG;

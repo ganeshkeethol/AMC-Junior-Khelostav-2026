@@ -93,6 +93,93 @@ const general=[
 const gg=document.getElementById("guideline-grid"); if(gg) gg.innerHTML=general.map(g=>`<div class="guide"><h3>${g[0]} ${g[1]}</h3><ul>${g[2].map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
 const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=()=>CONFIG.googleFormUrl?window.open(CONFIG.googleFormUrl,"_blank"):alert("Google Form link will be added soon.");
 
+
+// Important notifications carousel. Data comes from the configured Google Sheet.
+(function loadImportantNotifications(){
+  const track=document.getElementById('notifications-track');
+  const dots=document.getElementById('notifications-dots');
+  const prev=document.querySelector('.notification-prev');
+  const next=document.querySelector('.notification-next');
+  if(!track || !dots || !window.CONFIG) return;
+
+  const clean=v=>String(v==null?'':v).trim();
+  const pick=(r,...keys)=>{
+    for(const k of keys){
+      if(clean(r[k])) return clean(r[k]);
+      const lower=String(k).toLowerCase();
+      const found=Object.keys(r||{}).find(x=>String(x).toLowerCase()===lower);
+      if(found && clean(r[found])) return clean(r[found]);
+    }
+    return '';
+  };
+  const escapeHtml=v=>clean(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const normalizeRows=rows=>rows.filter(r=>{
+    const active=pick(r,'Active','active','Publish','Published','Status');
+    return !active || /^(yes|true|1|active|published|show)$/i.test(active);
+  }).sort((a,b)=>{
+    const pa=Number(pick(a,'Display Order','displayOrder','Order','Priority'))||999, pb=Number(pick(b,'Display Order','displayOrder','Order','Priority'))||999;
+    return pa-pb;
+  });
+
+  function parseGviz(text){
+    const start=text.indexOf('{'), end=text.lastIndexOf('}');
+    if(start<0 || end<0) throw new Error('Invalid Google Sheet response');
+    const json=JSON.parse(text.slice(start,end+1));
+    const cols=(json.table?.cols||[]).map(c=>c.label||c.id||'');
+    return (json.table?.rows||[]).map(row=>{
+      const obj={}; (row.c||[]).forEach((cell,i)=>obj[cols[i]||String(i)]=cell?.f ?? cell?.v ?? ''); return obj;
+    });
+  }
+
+  async function fetchNotifications(){
+    // First try the existing Apps Script endpoint, so organisers can later expose
+    // the same Notifications tab through the central API without changing the UI.
+    if(CONFIG.apiUrl){
+      try{
+        const r=await fetch(CONFIG.apiUrl+'?action=notifications&_='+Date.now(),{cache:'no-store'});
+        if(r.ok){ const p=await r.json(); const rows=Array.isArray(p.notifications)?p.notifications:[]; if(rows.length) return normalizeRows(rows); }
+      }catch(e){}
+    }
+    // Direct Google Sheet fallback. The Notifications tab should be published to web.
+    const id=clean(CONFIG.notificationsSheetId), sheet=encodeURIComponent(clean(CONFIG.notificationsSheetName||'Notifications'));
+    if(!id) return [];
+    const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${sheet}&_=${Date.now()}`;
+    const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('Google Sheet unavailable');
+    return normalizeRows(parseGviz(await r.text()));
+  }
+
+  let items=[], index=0, timer=null;
+  const render=()=>{
+    if(!items.length){
+      track.innerHTML='<div class="notification-empty"><b>No important notifications yet.</b><span>New announcements will appear here when organisers publish them.</span></div>';
+      dots.innerHTML=''; if(prev) prev.hidden=true; if(next) next.hidden=true; return;
+    }
+    if(prev) prev.hidden=false; if(next) next.hidden=false;
+    track.innerHTML=items.map((r,i)=>{
+      const title=pick(r,'Title','Notification','Heading','Name')||'Important Update';
+      const message=pick(r,'Message','Description','Details','Content','Text');
+      const date=pick(r,'Date','Publish Date','Published On');
+      const link=pick(r,'Link','URL','Url','Action URL');
+      const button=pick(r,'Button Text','CTA','Action')||'View details';
+      return `<article class="notification-card${i===0?' active':''}" data-index="${i}"><div class="notification-body"><div class="notification-meta">${date?`<span>📅 ${escapeHtml(date)}</span>`:''}</div><h3>${escapeHtml(title)}</h3>${message?`<p>${escapeHtml(message)}</p>`:''}${link?`<a class="notification-link" href="${escapeHtml(link)}" target="_blank" rel="noopener">${escapeHtml(button)} →</a>`:''}</div></article>`;
+    }).join('');
+    dots.innerHTML=items.map((_,i)=>`<button type="button" class="notification-dot${i===0?' active':''}" aria-label="Show notification ${i+1}" data-index="${i}"></button>`).join('');
+    update();
+  };
+  const update=()=>{
+    const cards=track.querySelectorAll('.notification-card');
+    cards.forEach((c,i)=>c.classList.toggle('active',i===index));
+    dots.querySelectorAll('.notification-dot').forEach((d,i)=>d.classList.toggle('active',i===index));
+    if(cards[index]) track.scrollTo({left:cards[index].offsetLeft-track.offsetLeft,behavior:'smooth'});
+  };
+  const move=delta=>{ if(!items.length)return; index=(index+delta+items.length)%items.length; update(); restart(); };
+  const restart=()=>{ if(timer) clearInterval(timer); if(items.length>1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>move(1),7000); };
+  prev?.addEventListener('click',()=>move(-1)); next?.addEventListener('click',()=>move(1));
+  dots.addEventListener('click',e=>{const b=e.target.closest('.notification-dot'); if(!b)return; index=Number(b.dataset.index)||0; update(); restart();});
+  fetchNotifications().then(rows=>{items=rows.slice(0,12); render(); restart();}).catch(()=>render());
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){if(timer)clearInterval(timer);}else restart();});
+})();
+
 /* Dynamic kids enrollment deadline: edit only CONFIG.enrollmentDeadline in config.js. */
 (function(){
   const deadline=(window.CONFIG && CONFIG.enrollmentDeadline) ? String(CONFIG.enrollmentDeadline) : "October 24, 2026";
@@ -120,18 +207,8 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       const grouped={}; const order=[];
       rows.forEach(r=>{const d=dayKey(r); if(!grouped[d]){grouped[d]=[];order.push(d);} grouped[d].push(r);});
       order.forEach(d=>grouped[d].sort((a,b)=>String(get(a,'Start Time','Event Time','Time')).localeCompare(String(get(b,'Start Time','Event Time','Time')))));
-      const buttonDateLabel=d=>{
-        const first=(grouped[d]||[])[0]||{};
-        const raw=get(first,'Date','date');
-        if(!raw) return d;
-        const m=String(raw).trim().match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
-        if(m) return `${String(m[1]).padStart(2,'0')}-${String(m[2]).padStart(2,'0')}-${m[3]}`;
-        const iso=String(raw).trim().match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
-        if(iso) return `${String(iso[3]).padStart(2,'0')}-${String(iso[2]).padStart(2,'0')}-${iso[1]}`;
-        return raw;
-      };
-      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${buttonDateLabel(d)}</button>`).join('');
-      function formatScheduleDate(v){
+      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${d}</button>`).join('');
+      const formatScheduleDate=v=>{
         const raw=clean(v);
         if(!raw) return '';
         let dt=null;
@@ -147,7 +224,7 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
         const mm=String(dt.getMonth()+1).padStart(2,'0');
         const yyyy=dt.getFullYear();
         return `${weekdays[dt.getDay()]} • ${dd}-${mm}-${yyyy}`;
-      }
+      };
       const renderDay=d=>{
         const list=grouped[d]||[]; const firstDate=dateVal(list[0]);
         const dateLabel=firstDate?`<span class="schedule-date">${formatScheduleDate(firstDate)}</span>`:'';

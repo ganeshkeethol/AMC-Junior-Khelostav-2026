@@ -133,3 +133,20 @@ Volunteer registration is configured in `config.js` using `volunteerFormUrl` and
 Open `highlights-2025.html` for a dedicated look-back page covering the 2025 sports event, including a photo carousel and the supplied participation statistics.
 
 Add authentic 2025 event photos under `assets/2025-highlights/` when available. The current carousel uses clearly labelled placeholders rather than presenting 2026 images as 2025 memories.
+
+## Important Notifications Carousel (Text Only)
+
+The homepage now includes an **Important Notifications** carousel. Notification records are read from the Google Sheet configured in `config.js`:
+
+- Spreadsheet ID: `1mc9F8cVnOTO7-4fW4CX6_I2Ido-4rKiV`
+- Tab name: `Notifications`
+
+Recommended columns:
+
+`Title | Message | Date | Link | Image URL | Button Text | Active | Priority`
+
+`Active` can be `Yes`/`No`. Only active rows are displayed. Lower `Priority` numbers appear first.
+
+The page first tries the existing Apps Script endpoint using `action=notifications`. If that action is not available, it falls back to the Google Sheets Visualization endpoint, so the **Notifications** tab must be published to the web / accessible to the public website.
+
+The carousel automatically advances every 7 seconds, has previous/next controls and dots, and adapts to mobile screens.

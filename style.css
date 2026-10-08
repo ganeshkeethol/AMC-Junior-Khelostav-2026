@@ -2040,3 +2040,73 @@ section#register.register .steps{gap:11px;}
     padding:6px 8px !important;
   }
 }
+
+/* Important notifications carousel — text only */
+
+.notifications-label{
+  margin:0 auto 10px;
+  max-width:1080px;
+  padding:0 4px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#e35b2f;
+  text-transform:uppercase;
+}
+@media(max-width:700px){
+  .notifications-label{padding:0 12px;font-size:10px;letter-spacing:1.3px;margin:0 auto 5px;}
+}
+.notifications-section{padding-top:18px;padding-bottom:4px}
+.notifications-carousel{position:relative;display:flex;align-items:center;gap:7px;margin-top:6px}
+.notifications-track{display:flex;overflow:hidden;scroll-behavior:smooth;scroll-snap-type:x mandatory;flex:1;padding:2px}
+.notification-card{min-width:100%;scroll-snap-align:start;background:#fffdf4;border:1px solid #e5d9b8;border-radius:16px;box-shadow:0 7px 20px rgba(16,42,92,.07);min-height:132px;display:flex;align-items:center}
+.notification-card.active{box-shadow:0 9px 24px rgba(16,42,92,.10)}
+.notification-body{padding:18px 22px;display:flex;flex-direction:column;justify-content:center;gap:6px;width:100%;box-sizing:border-box}
+.notification-meta{display:flex;gap:12px;flex-wrap:wrap;color:#b45309;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+.notification-body h3{margin:0;color:#102a5c;font:800 22px 'Baloo 2';line-height:1.15;display:block}
+.notification-body p{margin:0;color:#475569;font-size:14px;line-height:1.45;display:block}
+.notification-link{align-self:flex-start;margin-top:2px;text-decoration:none;color:#102a5c;font-weight:900;font-size:13px}
+.notification-nav{flex:0 0 36px;width:36px;height:36px;border:1px solid #d8e1ee;border-radius:50%;background:#fff;color:#102a5c;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 5px 14px rgba(16,42,92,.07);z-index:2}
+.notification-nav:hover{transform:translateY(-1px)}
+.notifications-dots{display:flex;justify-content:center;gap:7px;margin-top:7px}
+.notification-dot{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:#cbd5e1;cursor:pointer}
+.notification-dot.active{width:20px;border-radius:8px;background:#102a5c}
+.notification-loading,.notification-empty{min-width:100%;padding:20px;text-align:center;color:#64748b}
+.notification-empty{display:flex;flex-direction:column;gap:4px;background:#fff;border:1px dashed #dbe5f2;border-radius:14px}
+.notification-empty b{font:800 19px 'Baloo 2';color:#102a5c}
+@media(max-width:700px){
+  .notifications-section{padding-top:4px;padding-bottom:0}
+  .notifications-label{padding:0 10px;font-size:9px;letter-spacing:1.1px;margin:0 auto 3px}
+  .notifications-carousel{gap:3px;margin-top:2px}
+  .notifications-track{padding:1px}
+  .notification-card{min-height:58px;border-radius:10px}
+  .notification-body{padding:6px 8px;gap:2px}
+  .notification-body h3{font-size:14px;line-height:1.05}
+  .notification-body p{font-size:9px;line-height:1.15;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+  .notification-meta{font-size:7px;gap:4px;line-height:1}
+  .notification-link{font-size:9px}
+  .notification-nav{flex:0 0 24px;width:24px;height:24px;font-size:15px}
+  .notifications-dots{gap:4px;margin-top:2px}
+  .notification-dot{width:5px;height:5px}
+  .notification-dot.active{width:13px}
+  .coming-soon-media{padding-top:7px;padding-bottom:22px}
+}
+
+/* Final mobile notification spacing: keep the carousel compact with almost no empty space below it. */
+@media (max-width: 700px){
+  #notifications.notifications-section{
+    padding-top:3px !important;
+    padding-bottom:0 !important;
+    margin-bottom:0 !important;
+  }
+  #notifications .notifications-label{margin-bottom:2px !important;}
+  #notifications .notifications-carousel{margin-top:0 !important;}
+  #notifications .notifications-dots{margin-top:1px !important;}
+  .coming-soon-media{
+    padding-top:0 !important;
+    margin-top:0 !important;
+  }
+  #notifications + .coming-soon-media{
+    margin-top:0 !important;
+  }
+}
