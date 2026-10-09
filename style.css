@@ -2175,3 +2175,60 @@ section#register.register .steps{gap:11px;}
     letter-spacing: 0 !important;
   }
 }
+
+
+/* Registration payment: single manual UPI option */
+.registration-payment .payment-actions-single { display: grid; grid-template-columns: minmax(0, 1fr); }
+.registration-payment .payment-actions-single .btn { width: 100%; }
+
+
+/* Keep UPI ID and Copy UPI ID button in one compact row, including on mobile. */
+.registration-payment .payment-upi-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;min-width:0;border-bottom:1px solid rgba(255,255,255,.18);padding:8px 0}
+.registration-payment .payment-upi-row .payment-detail{display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0;padding:0;border:0;overflow-wrap:anywhere}
+.registration-payment .payment-upi-row .payment-detail strong{display:block;text-align:left;margin:0;min-width:0;overflow-wrap:anywhere;word-break:break-word}
+.registration-payment .payment-upi-row .payment-actions-single{display:flex;justify-content:flex-end;align-items:center;margin:0;min-width:0;justify-self:end;width:100%}
+.registration-payment .payment-upi-row .payment-copy-btn{width:auto;min-width:112px;white-space:nowrap;padding:10px 14px;margin-left:auto}
+@media(max-width:600px){
+  .registration-payment .payment-upi-row{grid-template-columns:minmax(0,1fr) auto;gap:8px}
+  .registration-payment .payment-upi-row .payment-detail span{font-size:13px}
+  .registration-payment .payment-upi-row .payment-detail strong#payment-upi{font-size:clamp(11px,3.2vw,13px)!important;line-height:1.25!important;overflow-wrap:anywhere;word-break:break-word}
+  .registration-payment .payment-upi-row .payment-actions-single{justify-self:end;justify-content:flex-end}
+  .registration-payment .payment-upi-row .payment-copy-btn{min-width:100px;max-width:124px;padding:10px 11px!important;font-size:12px!important;white-space:nowrap!important;margin-left:auto}
+}
+
+
+/* Final override: pin Copy UPI ID to the far-right edge on mobile. */
+.registration-payment .payment-upi-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+}
+.registration-payment .payment-upi-row .payment-actions-single {
+  display: flex !important;
+  width: auto !important;
+  justify-self: end !important;
+  justify-content: flex-end !important;
+  margin: 0 !important;
+}
+.registration-payment .payment-upi-row .payment-actions-single .payment-copy-btn {
+  width: auto !important;
+  min-width: 100px !important;
+  max-width: 124px !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+
+/* Compact the extra bottom space in the registration payment card on mobile. */
+@media (max-width: 600px) {
+  section#register.register .registration-payment {
+    padding-bottom: 8px !important;
+  }
+  section#register.register .registration-payment .payment-note {
+    margin-bottom: 0 !important;
+  }
+  section#register.register .registration-payment .payment-copy-status {
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}

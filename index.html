@@ -100,16 +100,17 @@
 
 
 
-<section id="register" class="register"><div><small>JOIN THE FUN</small><h2>Kids Enrollment</h2><p>Registration will be through the community Google Form. <strong class="fee-highlight-light">Registration fee: <span class="registration-fee-value"></span> per Child.</strong> <strong class="enrollment-deadline-light">Last date to enroll: <span class="enrollment-deadline-light-value"></span>.</strong> The form link can be added whenever it is ready.</p><button id="form-btn" class="btn">Registration Form</button>
+<section id="register" class="register"><div><small>JOIN THE FUN</small><h2>Kids Enrollment</h2><p>Registration will be through the community Google Form. <strong class="fee-highlight-light">Registration fee: <span class="registration-fee-value"></span> per Child.</strong> <strong class="enrollment-deadline-light">Last date to enroll: <span class="enrollment-deadline-light-value"></span>.</strong></p><button id="form-btn" class="btn">Registration Form</button>
 <div id="registration-payment" class="registration-payment" hidden>
   <h3>💳 Registration Payment</h3>
-  <p>Pay the registration fee using any UPI app.</p>
-  <div class="payment-detail"><span>UPI ID</span><strong id="payment-upi">9902222944@ybl</strong></div>
-  <div class="payment-actions">
-    <button id="pay-upi-btn" class="btn" type="button">Pay via UPI</button>
-    <button id="copy-upi-btn" class="btn payment-copy-btn" type="button">Copy UPI ID</button>
+  <p>Open your UPI app, enter the UPI ID below, and pay the registration fee.</p>
+  <div class="payment-upi-row">
+    <div class="payment-detail"><span>UPI ID</span><strong id="payment-upi">9902222944@ybl</strong></div>
+    <div class="payment-actions payment-actions-single">
+      <button id="copy-upi-btn" class="btn payment-copy-btn" type="button">Copy UPI ID</button>
+    </div>
   </div>
-  <p class="payment-note">Please retain your payment confirmation. Clicking Pay via UPI does not itself confirm payment.</p>
+  <p class="payment-note">After paying, please keep your transaction ID ready and enter it while registering.</p>
   <span id="payment-copy-status" class="payment-copy-status" role="status" aria-live="polite"></span>
 </div>
 </div><div class="steps"><div><b>01</b> Parent submits enrollment</div><div><b>02</b> Results are published live</div></div></section>
@@ -147,23 +148,9 @@
 
   section.hidden = false;
   var upi = document.getElementById('payment-upi');
-  var payButton = document.getElementById('pay-upi-btn');
   var copyButton = document.getElementById('copy-upi-btn');
   var status = document.getElementById('payment-copy-status');
   if (upi) upi.textContent = payment.upiId;
-
-  if (payButton) payButton.addEventListener('click', function () {
-    var fee = Number(config.registrationFee || 200);
-    // Use a minimal standard UPI intent. Let the UPI app resolve
-    // the beneficiary name from the UPI ID instead of sending a
-    // manually supplied payee name, which may not match the bank record.
-    var params = new URLSearchParams({
-      pa: payment.upiId,
-      am: fee.toFixed(2),
-      cu: payment.currency || 'INR',
-    });
-    window.location.href = 'upi://pay?' + params.toString();
-  });
 
   if (copyButton) copyButton.addEventListener('click', async function () {
     try {
