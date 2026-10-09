@@ -161,7 +161,6 @@
       pa: payment.upiId,
       am: fee.toFixed(2),
       cu: payment.currency || 'INR',
-      tn: payment.note || 'Registration payment'
     });
     window.location.href = 'upi://pay?' + params.toString();
   });
