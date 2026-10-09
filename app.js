@@ -84,6 +84,15 @@ const events=[
 const eventGrid=document.getElementById("event-grid");
 if(eventGrid) eventGrid.innerHTML=events.map(e=>`<a class="card event-card" href="event.html?game=${encodeURIComponent(e[3])}"><div class="emoji">${e[0]}</div><h3>${e[1]}</h3><p>${e[2]}</p><span class="card-link">View event details →</span></a>`).join("");
 const general=[
+["🎂","Age Group",[
+"4–6 years: November 2020 – 31 October 2022",
+"6–8 years: November 2018 – 31 October 2020",
+"8–10 years: November 2016 – 31 October 2018",
+"10–12 years: November 2014 – 31 October 2016",
+"12–14 years: November 2012 – 31 October 2014",
+"14–16 years: November 2010 – 31 October 2012",
+"16–18 years: November 2008 – 31 October 2010"
+]],
 ["👨‍👩‍👧","Parent & Child Safety",["Parents/guardians should remain reachable during the event.","Children must follow volunteer instructions.","Inform organisers about relevant allergies or safety requirements through the private registration process."]],
 ["⏰","Reporting & Punctuality",["Participants should report at least 15 minutes before their event unless the schedule says otherwise.","Late arrival may affect participation if the event has already started.","Check the website/schedule for changes."]],
 ["👕","Dress & Equipment",["Wear comfortable sports clothing and suitable footwear.","Bring only the equipment requested for the event.","Label personal belongings where practical."]],
@@ -231,7 +240,7 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
         contentEl.innerHTML=`<div class="schedule-day-head"><h3>${d}</h3>${dateLabel}</div><div class="schedule-list">${list.map(r=>{
           const time=get(r,'Start Time','Event Time','Time')||'TBA';
           const event=get(r,'Event','Sport','Name')||'Event';
-          const age=get(r,'Age Group','Age','Category')||'All Ages';
+          const age=get(r,'Age Group','Age','Category')||'All Age';
           const venue=get(r,'Venue','Location')||'Venue TBA';
           const status=get(r,'Status')||'';
           return `<div class="schedule-row"><div class="schedule-time">${time}</div><div class="schedule-event"><b>${event}</b><span>${age}</span></div><div class="schedule-venue">📍 ${venue}</div><div class="schedule-status">${status}</div></div>`;

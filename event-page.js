@@ -259,27 +259,86 @@ function renderGameData(response){
    const scheduleBody=document.getElementById('game-schedule-body');
    const scheduleTable=scheduleBody ? scheduleBody.closest('table') : null;
    const scheduleHead=scheduleTable ? scheduleTable.querySelector('thead tr') : null;
-   if(scheduleBody){
+   const scheduleAgeFilter=document.getElementById('schedule-age-filter');
+   const scheduleAgeOf = row => String(row["Age Group"] || row.ageGroup || row.Age || row.Category || '').trim();
+   const normalizeScheduleAge = value => {
+     const raw=String(value||'').trim().replace(/[–—]/g,'-');
+     const digits=raw.match(/(\d{1,2})\s*(?:-|to)\s*(\d{1,2})/i);
+     return digits ? `${Number(digits[1])}-${Number(digits[2])}` : raw.toLowerCase();
+   };
+   // Build schedule filter options only from unique, non-empty Age Group values
+   // supplied by the schedule data (never from a hard-coded age-group list).
+   const scheduleAgeMap=new Map();
+   schedule.forEach(row=>{
+     const label=scheduleAgeOf(row);
+     const value=normalizeScheduleAge(label);
+     if(label && value && !scheduleAgeMap.has(value)) scheduleAgeMap.set(value,label);
+   });
+   const scheduleAgeGroups=Array.from(scheduleAgeMap,([value,label])=>({value,label}));
+   if(scheduleAgeFilter){
+     const previous=scheduleAgeFilter.value || 'All Age';
+     scheduleAgeFilter.innerHTML='<option value="All Age">All Age</option>'+scheduleAgeGroups.map(g=>`<option value="${esc(g.value)}">${esc(g.label)}</option>`).join('');
+     scheduleAgeFilter.value=scheduleAgeGroups.some(g=>g.value===previous) ? previous : 'All Age';
+   }
+   const renderFilteredSchedule=()=>{
+     const selected=scheduleAgeFilter ? scheduleAgeFilter.value : 'All Age';
+     const filtered=selected==='All Age' ? schedule : schedule.filter(x=>normalizeScheduleAge(scheduleAgeOf(x))===selected);
+     if(!scheduleBody) return;
      if(teamBased){
        if(scheduleHead) scheduleHead.innerHTML='<th>Day</th><th>Date</th><th>Reporting</th><th>Event Time</th><th>Age Group</th><th>Match / Round</th><th>Team A</th><th>Team B</th><th>Venue</th><th>Status</th>';
-       scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Match / Round"]||x.Match||x.Round||x.round||x["Round"]||'')}</td><td>${esc(x["Team A"]||x.TeamA||x["Team A Name"]||'')}</td><td>${esc(x["Team B"]||x.TeamB||x["Team B Name"]||'')}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="10">No schedule published yet.</td></tr>`;
+       scheduleBody.innerHTML=filtered.length?filtered.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(scheduleAgeOf(x))}</td><td>${esc(x["Match / Round"]||x.Match||x.Round||x.round||x["Round"]||'')}</td><td>${esc(x["Team A"]||x.TeamA||x["Team A Name"]||'')}</td><td>${esc(x["Team B"]||x.TeamB||x["Team B Name"]||'')}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="10">${schedule.length?'No schedule published for this age group yet.':'No schedule published yet.'}</td></tr>`;
      }else{
        if(scheduleHead) scheduleHead.innerHTML='<th>Day</th><th>Date</th><th>Reporting</th><th>Event Time</th><th>Event</th><th>Age Group</th><th>Participant</th><th>Block</th><th>Flat Number</th><th>Venue</th><th>Status</th>';
-       scheduleBody.innerHTML=schedule.length?schedule.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||game[1])}</td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">No schedule published yet.</td></tr>`;
+       scheduleBody.innerHTML=filtered.length?filtered.map(x=>`<tr><td>${esc(x.Day||x.day)}</td><td>${esc(x.Date||x.date)}</td><td>${esc(x["Reporting Time"]||x.reporting)}</td><td>${esc(x["Event Time"]||x.time)}</td><td>${esc(x.Event||x.event||game[1])}</td><td>${esc(scheduleAgeOf(x))}</td><td>${esc(x["Participant Name"]||x.Participant||x.participant||x["Child Name"]||x.child)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x.Venue||x.venue)}</td><td>${esc(x.Status||x.status)}</td></tr>`).join(''):`<tr><td colspan="11">${schedule.length?'No schedule published for this age group yet.':'No schedule published yet.'}</td></tr>`;
      }
-   }
+   };
+   if(scheduleAgeFilter) scheduleAgeFilter.onchange=renderFilteredSchedule;
+   renderFilteredSchedule();
 
    const resultsBody=document.getElementById('game-results-body');
    const resultsTable=resultsBody ? resultsBody.closest('table') : null;
    const resultsHead=resultsTable ? resultsTable.querySelector('thead tr') : null;
+   const resultsAgeFilter=document.getElementById('results-age-filter');
    if(resultsBody){
-     if(teamBased){
-       if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Round</th><th>Match</th><th>Team</th><th>Opponent</th><th>Score</th><th>Result</th><th>Position</th><th>Medal</th>';
-       resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x.Round||x.round)}</td><td>${esc(x.Match||x["Match"]||'')}</td><td>${esc(x["Team Name"]||x.Team||x.team)}</td><td>${esc(x.Opponent||x.opponent)}</td><td>${esc(x.Score||x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Result||x.result)}</td><td>${esc(x.Position||x.position)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="9">No results published yet.</td></tr>`;
-     }else{
-       if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Position</th><th>Participant</th><th>Block</th><th>Flat Number</th><th>Score / Time</th><th>Medal</th>';
-       resultsBody.innerHTML=results.length?results.map(x=>`<tr><td>${esc(x["Age Group"]||x.ageGroup)}</td><td><b>${esc(x.Position||x.position)}</b></td><td>${esc(x["Child Name"]||x.child||x.participant)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="7">No results published yet.</td></tr>`;
+     const ageOf = row => String(row["Age Group"] || row.ageGroup || row.Age || row.Category || '').trim();
+     // Normalize age-group labels from the Results sheet so equivalent formats
+     // (e.g. "4-6", "4–6 years", and "Age 4 to 6") filter together.
+     const normalizeAge = value => {
+       const raw=String(value||'').trim().replace(/[–—]/g,'-');
+       const digits=raw.match(/(\d{1,2})\s*(?:-|to)\s*(\d{1,2})/i);
+       return digits ? `${Number(digits[1])}-${Number(digits[2])}` : raw.toLowerCase();
+     };
+     // Populate the dropdown only from distinct non-empty values in the
+     // Results table's Age Group column; no hard-coded age groups.
+     const ageGroupMap=new Map();
+     results.forEach(row=>{
+       const label=ageOf(row);
+       const value=normalizeAge(label);
+       if(label && value && !ageGroupMap.has(value)) ageGroupMap.set(value,label);
+     });
+     const ageGroups=Array.from(ageGroupMap,([value,label])=>({value,label}));
+     const currentFilter=resultsAgeFilter ? resultsAgeFilter.value : 'All Age';
+     if(resultsAgeFilter){
+       resultsAgeFilter.innerHTML='<option value="All Age">All Age</option>'+ageGroups.map(g=>`<option value="${esc(g.value)}">${esc(g.label)}</option>`).join('');
+       const requested=new URLSearchParams(location.search).get('ageGroup');
+       const wanted=requested || currentFilter;
+       const normalizedWanted=normalizeAge(wanted);
+       if(ageGroups.some(g=>g.value===normalizedWanted)) resultsAgeFilter.value=normalizedWanted;
+       else resultsAgeFilter.value='All Age';
      }
+     const renderFilteredResults=()=>{
+       const selected=resultsAgeFilter ? resultsAgeFilter.value : 'All Age';
+       const filtered=selected==='All Age' ? results : results.filter(x=>normalizeAge(ageOf(x))===selected);
+       if(teamBased){
+         if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Round</th><th>Match</th><th>Team</th><th>Opponent</th><th>Score</th><th>Result</th><th>Position</th><th>Medal</th>';
+         resultsBody.innerHTML=filtered.length?filtered.map(x=>`<tr><td>${esc(ageOf(x))}</td><td>${esc(x.Round||x.round)}</td><td>${esc(x.Match||x["Match"]||'')}</td><td>${esc(x["Team Name"]||x.Team||x.team)}</td><td>${esc(x.Opponent||x.opponent)}</td><td>${esc(x.Score||x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Result||x.result)}</td><td>${esc(x.Position||x.position)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="9">${results.length?'No results published for this age group yet.':'No results published yet.'}</td></tr>`;
+       }else{
+         if(resultsHead) resultsHead.innerHTML='<th>Age Group</th><th>Position</th><th>Participant</th><th>Block</th><th>Flat Number</th><th>Score / Time</th><th>Medal</th>';
+         resultsBody.innerHTML=filtered.length?filtered.map(x=>`<tr><td>${esc(ageOf(x))}</td><td><b>${esc(x.Position||x.position)}</b></td><td>${esc(x["Child Name"]||x.child||x.participant)}</td><td>${esc(x.Block||x.block)}</td><td>${esc(x["Flat Number"]||x.flatNumber)}</td><td>${esc(x["Score / Time"]||x.score||x.time)}</td><td>${esc(x.Medal||x.medal)}</td></tr>`).join(''):`<tr><td colspan="7">${results.length?'No results published for this age group yet.':'No results published yet.'}</td></tr>`;
+       }
+     };
+     if(resultsAgeFilter) resultsAgeFilter.onchange=renderFilteredResults;
+     renderFilteredResults();
    }
 }
 
