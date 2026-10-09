@@ -154,9 +154,11 @@
 
   if (payButton) payButton.addEventListener('click', function () {
     var fee = Number(config.registrationFee || 200);
+    // Use a minimal standard UPI intent. Let the UPI app resolve
+    // the beneficiary name from the UPI ID instead of sending a
+    // manually supplied payee name, which may not match the bank record.
     var params = new URLSearchParams({
       pa: payment.upiId,
-      pn: payment.payeeName || '',
       am: fee.toFixed(2),
       cu: payment.currency || 'INR',
       tn: payment.note || 'Registration payment'
