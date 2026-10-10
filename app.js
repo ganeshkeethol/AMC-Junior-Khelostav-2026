@@ -216,7 +216,6 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
       const grouped={}; const order=[];
       rows.forEach(r=>{const d=dayKey(r); if(!grouped[d]){grouped[d]=[];order.push(d);} grouped[d].push(r);});
       order.forEach(d=>grouped[d].sort((a,b)=>String(get(a,'Start Time','Event Time','Time')).localeCompare(String(get(b,'Start Time','Event Time','Time')))));
-      daysEl.innerHTML=order.map((d,i)=>`<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${d}</button>`).join('');
       const formatScheduleDate=v=>{
         const raw=clean(v);
         if(!raw) return '';
@@ -234,6 +233,23 @@ const formBtn=document.getElementById("form-btn"); if(formBtn) formBtn.onclick=(
         const yyyy=dt.getFullYear();
         return `${weekdays[dt.getDay()]} • ${dd}-${mm}-${yyyy}`;
       };
+      // Show the schedule date on each tab instead of generic labels such as Day 1/Day 2.
+      // The date is taken directly from the Date column for that day's schedule rows.
+      const formatTabDate=v=>{
+        const formatted=formatScheduleDate(v);
+        if(!formatted) return 'Schedule';
+        const match=formatted.match(/•\s*(\d{2})-(\d{2})-(\d{4})$/);
+        if(match){
+          const monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          return `${Number(match[1])} ${monthNames[Number(match[2])-1]} ${match[3]}`;
+        }
+        return formatted;
+      };
+      daysEl.innerHTML=order.map((d,i)=>{
+        const groupDate=dateVal(grouped[d][0]);
+        const label=formatTabDate(groupDate);
+        return `<button class="schedule-day-btn${i===0?' active':''}" data-day="${encodeURIComponent(d)}">${label}</button>`;
+      }).join('');
       const renderDay=d=>{
         const list=grouped[d]||[]; const firstDate=dateVal(list[0]);
         const dateLabel=firstDate?`<span class="schedule-date">${formatScheduleDate(firstDate)}</span>`:'';

@@ -219,11 +219,42 @@ function renderGameData(response){
    }
 
    const participantBody=document.getElementById('participants-body');
-   if(participantBody) participantBody.innerHTML=enrollments.length?enrollments.map(x=>`<tr><td><b>${esc(x["Child Name"]||x.Child||x.child)}</b></td><td>${esc(x["Age Group"]||x.ageGroup)}</td><td>${esc(x["Block"]||x.Block||'')}</td><td>${esc(x["Flat Number"]||x.flatNumber||'')}</td><td>${esc(x["Enrollment Status"]||x.enrollmentStatus)}</td><td>${esc(x["Event Status"]||x.eventStatus)}</td></tr>`).join(''):`<tr><td colspan="6">No enrolled kids published yet.</td></tr>`;
-
-   const confirmed=enrollments.filter(x=>norm(x["Enrollment Status"]||x.enrollmentStatus)==='confirmed').length;
-   const groups=new Set(enrollments.map(x=>x["Age Group"]||x.ageGroup).filter(Boolean));
-   setText('participant-count',enrollments.length); setText('confirmed-count',confirmed); setText('age-groups-count',groups.size);
+   const participantsAgeFilter=document.getElementById('participants-age-filter');
+   const participantAgeOf=row=>String(row["Age Group"]||row.ageGroup||row.Age||row.Category||'').trim();
+   const normalizeParticipantAge=value=>{
+     const raw=String(value||'').trim().replace(/[–—]/g,'-');
+     const digits=raw.match(/(\d{1,2})\s*(?:-|to)\s*(\d{1,2})/i);
+     return digits ? `${Number(digits[1])}-${Number(digits[2])}` : raw.toLowerCase();
+   };
+   // Populate age-group choices from actual enrollment data, not a hard-coded list.
+   const participantAgeMap=new Map();
+   enrollments.forEach(row=>{
+     const label=participantAgeOf(row), value=normalizeParticipantAge(label);
+     if(label && value && !participantAgeMap.has(value)) participantAgeMap.set(value,label);
+   });
+   const participantAgeGroups=Array.from(participantAgeMap,([value,label])=>({value,label}));
+   if(participantsAgeFilter){
+     const previous=participantsAgeFilter.value || 'All Age';
+     participantsAgeFilter.innerHTML='<option value="All Age">All Age</option>'+participantAgeGroups.map(g=>`<option value="${esc(g.value)}">${esc(g.label)}</option>`).join('');
+     participantsAgeFilter.value=participantAgeGroups.some(g=>g.value===previous)?previous:'All Age';
+   }
+   const renderFilteredParticipants=()=>{
+     const selected=participantsAgeFilter?participantsAgeFilter.value:'All Age';
+     const filtered=selected==='All Age'?enrollments:enrollments.filter(row=>normalizeParticipantAge(participantAgeOf(row))===selected);
+     const sorted=filtered.slice().sort((a,b)=>{
+       const blockA=String(a["Block"]||a.Block||'').trim();
+       const blockB=String(b["Block"]||b.Block||'').trim();
+       const blockCompare=blockA.localeCompare(blockB, undefined, {numeric:true, sensitivity:'base'});
+       if(blockCompare!==0) return blockCompare;
+       const flatA=String(a["Flat Number"]||a.flatNumber||'').trim();
+       const flatB=String(b["Flat Number"]||b.flatNumber||'').trim();
+       return flatA.localeCompare(flatB, undefined, {numeric:true, sensitivity:'base'});
+     });
+     setText('participant-count',sorted.length);
+     if(participantBody) participantBody.innerHTML=sorted.length?sorted.map(x=>`<tr><td><b>${esc(x["Child Name"]||x.Child||x.child)}</b></td><td>${esc(participantAgeOf(x))}</td><td>${esc(x["Block"]||x.Block||'')}</td><td>${esc(x["Flat Number"]||x.flatNumber||'')}</td><td>${esc(x["Event Status"]||x.eventStatus)}</td></tr>`).join(''):`<tr><td colspan="5">${enrollments.length?'No enrolled kids in this age group yet.':'No enrolled kids published yet.'}</td></tr>`;
+   };
+   if(participantsAgeFilter) participantsAgeFilter.onchange=renderFilteredParticipants;
+   renderFilteredParticipants();
 
    // Group games: show team cards and use Team A / Team B schedule & results.
    const teamsSection=document.getElementById('teams-section');
